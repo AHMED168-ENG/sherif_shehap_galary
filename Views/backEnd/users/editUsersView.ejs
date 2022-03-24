@@ -1,0 +1,550 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/users/"> الاعضاء </a>
+                                </li>
+                                <li class="breadcrumb-item active">تعديل العضو
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل العضو </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" class="form" method="post" >
+                                            <div class="form-body main">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات العضو </h4>
+
+                                                <div class="row rowOne">
+                                                    
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الاسم الاول </label>
+                                                            <input value="<%= user.fName %>" type="text" class="form-control" placeholder="ادخل اسم الاول" name="fName">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.fName) { %>
+                                                                    <span class="text-danger"><%=validationError.fName[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الاسم الاخير</label>
+                                                            <input value="<%= user.lName %>" type="text" class="form-control" placeholder="ادخل الاسم الاخير" name="lName">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.lName) { %>
+                                                                    <span class="text-danger"><%=validationError.lName[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> العمر </label>
+                                                            <input value="<%= user.age %>" type="number" class="form-control" placeholder="ادخل العمر" name="age">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.age) { %>
+                                                                    <span class="text-danger"><%=validationError.age[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الايميل </label>
+                                                            <input value="<%= user.email %>" type="text" class="form-control" placeholder="ادخل الايميل الخاص بك" name="email">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.email) { %>
+                                                                    <span class="text-danger"><%=validationError.email[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الرقم السري اذا كنت تريد تجديده</label>
+                                                            <input type="password" class="form-control" placeholder="ادخل الرقم السري" name="password">
+                                                            <input type="hidden" name="oldPassword" value="<%= user.password %>">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.password) { %>
+                                                                    <span class="text-danger"><%=validationError.password[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الرقم السري مره اخري اذا كنت تريد تجديده</label>
+                                                            <input type="password" class="form-control" placeholder="ادخل الرقم مره اخري" name="confirmPassword">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.confirmPassword) { %>
+                                                                    <span class="text-danger"><%=validationError.confirmPassword[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> العنوان </label>
+                                                            <input value="<%= user.addres %>" type="text" class="form-control" placeholder="ادخل العنوان" name="addres">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.addres) { %>
+                                                                    <span class="text-danger"><%=validationError.addres[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الموبايل </label>
+                                                            <input type="number" value="<%= "0"+ user.number %>" class="form-control" placeholder="ادخل الموبايل الخاص بك" name="mobile">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.mobile) { %>
+                                                                    <span class="text-danger"><%=validationError.mobile[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                               
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput2"> صوره المستخدم </label>
+                                                            <div class="custom-file">
+                                                                <input type="file" name="image" class="custom-file-input">
+                                                                <input type="hidden" name="oldImage" value="<%= user.image %>">
+                                                                <label class="custom-file-label">Choose file</label>
+                                                            </div>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.image) { %>
+                                                                    <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="showImage col-12">
+                                                        <h3>user image</h3>
+                                                        <div class="row">
+                                                            <% if (user.image) { %>
+                                                                <div class="col-md-3 col-sm-6">
+                                                                    <img src="/admin/asset/images/users_photo/<%= user.image.split("--")[0] %>" alt="">
+                                                                </div>
+                                                            <% } else { %>
+                                                                <div class="col-md-3 col-sm-6">
+                                                                    <img src="/admin/asset/images/users_photo/avatar.png" alt="">
+                                                                </div>
+                                                            <%}%>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mt-1">
+                                                            <input type="checkbox" name="active"
+                                                                value="1"
+                                                                class="switch"
+                                                                onchange="cancelUserActive(event)"
+                                                                <%= user.active ? "checked" : "" %>
+                                                                />
+                                                            <label
+                                                                class="card-title ml-1">الحالة </label>
+                                                        </div>
+                                                    </div>
+
+                                                       <div class="col-md-4">
+                                                        <div class="form-group mt-1">
+                                                            <input type="checkbox" name="isAdmin"
+                                                                value="1"
+                                                                class="switch"
+                                                                <%= user.isAdmin ? "checked" : "" %>
+                                                                />
+                                                            <label
+                                                                class="card-title ml-1"> هل تريده ادمن </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mt-1">
+                                                            <input onchange="makeVendor(event)" type="checkbox" name="isVendor"
+                                                                value="1"
+                                                                class="switch"
+                                                                <%= user.isVendor && user.userVendorData ? "checked" : "" %>
+                                                                />
+                                                            <label
+                                                                class="card-title ml-1"> هل هو تاجر </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <% if (user.isVendor && user.userVendorData) { %>
+                                                    <div class="vendor">
+                                                        <div class="form-body">
+                                                            <h4 class="form-section"><i class="ft-home"></i> بيانات التاجر اذا اردت ادخالها </h4>
+            
+                                                            <div class="row rowTow">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الاسم الاول </label>
+                                                                        <input type="text" value="<%= user.userVendorData.vendorFname%>" class="form-control" placeholder="ادخل اسم الاول" name="VendorfName">
+                                                                    </div>
+                                                                </div>
+            
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الاسم الاخير</label>
+                                                                        <input type="text" value="<%= user.userVendorData.vendorLname%>" class="form-control" placeholder="ادخل الاسم الاخير" name="VendorlName">
+                                                                    </div>
+                                                                </div>
+            
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الايميل </label>
+                                                                        <input type="text" value="<%= user.userVendorData.vendoerEmail %>" class="form-control" placeholder="ادخل الايميل الخاص بك" name="vendorEmail">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.vendorEmail) { %>
+                                                                                <span class="text-danger"><%=validationError.vendorEmail[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+            
+                                                                                                                
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الموبايل </label>
+                                                                        <input type="number" value="<%= "0" + user.userVendorData.mobile %>" class="form-control" placeholder="ادخل الموبايل الخاص بك" name="vendorMobile">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.vendorMobile) { %>
+                                                                                <span class="text-danger"><%=validationError.vendorMobile[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+            
+                                                                
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الرقم السري اذا كنت تريد تجديده</label>
+                                                                        <input type="password" class="form-control" placeholder="ادخل الرقم السري" name="VendorPassword">
+                                                                        <input type="hidden" name="OldVendorPassword"  value="<%= user.userVendorData.vendoerPassword %>">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.VendorPassword) { %>
+                                                                                <span class="text-danger"><%=validationError.VendorPassword[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+            
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> الرقم السري مره اخري اذا كنت تريد تجديده</label>
+                                                                        <input type="password" class="form-control" placeholder="ادخل الرقم مره اخري" name="vendoerConfirmPassword">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.vendoerConfirmPassword) { %>
+                                                                                <span class="text-danger"><%=validationError.vendoerConfirmPassword[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+            
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput2"> صوره التاجر </label>
+                                                                        <div class="custom-file">
+                                                                            <input type="file" name="vendoerImage" class="custom-file-input">
+                                                                            <input type="hidden" name="oldVendoerImage" value="<%= user.userVendorData.vendorImage %>">
+                                                                            <label class="custom-file-label">Choose file</label>
+                                                                        </div>
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.vendoerImage) { %>
+                                                                                <span class="text-danger"><%=validationError.vendoerImage[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+                    
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput2">السجل التجاري</label>
+                                                                        <div class="custom-file">
+                                                                            <input type="file" name="CommercialRegister" class="custom-file-input" id="inputGroupFile01">
+                                                                            <input type="hidden" name="oldCommercialRegister" value="<%= user.userVendorData.commercFile %>">
+                                                                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                        </div>
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError.CommercialRegister) { %>
+                                                                                <span class="text-danger"><%=validationError.CommercialRegister[0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+                                
+                                                                <div class="showImage col-12">
+                                                                    <h3>vendoer image</h3>
+                                                                    <div class="row">
+
+                                                                        <% if (user.userVendorData.vendorImage) { %>
+                                                                            <div class="col-md-3 col-sm-6">
+                                                                                <img src="/admin/asset/images/users_photo/<%= user.userVendorData.vendorImage.split("--")[0] %>" alt="">
+                                                                            </div>
+                                                                         <% } else { %>
+                                                                            <div class="col-md-3 col-sm-6">
+                                                                                <img src="/admin/asset/images/users_photo/avatar.png" alt="">
+                                                                            </div>
+                                                                        <%}%>
+                                                                    </div>
+                                                                </div>
+                                                                                    
+                                                                <div class="showImage col-12">
+                                                                    <h3>vendoer CommercialRegister</h3>
+                                                                    <div class="row">
+                                                                        <div class="col-md-3 col-sm-6">
+                                                                            <a href="/admin/asset/images/users_photo/<%= user.userVendorData.commercFile.split("--")[0] %>"><%= user.userVendorData.commercFile.split("--")[0] %></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group mt-1">
+                                                                        <input type="checkbox" name="isActive"
+                                                                            value="1"
+                                                                            class="switch "
+                                                                            onchange="cancelVendoerActive(event)"
+                                                                            <%= user.userVendorData.isActive ? "checked" : "" %>
+                                                                            />
+                                                                        <label
+                                                                            class="card-title ml-1">الحالة </label>
+                                                                    </div>
+                                                                </div>
+            
+                                                            </div>
+                                                        </div>
+            
+                                                    </div>
+                                                <% } %>
+                                            </div>
+
+
+                                            <button type="submit" class="btn btn-primary col-12">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                        </form>
+
+                                        <div class="vendor d-none ">
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات التاجر اذا اردت ادخالها </h4>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الاسم الاول </label>
+                                                            <input type="text" class="form-control" placeholder="ادخل اسم الاول" name="VendorfName">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الاسم الاخير</label>
+                                                            <input type="text" class="form-control" placeholder="ادخل الاسم الاخير" name="VendorlName">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الايميل </label>
+                                                            <input type="text" class="form-control" placeholder="ادخل الايميل الخاص بك" name="vendorEmail">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.vendorEmail) { %>
+                                                                    <span class="text-danger"><%=validationError.vendorEmail[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                                                                    
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الموبايل </label>
+                                                            <input type="number" class="form-control" placeholder="ادخل الموبايل الخاص بك" name="vendorMobile">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.vendorMobile) { %>
+                                                                    <span class="text-danger"><%=validationError.vendorMobile[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الرقم السري </label>
+                                                            <input type="password" class="form-control" placeholder="ادخل الرقم السري" name="VendorPassword">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.VendorPassword) { %>
+                                                                    <span class="text-danger"><%=validationError.VendorPassword[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الرقم السري مره اخري </label>
+                                                            <input type="password" class="form-control" placeholder="ادخل الرقم مره اخري" name="vendoerConfirmPassword">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.vendoerConfirmPassword) { %>
+                                                                    <span class="text-danger"><%=validationError.vendoerConfirmPassword[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput2"> صوره التاجر </label>
+                                                            <div class="custom-file">
+                                                                <input type="file" name="vendoerImage" class="custom-file-input">
+                                                                <label class="custom-file-label">Choose file</label>
+                                                            </div>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.vendoerImage) { %>
+                                                                    <span class="text-danger"><%=validationError.vendoerImage[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+        
+        
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput2">السجل التجاري</label>
+                                                            <div class="custom-file">
+                                                                <input type="file" name="CommercialRegister" class="custom-file-input" id="inputGroupFile01">
+                                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                            </div>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.CommercialRegister) { %>
+                                                                    <span class="text-danger"><%=validationError.CommercialRegister[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mt-1">
+                                                            <input type="checkbox" name="isActive"
+                                                                value="1"
+                                                                class="switch"
+                                                                />
+                                                            <label
+                                                                class="card-title ml-1">الحالة </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+    <script>
+        var vendoer = document.querySelector(".vendor")
+        var activeUser = "<%= user.active%>"
+        var activeVendoer = "<%=user.userVendorData ? user.userVendorData.isActive : '' %>"
+        function makeVendor(e) {
+            if(e.target.checked) {
+                var child = vendoer.cloneNode(true)
+                child.classList.remove("d-none")
+                document.querySelector(".main").appendChild(child)
+            } else {
+                document.querySelector(".vendor").remove()        
+            }
+        }
+
+        function cancelUserActive(e) {
+            if(activeUser == "true" && !e.target.checked) {
+                var child = document.createElement("textarea")
+                child.name="cancelUser" 
+                child.className="cancelUser col-12 form-controll"
+                child.placeholder = "enter reson for cancel user" 
+                var div = document.createElement("div")
+                div.appendChild(child)
+                div.className = "col-12"
+                document.querySelector(".rowOne").appendChild(div)
+            } else {
+                document.querySelector(".cancelUser").remove()
+            }
+        }
+
+        function cancelVendoerActive(e) {
+            if(activeVendoer == "true" && !e.target.checked) {
+                var child = document.createElement("textarea")
+                child.name="cancelVendoer" 
+                child.className="cancelVendoer col-12 form-controll"
+                child.placeholder = "enter reson for cancel vendoer" 
+                var div = document.createElement("div")
+                div.appendChild(child)
+                div.className = "col-12"
+                document.querySelector(".rowTow").appendChild(div)
+            } else {
+                console.log("kk")
+
+                document.querySelector(".cancelVendoer").remove()
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerUser")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/search")  %> 
+
+
+        <!-- Start Section Products -->
+        <div class="category-products">
+            <div class="container" style="max-width:98% !important;">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <aside>
+                            
+                            <div class="category">
+                            
+                                <div class="accordion" id="accordionExample"> 
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button style="border:0;outline:0" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    الاقسام الفرعيه
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body p-0">
+                                                <ul class="list-unstyled mb-0">
+                                                    <% AllsupCatigory.forEach(element => { %>
+                                                        <li><a href="<%= "/catigoryDetails/" + element.id %>"><%= element["name_" + defaultLang] %></a></li>
+                                                    <% }) %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                اخر اربع اقسام تم اضافتهم
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="card-body p-0">
+                                                <ul class="list-unstyled mb-0">
+                                                    <% lastForCatigory.forEach(element => { %>
+                                                        <li><a href="<%= "/catigoryDetails/" + element.id %>"><%= element["name_" + defaultLang] %></a></li>
+                                                    <% }) %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    اقسام مقترحه
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                            <div class="card-body p-0">
+                                                <ul class="list-unstyled mb-0">
+                                                    <% suggestCatigory.forEach(element => { %>
+                                                        <li><a href="<%= "/catigoryDetails/" + element.id %>"><%= element["name_" + defaultLang] %></a></li>
+                                                    <% }) %>                                                
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> <!--  -->
+
+
+                            <br />
+
+                            <ul class="list-unstyled filter">
+                                <li><span>مؤهل للشحن المجاني</span>
+                                    <ul class="list-unstyled">
+                                        <li><a href=""><input type="checkbox" id="shipping" /> <label for="shipping">مؤهل للشحن</label></a></li>
+                                    </ul>
+                                </li>
+                                <li><span>نوع المنتج</span>
+                                    <ul class="list-unstyled">
+                                        <li><a href=""><input type="checkbox" id="new" /> <label for="new">جديد</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="old" /> <label for="old">قديم</label></a></li>
+                                    </ul>
+                                </li>
+                                <li><span>انواع الخشب المستخدمه</span>
+                                    <ul class="list-unstyled">
+                                        <li><a href=""><input type="checkbox" id="zan" /> <label for="zan">زان</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="mahongy" /> <label for="mahongy">ماهونجي</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="arw" /> <label for="arw">ارو</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="sendian" /> <label for="sendian">سنديان</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="ash" /> <label for="ash">الاش</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="goz" /> <label for="goz">جوز</label></a></li>
+                                        <li><a href=""><input type="checkbox" id="sweady" /> <label for="sweady">سويدي</label></a></li>
+                                    </ul>
+                                </li>
+                                <li><span>التقيم</span>
+                                    <ul class="list-unstyled evaluation">
+                                        <li><a href=""><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i> <label>واكثر</label></a></li>
+                                        <li><a href=""><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> <label>واكثر</label></a></li>
+                                        <li><a href=""><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> <label>واكثر</label></a></li>
+                                        <li><a href=""><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> <label>واكثر</label></a></li>
+                                    </ul>
+                                </li>
+                                <li><span>السعر</span>
+                                    <ul class="list-unstyled price">
+                                        <li><a href="">800 الي 1500 جنيه</a></li>
+                                        <li><a href="">1500 الي 3000 جنيه</a></li>
+                                        <li><a href="">3000 الي 4500 جنيه</a></li>
+                                        <li><a href="">4500 الي 6000 جنيه</a></li>
+                                        <li><a href="">6000 الي 8000 جنيه</a></li>
+                                        <li><a href="">8000 الي اكثر جنيه</a></li>
+                                        <li><form action=""><input type="number" min="0" placeholder="من" name="from"><input min="0" type="number" placeholder="الي" name="to"><button>بحث</button></form></li>
+                                    </ul>
+                                </li>
+                                <li><span>توفر المنتج</span>
+                                    <ul class="list-unstyled">
+                                        <li><a href=""><input type="checkbox" id="available" /> <label for="available">متاح ويمكنك الشراء الان</label></a></li>                                        
+                                        <li><a href=""><input type="checkbox" id="notAvailable" /> <label for="notAvailable">غير متوفر ولاكن يمكنك الانتظار حتي انتهاء العمل منه</label></a></li>                                        
+                                    </ul>
+                                </li>
+                                <% if (0) { %>
+                                    <li><span>عدد ايام الانتهاء من صناعه المنتج</span>
+                                        <ul class="list-unstyled finsh_product">
+                                            <li><a href="">شهر فاقل </a></li>                                        
+                                            <li><a href="">شهران فاقل</a></li>                                        
+                                            <li><a href="">ثلاث اشهر فاقل</a></li>                                        
+                                            <li><a href="">اربع اشهر فاقل</a></li>                                        
+                                            <li><a href="">خمس اشهر فاقل</a></li>                                        
+                                            <li><a href="">ست اشهر فاقل</a></li>                                        
+                                            <li><a href="">سبع اشهر فاقل</a></li>                                        
+                                        </ul>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </aside>
+
+                    </div>
+                    <div class="col-lg-9">
+                        
+
+                        <h4><%= mainCatigory %></h4>
+
+                        <div class="home-categoreis">
+                        
+                            <div class="row">
+                                <% supCatigory.forEach(element => { %>
+                                    <div class="col-lg-3">
+                                        <div class="cta-box">
+                                            <a href="/catigoryDetails/<%= element.id %>">
+                                                <img style="width:100%;height:150px" src="/admin/asset/images/subCatigory_photo/<%= element.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                                                <p style="margin:11px 0 0" class="text-center pb-2"><%= element["name_" + defaultLang] %></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            </div>
+
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <% products.forEach(element => { %>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="/productDetails/<%= element.id%>">
+                                                <img style="width:100%;height:300px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                            </a>
+                                            <ul class="social">
+                                                <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                            <% if (element.descount) { %>
+                                                <span class="product-new-label"><%= element.descount%>%</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3 class="title"><a href="#"><%= element["productName_" + defaultLang] %></a></h3>
+                                            <ul class="rating" style="margin:0">
+                                                <li class="fa fa-star <%= element.productRate.sumRate < 1 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.productRate.sumRate < 2 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.productRate.sumRate < 3 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.productRate.sumRate < 4 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.productRate.sumRate < 5 ? "disable" : "" %>"></li>
+                                            </ul>
+                                            <div class="price">
+                                                <% if (element.descount) { %>
+                                                    <%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg
+                                                    <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } else {%>
+                                                    <%= element.price %> Eg
+                                                <% } %>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            <% }) %>
+                        </div><!-- End row -->
+
+
+                    </div><!-- End col 9 -->
+                </div><!-- End Row -->
+
+            </div>
+        </div>
+        <!-- End Section Products -->
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+</body>
+    

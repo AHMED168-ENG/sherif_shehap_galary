@@ -1,0 +1,624 @@
+
+<%- include("../inclueds/head")  %>
+    <style>
+        body {
+            background:#EAEDED
+        }
+    .section-cart {
+        font-size: 16px;
+        padding:30px 0
+    }
+    .section-cart > .container {
+        max-width: 95% !important; 
+    }
+    .section-cart .row .notificationPayment > ul 
+    {
+        margin:20px 0 0;
+        background:#fff;
+        border-radius: 5px;
+        padding:15px 30px 15px;
+        list-style: circle;
+        box-shadow:5px 5px 10px rgba(0,0,0,0.1)
+    }
+    .section-cart .row > .notificationPayment > ul > li {
+        font-size:13px;
+        color:#555
+    }
+    .section-cart .order_products {
+        background:white;
+        box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+        border:1px solid #ddd;
+        padding:20px;
+    }
+    .section-cart .order_products .head {
+        justify-content: space-between;
+    }
+
+    .section-cart .order_products .head h3 {
+        color:#000;
+        font-size:22px
+    }
+    .section-cart .order_products .head span {
+        font-size:19px;
+        font-weight:500
+    }
+    .section-cart .order_products .AllProduct .product.active {
+        opacity: 0.5;
+    }
+    .section-cart .order_products .AllProduct .product .image {
+        width:180px;
+        height:200px;
+        margin-left:20px;
+        border:5px solid #ddd;
+        border-radius: 5px;
+        position:relative
+    }
+    .section-cart .order_products .AllProduct .product .image > span {
+        position:absolute;
+        top:5px;
+        left:5px;
+        background:rgb(214, 84, 84);
+        padding:4px 7px;
+        color:white
+    }
+    .section-cart .order_products .AllProduct .product .image img {
+        width:100%;
+        height:100%
+    }
+    .section-cart .order_products .AllProduct .product .details a {
+        color:#111;
+        margin:0;
+        text-transform: capitalize;
+        display: block;
+    }
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(1) {
+        font-size:25px;
+    }
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(1):hover span:nth-of-type(1) {
+        text-decoration: underline !important;
+    }
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(1) span:nth-of-type(2) {
+        font-size:13px;
+        background:rgb(226, 131, 22);
+        padding:2px 4px;
+    }
+
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(2) {
+        font-size:18px;
+        color:#b12704
+    } 
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(2) {
+        display: inline-flex;
+        align-items: center;
+    }
+    .section-cart .order_products .AllProduct .product .details .star i.active {
+        color:#E8851F;
+    }
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(2) span ,     .section-cart .order_products .AllProduct .product .details > p:nth-of-type(1) span {
+        color:#111;
+        font-size:14px;
+        margin-right:4px
+    }
+    .section-cart .order_products .AllProduct .product .details a:nth-of-type(2):hover span {
+        color:#049BFF
+    }
+    .section-cart .order_products .AllProduct .product .details > span:nth-of-type(1) {
+        color:#fff;
+        margin:0;
+        font-size:14px;
+        background:#565959;
+        padding:2px 7px;
+        display: inline-block;
+        margin-bottom:10px
+    }
+ 
+    .section-cart .order_products .AllProduct .product .details > div.d-flex span  {
+        font-size:18px;
+        color:#b12704;
+        align-items: center;
+    }
+    .section-cart .order_products .AllProduct .product .details > div.d-flex ul  {
+        margin:0;
+    }
+    .section-cart .order_products .AllProduct .product .details > div.d-flex ul li {
+        margin-left:8px;
+        padding:3px 7px;
+    }
+    .section-cart .order_products .AllProduct .product .price ul {
+        margin:0;
+        text-align: center;
+    }
+    .section-cart .order_products .AllProduct .product .price ul li {
+        color:#666;
+        font-style: italic;
+    }
+    .section-cart .order_products .AllProduct .product .price ul li:last-of-type {
+        padding-top:10px;
+        border-top:1px solid #CCC;
+        margin-top:10px
+    }
+    .section-cart .order_products .AllProduct .product .price ul li > span:nth-child(1) {
+        font-size:14px;
+        color:#777;
+        font-weight:500;
+        font-style:normal;
+    }
+    .section-cart .order_products .AllProduct .product .price ul li > span:nth-child(2) {
+        font-weight:600;
+        color:#444;
+        font-size:17px;
+        text-decoration: underline;
+        font-style:normal;
+        margin-left:3px;
+    }
+    .section-cart .order_products .AllProduct .product .controller input {
+        width:155px;
+        background:#EEe;
+        border:1px solid #ddd;
+        border-radius: 5px;
+        margin-left:10px
+    }
+    .section-cart .order_products .AllProduct .product .controller button:nth-of-type(2) {
+        border-left:1px solid #ccc
+    }
+    .section-cart .order_products .AllProduct .product .controller button {
+        border:0;
+        outline:0;
+        color:rgb(0, 113, 133 , 0.8);
+        font-size:13px;
+        background:none;
+        padding:0 4px;
+        font-weight:600;
+    }
+    .section-cart .order_products .AllProduct .product .controller button:hover {
+        text-decoration: underline; 
+    }
+    .section-cart .order_products .AllProduct .product .controller button:nth-of-type(1) {
+        background:#F7CA00;
+        color:#fff;
+        padding:4px 8px;
+        border-radius: 5px;
+        font-weight:400;
+    }
+    .section-cart .order_products .AllProduct .footer {
+        text-align: left;
+    }
+    .section-cart .order_products .AllProduct .footer p , .section-cart .buy p {
+        margin:0;
+        font-size:22px;
+        font-family: inherit;
+    }
+    .section-cart .order_products .AllProduct .footer p span:nth-of-type(1) , .section-cart .buy p span:nth-of-type(1) {
+        color:#b12704;
+        font-weight: 500;
+    }
+    .section-cart .order_products .AllProduct .footer p span:nth-of-type(2) , .section-cart .buy p span:nth-of-type(2) {
+        font-weight: 600;
+    }
+    .section-cart .buy {
+        background:white;
+        border:1px solid #ddd;
+        padding:10px 10px 25px 10px
+    }
+    .section-cart .buy p {
+        width:70%;
+        font-size:20px;
+        margin-bottom:15px
+    }
+    .section-cart .buy p span:nth-of-type(2) {
+        font-size:16px;
+        text-decoration: underline;
+    }
+    .section-cart .buy a {
+        margin:0
+    }
+    </style>
+<head>
+<body>
+<%- include("../inclueds/uper_headerUser")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/search")  %> 
+<%- include("../inclueds/alert")  %>
+
+
+        <!-- Start Section Cart -->
+        <div class="section-cart ">
+            <div class="container">
+                <div class="row">
+                    <div class="<%= User_Reserved_Products.length > 0 ? 'col-md-9' : 'col-md-12'%>">
+                        <div class="order_products">
+                            <div class="head d-flex align-items-center -justify-content-between">
+                                <h3>المنتجات التي قمتا بطلبها</h3>
+                                <span>السعر</span>
+                            </div>
+                            <hr>
+                            <div class="AllProduct">
+                                <% User_Reserved_Products.forEach(element => { %>
+                                    <div class="product d-flex justify-content-between">
+                                        <div class="d-flex">
+                                            <div class="image">
+                                                <% if (element.shipingCardProduct.descount) { %>
+                                                    <span>خصم %<%= element.shipingCardProduct.descount %> </span>
+                                                <% } %>
+                                                <img src="/admin/asset/images/products_image/<%= element.shipingCardProduct.productImage.split("--")[0] %>" alt="">
+                                            </div>
+                                            <div class="details">
+                                                <a href="/productDetails/<%= element.shipingCardProduct.id %>" >
+                                                    <span><%= element.shipingCardProduct["productName_" + defaultLang] %></span>
+                                                    <span><%= element.shipingCardProduct.productCate["name_" + defaultLang] %></span>
+                                                </a>
+                                                <a href="/userProfile/<%= element.shipingCardProduct.productVendor.userId %>">الباءع : <span><%= element.shipingCardProduct.productVendor.vendorFname + " " + element.shipingCardProduct.productVendor.vendorLname %></span></a>
+                                                <div class="star">
+                                                    <i class="<%= element.shipingCardProduct.sumRate < 1 ? 'fa fa-star-o' : 'fa fa-star active' %>"></i>
+                                                    <i class="<%= element.shipingCardProduct.sumRate < 2 ? 'fa fa-star-o' : 'fa fa-star active' %>"></i>
+                                                    <i class="<%= element.shipingCardProduct.sumRate < 3 ? 'fa fa-star-o' : 'fa fa-star active' %>"></i>
+                                                    <i class="<%= element.shipingCardProduct.sumRate < 4 ? 'fa fa-star-o' : 'fa fa-star active' %>"></i>
+                                                    <i class="<%= element.shipingCardProduct.sumRate < 5 ? 'fa fa-star-o' : 'fa fa-star active' %>"></i>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span>القطع :</span> 
+                                                    <ul class="list-unstyled d-flex">
+                                                        <% element.shipingCardProduct["pieceName_" + defaultLang].split(",").forEach(element => { %>
+                                                           <li><%= element %></li>
+                                                        <% }) %>
+                                                    </ul>
+                                                </div>
+                                                <div class="align-items-center d-flex">
+                                                    <span>الالوان :</span> 
+                                                    <ul class="list-unstyled d-flex">
+                                                        <% element.shipingCardProduct["colors_" + defaultLang].split(",").forEach(element => { %>
+                                                            <li><%= element %></li>
+                                                        <% }) %>
+                                                    </ul>
+                                                </div>
+                                                <span class="shiping"><%= element.shipingCardProduct.shipping ? "هذا المنتج غير مؤهل للشحن" : "هذا المنتج مؤهل للشحن" %></span>
+                                                <div class="controller">
+                                                    <input onchange="onChange(event , '<%= element.shipingCardProduct.descount %>')" type="number" realCount="<%= element.count %>" value="<%= element.count %>" min="1" max="10" name="" id="countOfProducts">
+                                                    <button onclick="changCount(event , '<%= element.shipingCardProduct.id %>')" id="updateData" class="d-none">تحديث</button>
+                                                    <button onclick="deleteProduct(event , '<%= element.shipingCardProduct.id %>')">حذف</button>
+                                                    <button>حفظ لوقت اخر</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="price">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <span>الثمن الفعلي : </span>
+                                                    <span><%= element.shipingCardProduct.price * element.count %></span> جنيه مصري
+                                                </li>
+                                                <% if (element.shipingCardProduct.shipping) { %>
+                                                    <li class="servicePayed">
+                                                        <span>ثمن توصيل المنتج : </span>
+                                                        <span><%= element.shipingCardProduct.shipping * element.count  %></span> جنيه مصري
+                                                    </li>
+                                                <% } %>
+                                                <% if (element.shipingCardProduct.structure) { %>
+                                                    <li class="servicePayed">
+                                                        <span>ثمن تركيب المنتج : </span>
+                                                        <span><%= element.shipingCardProduct.structure * element.count  %></span> جنيه مصري
+                                                    </li>
+                                                <% } %>
+                                                <li>
+                                                    <span><%= element.shipingCardProduct.descount ? "الثمن الكلي بعد الخصم" : "الثمن الكلي للمنتج" %> : </span>
+                                                    <span><%= (parseInt((element.shipingCardProduct.structure ? element.shipingCardProduct.structure : 0 ) * element.count) + parseInt((element.shipingCardProduct.shipping ? element.shipingCardProduct.shipping : 0) * element.count) + parseInt(element.shipingCardProduct.price * element.count)) - (((element.shipingCardProduct.descount ? element.shipingCardProduct.descount : 0) * (parseInt((element.shipingCardProduct.structure ? element.shipingCardProduct.structure : 0) * element.count) + parseInt((element.shipingCardProduct.shipping ? element.shipingCardProduct.shipping : 0) * element.count) + parseInt(element.shipingCardProduct.price * element.count)) / 100)) %></span> جنيه مصري
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                <% }) %>
+                                <div class="footer">
+                                    <p>المجموع الكلي(<span> <%= quantity %> </span> سلعه) : <span></span> جنيه</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <% if (User_Reserved_Products.length > 0) { %>
+                            <div class="buy buyNow"> 
+                                <p>المجموع الكلي(<span> <%= quantity %> </span> سلعه) : <span></span> جنيه</p>
+                                <form action="/payForWebsit" method="post">
+                                    <input type="hidden" value="0" name="price">
+                                    <input type="hidden" value="<%= quantity %>" name="count">
+                                    <button>تابع الشراء</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="<%= User_Reserved_Products.length > 0 ? 'col-md-9' : 'col-md-12'%> notificationPayment">
+                        <ul class="list-unstyled ">
+                            <li>أسعار وتوفر المنتجات في ahmed.og معرضة للتغيير، عربة التسوق هي مكان مؤقت للاحتفاظ بقائمة المنتجات وعرض أحدث أسعار كل منتج.</li>
+                            <li>هل لديك كوبون خصم؟ سنطلب منك إدخاله وقت الدفع</li>
+                            <li>يتم حساب الخصم علي المنتجات عن طريق جمع حساب المنتج وحساب التوصيل اذا كان وحساب التركيب اذا كان و من ثم يتم انقاص الخصم من المجموع</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Start Section Top Sellers -->
+                <% if (productWithHigRate.length > 0) { %>
+                    <div class="top-sellers">
+                        <div class="header">
+                            <h6>
+                                <span class="title">المنتجات المتميزة</span>
+                            </h6>
+                        </div>
+                        <section class="center slider">
+                            <% productWithHigRate.forEach(element => { %>
+                                <div>
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="/productDetails/<%= element.id %>">
+                                                <img style="height:250px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                            </a>
+                                            <ul class="social">
+                                                <li><i class="fa fa-shopping-bag"></i></li>
+                                                <li onclick="AddToShipingCart2('<%= element.id %>' , 'reload')"><i class="fa fa-shopping-cart"></i></li>
+                                            </ul>
+                                            
+                                            <h4 style="color:#222;padding:12px 0 0;font-size:19px"><%= element["productName_" + defaultLang] %></h4>
+                                            
+                                            </div>
+                                        <div class="product-content">
+                                            <h3 class="title" style="width:120px;overflow: hidden;white-space: nowrap;"><%= element["ProductOverview_" + defaultLang] %></h3>
+                                            <ul class="rating">
+                                                <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                            </ul>
+                                            <div>
+                                                <% if (element.descount) { %>
+                                                    <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                    <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } else {%>
+                                                    <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+
+                        </section>
+                    </div>
+                <% } %>
+                <!-- End Section Top Sellers -->
+
+                <!-- Start Section Top Sellers -->
+                <% if (productRelated.length > 4) { %>
+                    <div class="top-sellers">
+                        <div class="header">
+                            <h6>
+                                <span class="title">منتجات لها علاقه بالمنتج</span>
+                            </h6>
+                        </div>
+                        <section class="center slider">
+                            <% productRelated.forEach(element => { %>
+                                <% element.catigorysProduct.forEach(element => { %>
+                                    <div>
+                                        <div class="product-grid3">
+                                            <div class="product-image3">
+                                                <a href="/productDetails/<%= element.id %>">
+                                                    <img style="height:250px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                                </a>
+                                                <ul class="social">
+                                                    <li><i class="fa fa-shopping-bag"></i></li>
+                                                    <li onclick="AddToShipingCart2('<%= element.id %>' , 'reload')"><i class="fa fa-shopping-cart"></i></li>
+                                                </ul>
+                                                <h4 style="color:#222;padding:12px 0 0;font-size:19px"><%= element["productName_" + defaultLang] %></h4>
+                                                
+                                                </div>
+                                            <div class="product-content">
+                                                <h3 class="title" style="width:120px;overflow: hidden;white-space: nowrap;"><%= element["ProductOverview_" + defaultLang] %></h3>
+                                                <ul class="rating">
+                                                    <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                                </ul>
+                                                <div>
+                                                    <% if (element.descount) { %>
+                                                        <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                        <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                    <% } else {%>
+                                                        <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            <% }) %>
+
+                        </section>
+                    </div>
+                <% } %>
+                <!-- End Section Top Sellers -->
+            </div>
+        </div>
+        <!-- End Section Cart -->
+
+
+
+        <!--///////////////////////////////// -->
+        <%- include("../inclueds/footer")  %>
+        <%- include("../inclueds/footer_script")  %>
+            
+        <script src="/frontEnd/assets/js/shopingCart.js"></script>
+        <script>
+            var alert2 = document.querySelector(".alert2");
+            var countOfProducts = ""
+            var originalValue = ""
+            var totalPrice = document.querySelectorAll(".footer > p > span")
+            var descount = 0
+            var buyNow = document.querySelectorAll(".buyNow p > span")
+            var formInput = document.querySelectorAll(".buyNow form input")
+            getTotalPrice()
+            function onChange(e , des) {
+                descount = des
+                originalValue = parseInt(e.target.getAttribute("realCount"))
+                countOfProducts = e.target
+                e.target.nextElementSibling.className = "d-inline-block"
+            }
+            function changCount(e,productId) {
+                var max = parseInt(countOfProducts.getAttribute("max"))
+                var min = parseInt(countOfProducts.getAttribute("min"))
+                var value = parseInt(countOfProducts.value)
+                if(value > max || value < min || !value) {
+                    alert2.classList.add("active")
+                    alert2.querySelector("div").innerHTML = `يجب ان لا تزيد الكميه عن ${max} ولا تقل عن ${min} لان هذا هو المتاح`
+                    setTimeout(() => {
+                        alert2.classList.remove("active")
+                    } , 4000)
+                    e.target.className = "d-none"
+                    countOfProducts.value = originalValue
+                } else {
+                    $.ajax({
+                        url : "/shopingCardChangQuantity",
+                        data : {
+                            userId : '<%= user.id %>',
+                            productId : productId,
+                            count : countOfProducts.value ,
+                        },
+                        type : "post",
+                        success(data) {
+                            alert2.classList.add("active")
+                            alert2.querySelector("div").innerHTML = `تم التحديث بنجاح`
+                            setTimeout(() => {
+                                alert2.classList.remove("active")
+                            } , 4000)
+                            e.target.className = "d-none"
+                            e.target.parentElement.parentElement.parentElement.parentElement.classList.remove("active")
+                            var allPrice = e.target.parentElement.parentElement.parentElement.nextElementSibling.querySelector("ul")
+                            var productMainValue = allPrice.querySelector("li:nth-of-type(1) > span:nth-of-type(2)")
+                            var productMainValueWithDescount = allPrice.querySelector("li:last-of-type > span:nth-of-type(2)")
+                            var productValue = parseInt(productMainValue.innerHTML) / originalValue
+                            var differant = parseInt(countOfProducts.value) - originalValue
+                            e.target.parentElement.firstElementChild.setAttribute("realCount" , countOfProducts.value)
+                            var total = 0
+
+
+                            if(differant) {
+                                totalPrice[0].innerHTML = parseInt(totalPrice[0].innerHTML) + differant
+                                buyNow[0].innerHTML = parseInt(buyNow[0].innerHTML) + differant
+                                formInput[1].innerHTML = parseInt(formInput[1].innerHTML) + differant
+                                productMainValue.innerHTML = parseInt(productMainValue.innerHTML) + (differant * productValue)
+                            } else {
+                                formInput[1].innerHTML = parseInt(formInput[1].innerHTML) - differant
+                                totalPrice[0].innerHTML = parseInt(totalPrice[0].innerHTML) - differant
+                                buyNow[0].innerHTML = parseInt(buyNow[0].innerHTML) - differant
+                                productMainValue.innerHTML = parseInt(productMainValue.innerHTML) - Math.abs(differant * productValue)
+                            }
+                            allPrice.querySelectorAll("li:not(:last-of-type)").forEach(ele => {
+                                if(ele.classList.contains("servicePayed")) {
+                                    var cost = ele.querySelector("span:last-of-type").innerHTML
+                                    ele.querySelector("span:last-of-type").innerHTML = parseInt(cost) + ((parseInt(cost) / originalValue) * differant)
+                                }
+                                total += parseInt(ele.querySelector("span:nth-of-type(2)").innerHTML)
+                            })
+                            productMainValueWithDescount.innerHTML = descount ? total - ((descount * total) /100).toFixed(3) : total
+                            getTotalPrice()
+                            var btn_cart = document.getElementById("btn-cart")
+                            var shopingCartNumber = btn_cart.querySelector("span")
+                            shopingCartNumber.innerHTML = totalPrice[0].innerHTML
+
+                        },
+                        beforeSend() {
+                            e.target.parentElement.parentElement.parentElement.parentElement.classList.add("active")
+                        },
+                        error() {
+
+                        }
+                    })
+                }
+            }
+            function AddToShipingCart2(productId , reload) {
+              console.log("productId")
+              console.log(productId)
+              $.ajax({
+                    url : "/addProductToShopingCart",
+                    type : "post",
+                    data : {
+                        count : 1,
+                        userId : '<%= user ? user.id : "" %>',
+                        productId : productId
+                    },
+                    success(data) {
+                        alert2.classList.add("active")
+                        alert2.querySelector("div").innerHTML = "تم اضافه المنتج في قاءمه المشتريات"
+                        setTimeout(() => {
+                            alert2.classList.remove("active")
+                        } , 3000)
+          
+                        var btn_cart = document.getElementById("btn-cart")
+                        var shopingCartNumber = btn_cart.querySelector("span")
+                        if(shopingCartNumber) {
+                          shopingCartNumber.innerHTML = parseInt(shopingCartNumber.innerHTML) + 1
+                        } else {
+                          var span = document.createElement("span");
+                          span.innerHTML = 1
+                          btn_cart.appendChild(span)
+                        }
+                        if(reload) {
+                          window.location.reload()
+                        }
+                    },
+                    error() {
+                        alert2.classList.add("active")
+                        alert2.querySelector("div").innerHTML = "هناك خطا ما في العمليه"
+                        setTimeout(() => {
+                            alert2.classList.remove("active")
+                        } , 3000)
+                    }
+                })
+            }
+            function getTotalPrice() {
+                totalPrice[1].innerHTML = 0
+                buyNow[1].innerHTML = 0
+                formInput[0].value = 0
+                document.querySelectorAll(".AllProduct .price ul li:last-of-type > span:last-of-type").forEach(ele => {
+                    totalPrice[1].innerHTML = parseInt(totalPrice[1].innerHTML) + parseInt(ele.innerHTML) 
+                    buyNow[1].innerHTML = parseInt(buyNow[1].innerHTML) + parseInt(ele.innerHTML) 
+                    formInput[0].value = parseInt(formInput[0].value) + parseInt(ele.innerHTML)
+                }) 
+            }
+
+            function deleteProduct(e,productId) {
+
+                $.ajax({
+                    url : "/removeProductFromShipingCard",
+                    data : {
+                        userId : '<%= user.id %>',
+                        productId : productId,
+                    },
+                    type : "post",
+                    success(data) {
+                        alert2.classList.add("active")
+                        alert2.querySelector("div").innerHTML = `تم حذف المنتج بنجاح `
+                        setTimeout(() => {
+                            alert2.classList.remove("active")
+                        } , 4000)
+                        var count = e.target.parentElement.firstElementChild.getAttribute("realcount")
+                        var price = e.target.parentElement.parentElement.parentElement.parentElement.querySelector(".price ul li:last-of-type > span:last-of-type ").innerHTML
+                        totalPrice[0].innerHTML = parseInt(totalPrice[0].innerHTML) - parseInt(count)
+                        totalPrice[1].innerHTML = parseInt(totalPrice[1].innerHTML) - parseInt(price)
+                        buyNow[0].innerHTML = parseInt(buyNow[0].innerHTML) - parseInt(count)
+                        buyNow[1].innerHTML = parseInt(buyNow[1].innerHTML) - parseInt(price)
+                        var btn_cart = document.getElementById("btn-cart")
+                        var shopingCartNumber = btn_cart.querySelector("span")
+                        shopingCartNumber.innerHTML = totalPrice[0].innerHTML
+                        e.target.parentElement.parentElement.parentElement.parentElement.remove()
+                    },
+                    beforeSend() {
+                        e.target.parentElement.parentElement.parentElement.parentElement.classList.add("active")
+                    },
+                    error() {
+
+                    }
+                })
+                }    
+        </script>
+
+    </body>

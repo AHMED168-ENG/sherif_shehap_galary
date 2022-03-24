@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="143" height="184.625" viewBox="0 0 143 184.625">
+  <g id="Group_12178" data-name="Group 12178" transform="translate(-1323 -1980.375)">
+    <text id="Label" transform="translate(1323 2159)" fill="#3f454b" font-size="24" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Add Product</tspan></text>
+    <g id="Icon_ionic-ios-add-circle-outline" data-name="Icon ionic-ios-add-circle-outline" transform="translate(1325.95 1977)">
+      <path id="Path_7166" data-name="Path 7166" d="M73.273,39.344H49.538V15.609a5.1,5.1,0,0,0-10.195,0V39.344H15.609a4.882,4.882,0,0,0-5.1,5.1,4.934,4.934,0,0,0,5.1,5.1H39.344V73.273a4.937,4.937,0,0,0,5.1,5.1,5.072,5.072,0,0,0,5.1-5.1V49.538H73.273a5.1,5.1,0,0,0,0-10.195Z" transform="translate(25.2 25.2)" fill="#062c4c"/>
+      <path id="Path_7167" data-name="Path 7167" d="M69.641,12.3A57.355,57.355,0,0,1,110.2,110.2,57.355,57.355,0,0,1,29.085,29.085,56.966,56.966,0,0,1,69.641,12.3m0-8.92a66.266,66.266,0,1,0,66.266,66.266A66.256,66.256,0,0,0,69.641,3.375Z" fill="#062c4c"/>
+    </g>
+  </g>
+</svg>

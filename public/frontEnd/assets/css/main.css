@@ -1,0 +1,3796 @@
+:root {
+  --blue: #009aff;
+  --white: #ffffff;
+  --dark-blue: #062C4C; 
+}
+body,html{
+	text-align: right;
+	direction: rtl;
+}
+::-webkit-scrollbar {
+	width:5px;
+  }
+  ::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
+  }
+  ::-webkit-scrollbar:hover {
+	  width:5px
+  }
+  ::-webkit-scrollbar-thumb{
+	background:#54C7F5;
+  }
+
+a,a:hover,.btn:hover {
+	text-decoration: none !important;
+	color: var(--blue)
+}
+.filter {
+	border:1px solid #062C4C;
+}
+
+.filter > li > span , .category-products aside .category .accordion button {
+	color:#eee;
+	font-size:15px;
+	font-weight:500;
+	padding:8px ;
+	background:#062C4C;
+	display: block;
+	outline: 0;
+}
+
+.filter > li ul li , .category-products aside .category .accordion .card ul li {
+	background:#eee;
+	padding:5px 12px;
+	border-bottom:1px solid #ccc;
+	display: block;
+}
+.category-products aside .category .accordion .card ul li  {
+	color:#000
+}
+.filter > li ul li label {
+	font-size:14px;
+	color:#222;
+	font-weight:400;
+	margin:0 5px 0
+}
+.filter > li ul li:hover label , ul.price li:hover , ul.price li.active  , ul.finsh_product li:hover , ul.finsh_product li.active {
+	color:rgb(200, 48, 48)
+}
+.filter > li > ul.evaluation li i {
+	color:#FFBD00
+}
+
+.filter > li > ul.evaluation li.active label {
+	color:#000
+}
+
+ul.price li:last-child {
+	display:flex;
+	padding:10px ;
+	background:#eee
+}
+ul.price li:last-child input {
+	width:25%;
+	margin-left:10px;
+	border:1px solid #eee;
+	padding:5px 12px;
+}
+ul.price li:last-child input:focus {
+	box-shadow: 2px 2px 10px rgb(200, 48, 48);
+}
+ul.price li:last-child button {
+	width:30%;
+	border:1px solid #ccc;
+	background:#ccc;
+	color:#222
+}
+ul.finsh_product li a {
+	color:#000
+}	
+.checked {
+  color: orange;
+}
+.white{color:white}
+.slider.slider-horizontal{
+	width: 99%;
+}
+.main-color{color:var(--blue) !important;}
+.line-through{text-decoration: line-through;}
+/* Start Edit Bootstrap Code */
+.navbar-light .navbar-nav .nav-link {
+	color: #000;
+	font-weight: bold;
+	border-bottom: 2px solid transparent;
+}
+.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+	border-bottom: 2px solid var(--blue);
+	color: var(--blue);
+}
+.btn-primary {
+	background: var(--blue);
+	color: var(--white) !important;
+	border-color: var(--blue)
+}
+.btn-outline-primary{border-color: var(--blue) !important;}
+.btn-outline-primary:hover{
+	background: var(--blue);
+	border-color: var(--blue) !important;
+}
+.btn-warning{
+	background-color: #FF923E;
+	border-color: #FF923E;
+	color: #FFF
+}
+@media (min-width: 992px){
+	.navbar-expand-lg .navbar-nav .nav-link {
+	    padding-left: 1rem;
+	    padding-right: 1rem;
+	}
+}
+.input-group-prepend .btn-outline-secondary {
+    border: unset;
+    background: #FFf;
+}
+.input-group-prepend .btn-outline-secondary i {
+    background-color: var(--blue);
+    color: #FFF;
+    padding: 5px;
+    border-radius: 7px;
+}
+.input-group #in-sea {
+	border-left: unset;
+}
+.dataSearch {
+	position: relative;
+}
+.dataSearch ul {
+	position:absolute;
+	z-index: 20;
+	top:105%;
+	left:0;
+	width:100%;
+	background:white;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.1);
+}
+.dataSearch ul li {
+	padding:5px 15px;
+	transition:.3s;
+	font-weight:550;
+	align-items: center;
+}
+.dataSearch ul li:hover {
+	background:rgb(165, 214, 223);
+	cursor: pointer;
+}
+.dataSearch ul li:not(:last-child) {
+	border-bottom:1px solid #ddd
+}
+.dataSearch ul li > a {
+	display: flex;
+	align-items: center;
+}
+.dataSearch ul li p {
+	font-size:13px;
+	white-space: nowrap;
+	overflow:hidden;
+	color:#222;
+	margin:0 !important;
+	font-weight:400;
+}
+.dataSearch ul li:hover p {
+	white-space:pre-wrap;
+	width:100%;
+	overflow:visible;
+}
+.dataSearch ul li a img {
+	width:20px;
+	height:20px;
+	border-radius: 50%;
+	margin-left:10px
+}
+/* End  */
+
+/***************************************************************************/
+
+/* Start Custom Nav */
+.custom-nav{
+	background: var(--white)
+}
+/* End Custom Nav */
+
+/***************************************************************************/
+/* Start  section-search */
+.section-search {
+	background-color: var(--dark-blue);
+}
+.section-search .left {
+	color: #FFF
+}
+.section-search .left .dropdown-toggle:after{
+	border: unset;
+}
+.section-search .left .dropdown-toggle {
+	color: #FFF;
+    box-shadow:unset;
+}
+.section-search .left .user-aria {
+	min-width: 250px;
+	overflow: hidden;
+}
+.section-search .left .user-aria img {
+	border: 2px solid var(--blue);
+	border-radius: 50%;
+}
+.section-search .left .dropdown-item {
+	border-bottom: 1px solid #DDD;
+	padding: 15px 8px;
+}
+.section-search .left .dropdown-item:last-child{
+	border-bottom: unset;
+}
+.section-search .left .dropdown-menu i {
+	color: #bdbdbd
+}
+.section-search .left .noti {
+	position: relative;
+}
+.section-search .left .noti span{
+	position: absolute;
+    right: 9px;
+    top: 7px;
+    background: #f00;
+    border-radius: 6px;
+    padding: 0px 2px;
+    color: #FFF;
+    font-size: 12px;
+}
+@media (min-width: 992px){
+	.dropdown-menu {
+		left: unset !important;
+		right: 0
+	}
+}
+.section-search .left #btn-cart {
+	cursor: pointer;
+}
+
+/* End  section-search */
+/***************************************************************************/
+/* Start slider-home */
+#slider-home {
+	background-color: #E0E5E9;
+}
+#slider-home img {
+	max-width: 100%;
+	margin: auto;
+	height: 320px;
+	border-radius: 10px;
+}
+#slider-home .slider-title {
+	font-size:27px;
+	margin-bottom:20px}
+@media (max-width: 768px) {
+	#slider-home .slider-title {
+		margin-top: 5px;
+	}
+	#slider-home img {
+		height: auto;
+	}
+}
+/* End slider-home */
+/***************************************************************************/
+/* Start  home-filter*/
+.home-filter {
+    background-color: var(--dark-blue);
+    color: #FFF;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: -55px;
+}
+@media (max-width: 768px) {
+	.home-filter {margin-top:0;}
+}
+/* End  home-filter*/
+/***************************************************************************/
+/* Start  home-categoreis*/
+.home-categoreis{
+	background-color: #FDFDFD;
+	padding-bottom: 10px;
+}
+.home-categoreis .title {
+	padding-bottom: 5px;
+	border-bottom: 2px solid var(--blue);
+}
+.home-categoreis .view-all {
+	font-size: 13px;
+}
+.home-categoreis .cta-box {
+    background-color: #FFF;
+    border-radius: 5px;
+    margin: 15px 0;
+    box-shadow: 1px 1px 15px #b9b9b9;
+}
+.home-categoreis .cta-box p {
+	font-size:18px
+}
+.home-categoreis .cta-box a {
+	color: #3F454B;
+	padding:10px ;
+	display: block;
+}
+.home-categoreis .cta-box a h3 {
+	font-size:17px;
+	display: block;
+	margin-bottom:20px;
+	text-align: center;
+	min-height: 44px;
+}
+.home-categoreis .cta-box a h3 span {
+	font-size:20px;
+	display: block;
+}
+.home-categoreis .cta-box img {
+	height: 255px;
+	width:100%;
+	padding: 0 12px
+}
+.home-categoreis .cta-box h4 {
+	margin:20px 12px;
+	font-size:17px;
+	color:#0066c0;
+	display: inline-block;
+}
+.home-categoreis .cta-box h4:hover {
+	color:red;
+	text-decoration: underline;
+}
+
+.home-categoreis .header , .top-sellers .header {
+	padding:15px;
+	background:#fff;
+	text-align:center;
+	border:1px solid #ddd;
+	box-shadow: -5px -5px 15px rgba(0,0,0,.1) inset , 5px 5px 15px rgba(0,0,0,.1) inset;
+	border-top-left-radius: 50px;
+	border-top-right-radius: 50px;
+}
+.top-sellers .header {
+	margin-bottom:20px
+}
+.home-categoreis .header h6 , .top-sellers .header h6 {
+	font-size: 17px;
+	color:#222;
+	margin:0 !important;
+	display: inline-block;
+	font-style:italic
+
+}
+/* End  home-categoreis*/
+/***************************************************************************/
+/* Start cars-brands */
+.cars-brands-home {
+	background-color: #E9ECEF;
+	padding: 20px;
+}
+.cars-brands-home .title {
+	padding-bottom: 5px;
+	border-bottom: 2px solid var(--blue);
+}
+.cars-brands-home .view-all {
+	font-size: 13px;
+}
+.cars-brands-home .brand-box {
+	background-color: #FFF;
+	border-radius: 15px;
+	margin-top: 30px;
+	text-align: center;
+}
+.cars-brands-home .brand-box img {
+	margin: auto;
+}
+/* End cars-brands */
+/***************************************************************************/
+/* Start  top-sellers*/
+.top-sellers {
+	padding: 20px 0;
+}
+.top-sellers .slide-content {
+	border: 1px solid #e8e8e8;
+    border-radius: 10px;
+}
+/* End  top-sellers*/
+/***************************************************************************/
+/* Start footer*/
+footer > div:first-child {
+	background-color: var(--dark-blue);
+	color: #fff;
+	padding: 50px 0;
+}
+footer .fot-box {
+	margin-bottom: 10px;
+}
+footer .fot-box a {
+	color: #FFF;
+
+}
+footer .f-social li {
+	width: 40px;
+	height: 40px;
+    font-size: 25px;
+    border-radius: 50%;
+    transition: all .3s ease-in-out;
+}
+footer .f-social li a
+{
+	display: block;
+	width:100%;
+	height: 100%;
+	padding:0;
+	text-align:center;
+	line-height: 40px !important;
+}
+footer .f-social li a i {
+	font-size:22px
+}
+footer .f-social li:nth-of-type(1) {
+	background-color: #2752E2
+}
+footer .f-social li:nth-of-type(2) {
+	background-color: #53B8FF
+}
+footer .f-social li:nth-of-type(3) {
+	background-color: #3492D4
+}
+footer .f-social li:nth-of-type(4) {
+	background-color: #D44040
+}
+footer .f-social li:hover {
+	transform: scale(1.1);
+}
+/* End  footer*/
+/***************************************************************************/
+/* Start  category-products*/
+.category-products {
+	padding: 50px 0;
+}
+.category-products .title{
+	font-size: 14px;
+	color: #333333;
+}
+
+.category-products aside .category .title,
+.se-rating .title,
+.se-price .title{
+	background-color: var(--dark-blue);
+    color: #FFF;
+    padding: 10px;
+}
+.category-products aside .category .card {
+	border-radius: unset;
+}
+.category-products aside .category .card-header {
+	padding:0;
+	background:none !important;
+}
+
+.category-products aside .category .btn-link{color: #333;text-decoration: none;font-weight: bold;outline: 0 !important;border:0}
+.category-products aside .category .btn-link:hover{text-decoration: none;}
+
+.category-products .page-link {
+	background-color: #eee;
+    color: rgb(139, 139, 139);
+    border: unset;
+    margin: 0 5px;
+    border-radius: 50%;
+	width:35px;
+	height: 35px;
+	color:#062c4c;
+	font-size:18px;
+	font-weight:590;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	border:1px solid #ddd;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+}
+.category-products .page-link.active {
+	background:#062c4c !important;
+	color:white
+}
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+	border-radius: 50%;
+}
+/* End  category-products*/
+/***************************************************************************/
+/* Start product-description */
+.product-description {
+	color: #989898
+}
+.product-description .pro-info .title {
+	color: #333
+}
+.product-description .pro-info .btn-add-fav {
+	border:1px solid #DDD;
+	border-radius: 15px;
+}
+.product-description .pro-info .btn-number{
+	background: none;
+    color: #333;
+    border: 1px solid #DDD;
+}
+.product-description .btn-secondary.focus, .btn-secondary:focus {
+	outline: none;
+    box-shadow: unset;
+}
+.product-description .pro-info .cars img,
+.modal-pro .cars img{
+	width: 60px;
+	height: 60px;
+	background-color:#F5F5F5;
+	border-radius: 20px;
+}
+.product-description .pro-info .cars .selected,
+.modal-pro .cars .selected {
+	border: 2px solid #4caf50
+}
+.product-description .primary-img,
+.modal-body .primary-img{
+	background-color:#F5F5F5;
+	text-align: center;
+	padding: 10px;
+}
+.product-description .col-imgs {
+	background-color:#F5F5F5;
+	text-align: center;
+	padding: 5px;
+}
+.product-description .col-imgs img{
+	cursor: pointer;
+	max-height: 100px;
+}
+.product-description  #Review .user-img img {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+.product-description  #Review .Review-title span{
+	font-weight: unset;
+	font-size: 12px
+}
+.product-description  #Review .Review-title span i {
+	color: #FF6D33;
+}
+
+.product-description  #Review .row {
+	border-bottom: 1px solid #F5F5F5;
+	margin-bottom: 10px;
+}
+@media (max-width: 768px) {
+	.product-description  #Review .user-img {
+		text-align: right !important;
+	}
+}
+
+.product-description  #Review .add-comment .comment-title {
+	color: #333
+}
+.from-rating {
+  display: inline-block;
+  position: relative;
+  font-size: 25px;
+}
+
+.from-rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.from-rating label:last-child {
+  position: static;
+}
+
+.from-rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.from-rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.from-rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.from-rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.from-rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.from-rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.from-rating label{
+	margin-bottom:0;height: 30px;
+    line-height: 45px;}
+.from-rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.from-rating label:last-child .icon {
+  color: #dcdcdc
+}
+
+.from-rating:not(:hover) label input:checked ~ .icon,
+.from-rating:hover label:hover input ~ .icon {
+  color: #FF6D33;
+}
+
+.from-rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #FF6D33;
+}
+
+.modal-body .thum-imgs img {
+	background-color: #F5F5F5;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+/* End product-description */
+/***************************************************************************/
+/* Start  */
+.stepwizard-step p {
+    margin-top: 10px;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.checkout {
+	background-color: #F5F5F5
+}
+.shipping-address,
+.order-summary {
+	background-color: #FFF;
+	border: 1px solid #DDD;
+}
+.order-summary .thum-img {
+	background-color: #F5F5F5
+}
+.order-summary .re-pro {
+	cursor: pointer;
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+.orders-tracking {
+	background-color: #F5F5F5
+}
+.orders-tracking .nav-item {
+	background-color: #FFF
+}
+.orders-tracking .tab-content {
+	background-color: #FFF;
+}
+.orders-tracking .order-img {
+	background-color: #F5F5F5
+}
+.Wizard {
+  position: relative;
+  overflow: hidden;
+  counter-reset: wizard;
+}
+
+.Wizard li {
+  position: relative;
+  float: left;
+  width: 33.33%;
+  text-align: center;
+  color: var(--blue);
+}
+
+.current ~ li {
+  color: #555;
+}
+
+.Wizard li:before {
+  counter-increment: wizard;
+  content: counter(wizard);
+  display: block;
+  color: #FFF;
+  background-color: var(--blue);
+  border: 2px solid var(--blue);
+  text-align: center;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  border-radius: 2em;
+  position: relative;
+  left: 50%;
+  margin-bottom: 1em;
+  margin-left: -1em;
+  z-index: 1;
+}
+.current ~ li:before {
+  background-color: #DDD;
+  color: #555;
+  border-color: #DDD;
+}
+
+.Wizard li + li:after {
+  content: "";
+  display: block;
+  width: 100%;
+  background-color: var(--blue);
+  height: 2px;
+  position: absolute;
+  left: -50%;
+  top: 1em;
+  z-index: 0;
+}
+
+.current ~ li:after {
+  background-color: #555;
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+.notifications,
+.wishlist {
+	background-color: #f5f5f5;
+}
+.notifications .noti-content {
+	background-color: #FFF;
+	max-width: 800px;
+	margin:auto;
+	padding: 10px; 
+}
+.notifications .noti-content img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--blue);
+    margin-left: 20px;
+}
+@media (max-width: 768px){
+	.notifications .noti-content img {
+		margin-left: 0;
+		width: 30px;
+    	height: 30px;
+	}
+	.notifications .noti-content {padding: 5px;}
+	.notifications .noti-content .list-group-item {padding: 10px 0;}
+	.notifications .noti-content .noti-date {margin-top:0!important;}
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+.wishlist {}
+.wishlist .wishlist-content {
+	background-color: #FFF;
+}
+.wishlist .wishlist-img img {
+	background-color: #F5F5F5;
+    width: 80px;
+    height: 80px;
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+.signin,
+.account-edit{
+	background-color: #F5F5F5;
+	padding: 80px 0;
+}
+.signin .loginWithSocial {
+	justify-content: space-between;
+	margin-bottom:10px
+}
+.signin .loginWithSocial a {
+	width:100%;
+	border:0;
+	margin:0;
+	color:white;
+	border:1px solid #ddd;
+	padding:7px;
+	border-radius: 5px;
+	text-align: center;
+}
+.signin .loginWithSocial a i {
+	margin-right:5px;
+	font-weight:400
+}
+.signin .loginWithSocial a:nth-child(1) {
+	background:#3A559F
+}
+
+.signin button.signUp {
+	font-size:17px;
+	font-weight:500;
+	color: white;
+	background:#09DCA4
+}
+.signin .right,
+.signin .left{
+	background-color: #FFF;
+	padding: 10px;
+}
+.account-content {
+	background-color: #FFF;
+	padding: 10px;
+}
+.account-content .user-img {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin-top: -50px;
+	border: 2px solid var(--blue);
+}
+.preview {
+    border: 2px solid var(--blue);
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    margin: auto;
+    margin-top: -50px;
+    overflow: hidden;
+}
+.img-con {
+	position: relative;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    margin-top: -50px;
+}
+.img-con .fa-camera {
+    position: absolute;
+    top: 50px;
+    right: -8px;
+	background:#ccc;
+	border-radius: 50%;
+	width:35px;
+	height:35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.preview input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.preview img {
+    width: 100%;
+    height: 100%;
+    border-radius:8px;
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+.pass_show{position: relative} 
+.pass_show .ptxt { 
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    z-index: 1; 
+	color: #f36c01; 
+	margin-top: -10px; 
+	cursor: pointer; 
+	transition: .3s ease all; 
+} 
+.pass_show .ptxt:hover{color: #333333;}
+.tr-i i {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #FFF;
+    border-radius: 50%;
+    line-height: 21px;
+}
+.trader-home {
+	padding: 50px 0;
+}
+.trader-home .right,
+.trader-home .left{
+	background: url('../img/cart.svg');
+	background-size: cover;
+	height: 200px;
+	border-radius: 10px;
+	text-align: center;
+	color: #FFF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.trader-home .title a {
+	font-size: 13px;
+	margin-top: 15px;
+}
+.trader-home .title span {
+	border-bottom: 2px solid var(--blue);
+	padding-bottom: 3px;
+}
+.trader-home .box img {
+	width: 80px;
+	height: 80px;
+	background-color: var(--blue);
+	border-radius: 10px;
+}
+.btn-custom {
+	background-color: #caeaff
+}
+.btn-custom2 {
+	background-color: #FFE5E5
+}
+.trader-home .box .date {
+	font-size: 13px;
+	line-height: 24px;
+	text-align: left;
+}
+.trader-home .box {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 20px;
+}
+.trader-account .head {
+	background: url('../img/head.png');
+	min-height: 400px;
+	position: relative;
+    overflow: hidden;
+}
+.trader-account .head .content {
+	box-shadow: 1px 1px 1px 61px #062c4c;
+    border-radius: 50%;
+    background: #062C4C;
+    color: #FFF;
+    position: absolute;
+    bottom: -60px;
+    width: 100%;
+    text-align: center;
+}
+.trader-account .head .content img {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	background-color: #FFF;
+}
+.trader-account .head .content .container {
+	position: relative;
+}
+.trader-account .head .content .container > div {
+	padding-bottom: 61px;
+}
+.trader-account .page {
+	background-color: #F5F5F5
+}
+.trader-account .page .tab-content{
+    background-color: #FFF;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.trader-account .page .nav-pills {
+	background-color: #FFF;
+    margin-bottom: 10px;
+}
+.show {display: block !important;}
+.hide {display: none !important;}
+.pointer{cursor: pointer;}
+.order-img {background:#dedede;}
+.trader-statistics .title {
+	margin-bottom: 20px
+}
+.trader-statistics .title span {
+	border-bottom: 3px solid var(--blue)
+}
+.trader-statistics .box {
+	background-color: #009aff63;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.trader-statistics .box i {
+	color: #656565;
+}
+.financial-transactions .list-group-item {
+	border-top-width: 1px;
+	margin-bottom: 8px;
+}
+.Draw-value {
+	background: #bfe4fd;
+    text-align: center;
+    width: 300px;
+    padding: 34px 0;
+    border-radius: 10px;
+    margin: auto;
+}
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+/***************************************************************************/
+/* Start  */
+
+/* End  */
+ /********************* Shopping Demo-3 **********************/
+.product-grid3{text-align:center;position:relative;z-index:1;background-color:#F5F5F5;margin-bottom: 15px;}
+.product-grid3:before{content:"";height:81%;width:100%;background:#fff;border:1px solid rgba(0,0,0,.1);opacity:0;position:absolute;top:0;left:0;z-index:-1;transition:all .5s ease 0s}
+.product-grid3:hover:before{opacity:1;height:100%}
+.product-grid3 .product-image3{position:relative}
+.product-grid3 .product-image3 a{display:block}
+.product-grid3 .product-image3 img{width:100%;height:auto;margin: auto;}
+.product-grid3 .pic-1{opacity:1;transition:all .5s ease-out 0s}
+.product-grid3 .social{width:120px;padding:0;margin:0 auto;list-style:none;opacity:0;position:absolute;right:0;left:0;bottom:-23px;transform:scale(0);transition:all .3s ease 0s}
+.product-grid3:hover .social{opacity:1;transform:scale(1)}
+.product-grid3:hover .product-discount-label,.product-grid3:hover .product-new-label,.product-grid3:hover .title{opacity:0}
+.product-grid3 .social li{display:inline-block ; cursor: pointer;}
+.product-grid3 .social li {color:var(--blue);background:#fff;font-size:18px;line-height:50px;width:50px;height:50px;border:1px solid rgba(0,0,0,.1);border-radius:50%;margin:0 2px;transition:all .3s ease 0s}
+.product-grid3 .social li:hover{background:var(--blue);color:#fff}
+.product-grid3 .product-discount-label,.product-grid3 .product-new-label{background-color:var(--blue);color:#fff;font-size:17px;padding:2px 10px;position:absolute;right:0;top:0;transition:all .3s}
+.product-grid3 .product-content{z-index:-1;padding:15px;text-align:right;}
+.product-grid3 .title{font-size:14px;text-align: right;text-transform:capitalize;margin:0 0 7px;transition:all .3s ease 0s}
+.product-grid3 .title a{color:#414141}
+.product-grid3 .price{color:#000;font-size:12px;letter-spacing:1px;font-weight:600;margin-right:2px;display:inline-block}
+.product-grid3 .price span{color:#909090;font-size:14px;font-weight:500;letter-spacing:0;text-decoration:line-through;text-align:left;display:inline-block;margin-top:-2px}
+.rating{padding:0;margin:-22px 0 0;list-style:none;text-align:right;display:inline-block;direction: initial;}
+.rating li{color:#FF6D33;font-size:13px;display:inline-block;}
+.rating li.disable{color:#dcdcdc;}
+@media only screen and (max-width:1200px){.product-grid3 .rating{margin:0}
+}
+@media only screen and (max-width:990px){.product-grid3{margin-bottom:30px}
+.product-grid3 .rating{margin:-22px 0 0}
+}
+@media only screen and (max-width:359px){.product-grid3 .rating{margin:0}
+}
+ul.fulldescription {
+	padding-right:15px
+}
+ul.fulldescription li {
+	color:#000 !important;
+	font-size:15px !important;
+	padding:0;
+	position:relative
+}
+ul.fulldescription li::after {
+	content:"";
+	width:5px;
+	height:5px;
+	background:#000;
+	border-radius:50%;
+	content:"";
+	position:absolute;
+	top:10px;
+	right:0;
+	transform:translateX(200%)
+}
+ul.fulldescription li:nth-child(3) , ul.fulldescription li:nth-child(4) {
+	opacity: 0.7;
+}
+ul.fulldescription li:nth-child(5) , ul.fulldescription li:nth-child(6) {
+	opacity: 0.5;
+}
+ul.fulldescription li:nth-child(7) , ul.fulldescription li:nth-child(8) {
+	opacity: 0.2;
+}
+ul.fulldescription li:not(:nth-child(4) , :nth-child(3) , :nth-child(5) , :nth-child(6) , :nth-child(7) , :nth-child(8))  {
+	display: none;
+}
+ul.fulldescription.active li {
+	display: block;
+	opacity: 1;
+}
+ button.readMore {
+	display:block;
+	width:100%;
+	border:0;
+	outline:0;
+	background:none;
+	border:1px solid #ddd;
+	background:#eee;
+	font-weight:550
+}
+.notific > div {
+	cursor: pointer;
+	position:relative
+}
+.notific > div div {
+	position:absolute;
+	top:100%;
+	left:50%;
+	transform: translateX(-50%);
+	background:#fff;
+	border:1px solid #ddd;
+	box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+	width:200%;
+	padding:7px;
+	z-index: 5;
+	visibility: hidden;
+	opacity: 0;
+	transition:0.3s
+}
+.notific > div:hover div  {
+	visibility: visible;
+	opacity: 1;
+}
+.notific > div div h5 {
+	font-size:17px;
+	color:#000
+}
+.notific > div div p {
+	font-size:13px;
+	margin:0;
+	color:#000;
+	font-style: italic;
+}
+.notific > div div::after {
+	content:"";
+	position:absolute;
+	border-left:12px solid transparent;
+	border-right:12px solid transparent;
+	border-top:12px solid transparent;
+	border-bottom:12px solid #eee;
+	left:50%;
+	top:0;
+	transform:translate(-50% , -100%)
+}
+.notific > div img {
+	display: block;
+	width:50px;
+	height:50px;
+}
+.notific > div span {
+	text-align: center;
+	font-size:14px;
+	color:#000;
+}
+.buy div , .buy a , .buy form button {
+	display: block;
+	background-image:linear-gradient(to bottom , rgb(224, 224, 9) , rgb(255, 165, 0.2) );
+	margin-bottom:10px;
+	padding:5px;
+	text-align: center;
+	color:white;
+	font-size:16px;
+	cursor: pointer;
+	width: 100%;
+	display: block;
+	outline: 0;
+	border:0
+}
+#quantityOfProduct {
+	background:#eee;
+	border-radius: 4px;
+
+}
+#countityNotific {
+	width:100%;
+	background:rgb(65, 228, 65);
+	border-radius: 5px;
+	color:white;
+	padding:7px;
+	font-size: 12px;
+}
+#countityNotific span {
+	text-decoration: underline;
+	font-weight:500;
+	font-size:14px
+}
+div.videowDescription ul li {
+	color:rgb(0, 0, 0);
+	background:#eee;
+	border:1px solid #ddd;
+	margin:0 0 10px 0;
+	padding:2px 15px;
+	overflow: hidden;
+	font-style: italic;
+}
+div.videowDescription ul li span {
+	font-weight:590;
+	color:#3492D4;
+	float: left;
+}
+div.accordion h6 button {
+	color:#3492D4;
+	font-size:16px;
+	background:none;
+	border:0;
+	outline:0;
+	font-size:14px;
+	font-weight:700
+}
+div.accordion .accordion-item .accordion-collapse {
+	display: none;
+	font-size:14px;
+	color:#000
+}
+div.accordion .accordion-item.active .accordion-collapse {
+	display: block;
+}
+.productComments > div > div.main .image img {
+	width:60px;
+	height:60px;
+	padding:5px;
+	background:#eee;
+	border-radius:50%;
+	overflow:hidden;
+}
+.productComments > div > div.main .image {
+	text-align: center;
+}
+
+.productComments > div > div.main .comment  {
+	background:#fff;
+	padding:15px 20px;
+	border-radius: 5px;
+	position: relative;
+	box-shadow:4px 4px 17px rgba(0,0,0,.2)
+}
+.productComments > div > div.main .comment::after {
+	content:"";
+	border-left:15px solid #fff;
+	border-right:15px solid transparent;
+	border-top:15px solid transparent;
+	border-bottom:15px solid transparent;
+	position:absolute;
+	top:50%;
+	transform:translateY(-50%);
+	left:100%;
+}
+.productComments > div > div.main .comment h4 {
+	font-size:18px;
+	font-weight:600;
+	color:#555
+}
+.productComments > div > div.main .comment > div:nth-child(1) {
+	margin-bottom:10px
+}
+.productComments > div > div.main .comment > div:nth-child(1) span {
+	font-size:16px;
+	font-weight:600
+}
+.productComments > div > div.main .comment > div.text {
+	padding:10px;
+	background-image: linear-gradient(to bottom right , #FFC107 , rgb(24, 150, 167));
+}
+
+.productComments > div > div.main .comment > div.text > div {
+	background:#eee;
+	padding:8px
+}
+.productComments > div > div.main .comment > div.text > div p {
+	margin:0;
+	color:#444;
+	font-weight:500;
+}
+.enterAction {
+	text-align: left;
+	margin-top:10px
+}
+.enterAction span {
+	cursor: pointer;
+	margin-right:10px;
+	color:#000;
+	font-weight:500;
+	opacity: 0.5;
+}
+
+.enterAction > span.active {
+	font-weight:600;
+	opacity: 1;
+}
+.enterComment {
+	width:100%;
+	padding:0
+}
+.enterComment textarea {
+	width:100%;
+	padding:15px;
+	background:#eee;
+}	
+.enterComment button , .enterComment a {
+	width:100%;
+	padding:4px;
+	color:#222;
+	background-image: linear-gradient(to bottom right , #18483f , rgb(24 167 127));
+	border:0;
+	outline: 0;
+	color:white;
+	margin-bottom:10px;
+	display: block;
+	text-align: center;
+}
+
+.enterComment button:hover , .enterComment a:hover {
+	opacity: 0.8;
+}
+.commentNotification {
+	width:100%;
+	text-align: center;
+	color:#fff;
+	font-size:15px;
+	max-height:0;
+	overflow: hidden;
+	transition: 0.9s ease-in-out;
+	font-weight:500
+}
+.commentNotification.active {
+	padding:7px;
+	overflow: visible;
+	max-height: 90px;
+}
+.addRate h4 {
+	font-size : 22px;
+}
+.addRate small {
+	margin-bottom:20px
+}
+.addRate i {
+	font-size:25px;
+	cursor: pointer;
+	color:#FFBA00
+}
+.addRate i.active {
+	text-shadow: 5px 5px 20px rgb(255, 186, 0 , 0.5) , -5px -5px 20px rgb(255, 186, 0 , 0.5);
+}
+.paginate ul {
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	padding:20px 0
+}
+.paginate li a {
+	width:30px;
+	height:30px;
+	background:#eee;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	margin:0 5px;
+	color:#000;
+	font-size:16px;
+	font-weight:500;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+}
+
+.paginate li a.active
+{
+	background:#062C4C;
+}
+.paginate li a.active {
+	color:#fff
+}
+.comments_header h2 {
+	margin-bottom:20px
+}
+.comments_header h2 span {
+	color:#009Aff;
+	margin-right:15px
+}
+.comments_header {
+	padding:35px 150px;
+	flex-direction: column;
+	align-items: center;
+}
+.comments_header div select , .comments_header div input {
+	border:1px solid #ddd;
+	padding:4px 25px;
+	font-weight:550;
+	text-transform: capitalize;
+	outline: 0;
+	background:#eee
+}
+.comments_header div input::-webkit-input-placeholder {
+	font-size: 14px;
+	text-transform: capitalize;
+	color:#333
+}
+.comments_header div button {
+	display: block;
+	width:100%;
+	margin:5px 0;
+	border:0;
+	outline: 0;
+	background:#009Aff;
+	padding:3px 0;
+	border-radius: 5px;
+	color:#fff;
+	text-align: center;
+	font-size:17px;
+	font-weight:600
+}
+.comments_header div button:hover {
+	opacity: 0.7;
+}
+.allCatigorySelect {
+	position:absolute;
+	top:120%;
+	right:0;
+	z-index: 20;
+	width:100%;
+	padding:0 15px;
+}
+.allCatigorySelect select {
+	box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+}
+.allCatigorySelect select option {
+	background:#eee
+}
+.dataSearch.active {
+	animation: notification .7s ease-in-out;
+}
+
+
+@keyframes notification {
+	0% {
+		transform: translateX(0);
+	} 
+	15% {
+		transform: translateX(-2%);
+	}
+	30% {
+		transform: translateX(4%);
+	}
+	45% {
+		transform: translateX(-2%);
+	} 
+	60% {
+		transform: translateX(4%);
+	}
+	75% {
+		transform: translateX(-2%);
+	} 
+	90% {
+		transform: translateX(4%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+
+.pairant .aside.active > div {
+	min-height:0 !important;
+	max-height:calc(100vh - 84px) !important;
+	overflow: hidden;
+	position:fixed;
+	top:84px;
+	right:calc(5% + 15px);
+	max-width:398px;
+	padding:0 15px;
+}
+.pairant .aside.active > div:hover {
+	overflow-y: scroll;
+}
+
+.pairant .aside .content > .information , .pairant .aside .content .images {
+	box-shadow:5px 5px 12px rgba(0,0,0,0.1);
+	background:#fff;
+	padding:20px 15px 20px 10px;
+	border-radius: 5px;
+}
+.pairant .aside .content > .information h3 {
+	font-size:23px;
+	margin-bottom:15px
+}
+.pairant .aside .content > .information p {
+	font-size:15px;
+	text-align: center;
+	padding-bottom:20px;
+	color:#555;
+	border-bottom:1px solid #555;
+}
+.pairant .aside .content > .information ul li{
+	font-size:16px
+}
+.pairant .aside .content > .information ul li:not(:last-child) {
+	margin-bottom:5px;
+}
+.pairant .aside .content > .information ul li i {
+	margin-left:10px;
+	color:#666
+}
+.pairant .aside .content > .information ul li span {
+	font-weight: 550;
+}
+
+.pairant .aside .content .images .head {
+	align-items: center;
+	justify-content: space-between;
+}
+.pairant .aside .content .images .head h4 {
+	font-size:22px
+}
+.pairant .aside .content .images .head a {
+	font-size:18px
+}
+.pairant .aside .content > .images .img	figure {
+	padding:0;
+	height:100px
+}
+.pairant .aside .content > .images .img	figure img {
+	height:100%;
+	width:100%
+}
+.pairant .addPost > div:nth-child(1) {
+	background:#fff;
+	border-radius: 5px;
+	box-shadow:5px 5px 12px rgba(0,0,0,0.1);
+	padding:15px
+}
+
+.pairant .addPost .modal-content  {
+	position:relative;
+}
+.pairant .addPost .modal-content .overflow {
+	position:absolute;
+	width:100%;
+	height:100%;
+	align-items:center;
+	justify-content: center;
+	top:0;
+	left:0;
+	z-index: 50;
+	background:rgb(255, 255, 255 , 0.8);
+	display: none;
+}
+.pairant .addPost .modal-content .overflow.active {
+	display: flex;
+}
+.pairant .addPost .modal-content .overflow i {
+	font-size:45px;
+	color:#444
+}
+
+.pairant .addPost .addPostReal .overflow {
+	width:100%;
+	height:100%;
+	background:rgba(255,255,255,0.9);
+	align-items: center;
+	justify-content: center;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index: 20;
+	font-size: 22px;
+	display: none;
+}
+.pairant .addPost .addPostReal .overflow.active {
+	display: flex;
+}
+.pairant .addPost .addPostReal .modal-header {
+	padding:20px 0;
+	position:relative;
+}
+.pairant .addPost .addPostReal .modal-header button {
+	position:absolute;
+	top:50%;
+	left:20px;
+	transform:translateY(-50%)
+}
+.pairant .addPost .addPostReal .modal-body .post {
+	margin:20px 0
+}
+.pairant .addPost .addPostReal .modal-body .post textarea {
+	width:100%;
+	border:0;
+	outline:0;
+	font-size:23px;
+	background:#eee;
+	padding:10px 15px;
+	border-radius: 15px;
+	color:#555;
+	border:1px solid #ddd
+}
+.pairant .addPost .addPostReal .modal-body .assets {
+	min-height: 100px;
+}
+.pairant .addPost .addPostReal .modal-body .post input::-webkit-input-placeholder {
+	color:#666;
+	text-transform: capitalize;
+}
+.pairant .addPost .addPostReal .modal-body .control {
+	padding:15px;
+	background:#eee;
+	align-items: center;
+	justify-content: space-between;
+	border:1px solid #ddd;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.1);
+}
+.pairant .addPost .addPostReal .modal-body .control form {
+	margin:0
+}
+.pairant .addPost .addPostReal .modal-body .control form i {
+	position:relative;
+}	
+
+.pairant .addPost .addPostReal .modal-body .control form i input , 
+.addAndDeleteComment .editComment .addAssets i input {
+	position:absolute;
+	top:0;
+	left:0;
+	opacity: 0;
+	width:100%;
+	height:100%;
+	cursor: pointer;
+	z-index: 2;
+}
+.pairant .addPost .addPostReal .modal-body .control span {
+	font-size:21px;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i {
+	margin:0 10px;
+	font-size:24px;
+	cursor: pointer;
+}
+
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(1) {
+	color:green;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(2) {
+	color:rgb(199, 31, 81);
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(4) {
+	color:gray;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) , .pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i ,
+.addAndDeleteComment .editComment .addAssets i 
+ {
+	z-index: 10;
+	position:relative;
+	cursor: pointer;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) ,
+.addAndDeleteComment .editComment .addAssets i:nth-child(2){
+	color:rgb(195, 195, 33);
+}
+
+.addAndDeleteComment .editComment .addAssets i {
+	font-size:20px;
+	margin-right:12px;
+}
+.addAndDeleteComment .editComment .addAssets i:nth-child(3) {
+	color:#222
+}
+.addAndDeleteComment .editComment .addAssets i:nth-child(1) {
+	color:green;
+}
+
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji , .pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i  > div.allEmoji  , .addAndDeleteComment .editComment div.allEmoji {
+	position:absolute;
+	background:white;
+	border:1px solid #ddd;
+	box-shadow: 4px 4px 10px rgba(0,0,0,.2);
+	bottom:180%;
+	min-width:600px;
+	min-height: 150px;
+	left:-20px;
+	display: none;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji.active , .pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji.active , .addAndDeleteComment .editComment div.allEmoji.active   {
+	display: block;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div::after ,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div::after,
+.addAndDeleteComment .editComment div.allEmoji::after
+{
+	content:"";
+	border-top: 10px solid #fff;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-left: 10px solid transparent;
+	position:absolute;
+	bottom:0;
+	left:10px;
+	transform: translate(50% , 100%);
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.over , 
+.addAndDeleteComment .editComment div.allEmoji > div.over,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.over
+{
+	font-size:30px;
+	background:#fff;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index: 20;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.over.active,
+.addAndDeleteComment .editComment div.allEmoji > div.over.active,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.over.active
+{
+	display: flex;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.over i ,
+.addAndDeleteComment .editComment div.allEmoji > div.over i,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.over i 
+{
+	color:#555
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.head,
+.addAndDeleteComment .editComment div.allEmoji > div.head,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.head
+{
+	padding:5px;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.head ul ,
+.addAndDeleteComment .editComment div.allEmoji > div.head ul,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.head ul  {
+	flex-wrap: wrap;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.head , .pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis ,
+.addAndDeleteComment .editComment div.allEmoji > div.emojis,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.head, 
+.addAndDeleteComment .editComment div.allEmoji > div.head, 
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis {
+	display: none;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.head.active , .pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis.active ,
+.addAndDeleteComment .editComment div.allEmoji > div.emojis.active ,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.head.active,
+.addAndDeleteComment .editComment div.allEmoji > div.head.active,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis.active {
+	display: block;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis ul li ,
+.addAndDeleteComment .editComment div.allEmoji > div.emojis ul li ,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis ul li {
+	padding:3px
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.head > ul li , 
+.addAndDeleteComment .editComment div.allEmoji > div.head > ul li,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.head > ul li {
+	padding:4px 7px;
+	width:50%;
+	color:#222;
+	font-size:16px
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis > div , 
+.addAndDeleteComment .editComment div.allEmoji > div.emojis > div,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis > div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding:6px 10px;
+	background:#eee
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis > div span ,
+.addAndDeleteComment .editComment div.allEmoji > div.emojis > div span,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis > div span {
+	font-size:12px;
+	color:#000
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div.allEmoji > div.emojis > div i , 
+.addAndDeleteComment .editComment div.allEmoji > div.emojis > div i,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div.allEmoji > div.emojis > div i{
+	color:#fff;
+	width:30px;
+	height:30px;
+	background:#ccc;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	cursor: pointer;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div > div.head ul li:hover , 
+.addAndDeleteComment .editComment .addAssets div.head ul li:hover, 
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div > div.head ul li:hover {
+	background:#eee
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div > div.head ul li span , 
+.addAndDeleteComment .editComment .content .addAssets i > div > div.head ul li span, 
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div i > div > div.head ul li span{
+	font-size:14px
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div ul ,
+.addAndDeleteComment .editComment .content .addAssets i > div ul , 
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div > i > div ul{
+	margin:0;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i:nth-child(3) > div ul li ,
+.addAndDeleteComment .editComment .content .addAssets > div ul > li , 
+.pairant .addPost .allMyPosts .post .enterActions .writeComment div:last-child > div > i > div ul li {
+	font-size: 11px;
+}
+.pairant .addPost .addPostReal .modal-body .control > div i.active{ 
+	pointer-events:none;
+	color:#aaa
+}
+.pairant .addPost .addPostReal .modal-footer button {
+	background:#eee;
+	color:#555;
+	font-size:17px;
+	border:1px solid #ddd;
+	cursor: no-drop;
+}
+.pairant .addPost .addPostReal .modal-footer .btn-primary {
+	cursor: pointer;
+}
+.pairant .addPost > div > div.text {
+	align-items: center;
+	padding-bottom:20px;
+	border-bottom:1px solid #ddd;
+}
+
+.pairant .addPost > div > div.text a > img  , .addPostReal .modal-body > div:nth-child(1) > a > img {
+	width:40px ;
+	height:40px;
+	border-radius: 50%;
+} 
+.pairant .addPost > div > div.text a > img  , .addPostReal .modal-body > div:nth-child(1) > a > img {
+	margin:0
+}
+.pairant .addPost > div > div.text a  , .addPostReal .modal-body > div:nth-child(1) > a {
+	margin-left:12px
+}
+.pairant .addPost .addPostReal .assets > div {
+	position:relative;
+	padding:20px;
+}
+.pairant .addPost .addPostReal .assets {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding:20px;
+}  
+.pairant .addPost .addPostReal .assets > div {
+	position:relative;
+	padding:20px;
+	width:70%;
+	border:1px solid #ddd;
+	height:250px;
+	background:#EAEBED
+}
+.pairant .addPost .addPostReal .assets > div i {
+	position:absolute;
+	top:20px;
+	left:20px;
+	font-size:20px;
+	background:#eee;
+	border-radius: 50%;
+	width:35px;
+	height:35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 20;
+}
+.pairant .addPost .addPostReal .assets > div > img ,  .pairant .addPost .addPostReal .assets > div > video {
+	width:100%;
+	height:100%;
+}
+
+.pairant .addPost > div div.text > button {
+	width:100%;
+	background:#eee;
+	border:0;
+	outline: 0;
+	border-radius: 15px;
+	padding:8px 15px;
+	font-size:18px;
+	border:0;
+	outline: 0;
+	color:#555;
+	font-weight:450;
+	text-align: right;
+}
+.pairant .addPost .allMyPosts {
+	width:100%;
+	margin-top:30px;
+}
+
+.pairant .addPost .allMyPosts .post {
+	width:100%;
+	background:#fff;
+	margin-bottom:30px;
+	border-radius: 10px;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.1);
+	position:relative;
+}
+.pairant .addPost .allMyPosts .post .over {
+	width:100%;
+	height:100%;
+	background-color: rgba(255,255,255,0.7);
+	position: absolute;
+	top:0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left:0;
+	z-index: 30;
+	display: none;
+}
+.pairant .addPost .allMyPosts .post .over.active {
+	display: flex;
+}
+.pairant .addPost .allMyPosts .post .over i {
+	font-size:28px;
+	color:#555;
+}
+.pairant .addPost .allMyPosts .post .postHeade {
+	padding:15px;
+	align-items: center;
+	justify-content: space-between;
+}
+.pairant .addPost .allMyPosts .post .postHeade span {
+	font-size:27px;
+	cursor: pointer;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant {
+	align-items: center;
+}
+
+.pairant .addPost .allMyPosts .post .postHeade .pairant .left , .pairant .addPost .allMyPosts .post .enterActions .writeComment .left {
+	width:40px;
+	height:40px;
+	border-radius: 50%;
+	position: relative;
+	margin-left:10px
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .writeComment .left {
+	width:30px;
+	height:30px;
+	margin-left:5px
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .left > span , .pairant .addPost .allMyPosts .post .enterActions .writeComment .left > span {
+	width:13px;
+	height:13px;
+	border-radius: 50%;
+	background-color: white;
+	position: absolute;
+	bottom:0%;
+	left:5%;
+	padding:2px;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .writeComment .left > span  {
+	bottom:0%;
+	left:7%;
+}
+.pairant .addPost .allMyPosts .post .enterActions .writeComment > div:last-child i input {
+	position:absolute;
+	width:100%;
+	height:100%;
+	opacity: 0;
+	top:0;
+	left:0
+}
+.pairant .addPost .allMyPosts .post .enterActions .assets {
+	display: flex;
+	position: relative;
+}
+.pairant .addPost .allMyPosts .post .enterActions .assets div {
+	width:70px;
+	height:70px;
+	padding:10px
+}
+.pairant .addPost .allMyPosts .post .enterActions .assets i {
+	position: absolute;
+	top:0;
+	left:0;
+	font-size: 20px;
+	cursor: pointer;
+}
+.pairant .addPost .allMyPosts .post .enterActions .assets div img {
+	width:100%;
+	height:100%
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .addAndDelete {
+	float: left;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .addAndDelete span {
+	line-height: 0;
+	top:1px;
+	cursor: pointer;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .addAndDelete ul {
+	top:27px !important
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .addAndDelete ul button {
+	font-size:17px !important;
+	font-weight:500 !important;
+	cursor: pointer;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .addAndDelete ul button {
+	color:#000 !important;
+}
+.addAndDeleteComment .editComment {
+	width:100%;
+	position:fixed;
+	z-index: 150;
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	left:0;
+	top:0;
+	align-items: center ;
+	justify-content: center ;
+	height:100vh;
+	visibility: hidden;
+	opacity: 0;
+	transition:0.7s;
+	overflow: scroll;
+}
+.addAndDeleteComment .editComment.active {
+	visibility: visible;
+	opacity: 1;
+}
+.addAndDeleteComment .editComment .content {
+	width:55%;
+	background:white;
+	box-shadow: 5px 5px 10px #0000001a;
+	padding:25px;
+	min-height:auto !important;
+	border-radius: 5px;
+	position: relative;
+	top:-100%;
+	transition:0.4s
+}
+.addAndDeleteComment .editComment.active .content {
+	top:0
+}
+.addAndDeleteComment .editComment .content > h4 {
+	font-size:22px;
+	color:#222;
+	text-align: center;
+	background-color: #eee;
+	padding:7px 15px;
+	border:1px solid #ddd;
+	font-size:18px;
+	margin-bottom:20px
+}
+.addAndDeleteComment .editComment .content > textarea {
+	width: 100%;
+	height:27%;
+	box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+	border-radius: 10px;
+	border:1px solid #ddd;
+	margin-bottom:15px;
+	padding:15px;
+	font-size:20px
+}
+.addAndDeleteComment .editComment .content .assets {
+	width:100%;
+	min-height:100px;
+	background:#eee;
+	margin-bottom:10px
+}
+.addAndDeleteComment .editComment .content .addAssets {
+	width:100%;
+	padding:8px 15px;
+	background:rgb(218, 217, 217);
+	align-items: center;
+	justify-content: space-between;
+}
+.addAndDeleteComment .editComment .content button {
+	width:100% !important;
+	text-transform: capitalize;
+	cursor: no-drop;
+	border:1px solid #ddd;
+	margin-top:5px;
+	background:#eee;
+	pointer-events: none;
+}
+.addAndDeleteComment .editComment .content .assets {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding:20px;
+	flex-wrap: wrap;
+}
+.addAndDeleteComment .editComment .content .assets div {
+	width:150px;
+	height:150px;
+	position: relative;
+	padding:5px
+}
+.addAndDeleteComment .editComment .content .assets div img {
+	width:100%;
+	height:100%;
+}
+.addAndDeleteComment .editComment .content .assets div i {
+	position: absolute;
+	width:35px;
+	height:35px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background:#eee;
+	top:0;
+	left:0;
+	cursor: pointer;
+	font-size: 18px;
+	color:#333
+
+}
+.addAndDeleteComment .editComment .content button.btn-primary {
+	cursor: pointer;
+	border:0;
+	pointer-events: auto;
+}
+.addAndDeleteComment .editComment .content .over {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	align-items: center;
+	justify-content: center;
+	background:rgba(255,255,255,0.9);
+	display: none;
+	z-index: 10;
+}
+.addAndDeleteComment .editComment .content .over.active {
+	display: flex;
+}
+.addAndDeleteComment .editComment .over i {
+	font-size:22px;
+	color:#333
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .left > span > span , .pairant .addPost .allMyPosts .post .enterActions .writeComment .left span span {
+	background-color:#31A24C;
+	width:100%;
+	height:100%;
+	display: block;
+	border-radius: 50%;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .left img , .pairant .addPost .allMyPosts .post .enterActions .writeComment .left img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+}
+
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right h4 {
+	margin-right:10px;
+	text-transform: capitalize;
+	font-size:19px;
+	font-weight:550;
+	margin:0
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right .fromNotTo {
+	align-items: center;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right .fromNotTo h4 {
+	font-weight:600;
+	color:#666;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right .fromNotTo a.to h4 {
+	text-decoration: underline;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right .fromNotTo i {
+	color:#222;
+	font-size:16px;
+	font-weight:400;
+	margin:0 10px;
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right .fromNotTo h5 {
+	font-size:16px;
+	text-transform: capitalize;
+	margin:0;
+	color:#555
+}
+.pairant .addPost .allMyPosts .post .postHeade .pairant .right span {
+	font-size:14px;
+	color:gray
+}
+.addAndDelete {
+	position:relative
+}
+
+.addAndDelete span {
+	font-size:30px;
+	color:#000;
+	position: relative;
+	top : -15px
+}
+.addAndDelete span.active + ul {
+	display: block;
+}
+.addAndDelete > ul {
+	position:absolute;
+	top:100% !important;
+	transform:translate3d(87% , 0% , 0) !important;
+	background:#fff;
+	padding:10px;
+	box-shadow: 4px 4px 25px rgba(0,0,0,.15) , 0px -3px 15px rgba(0,0,0,.06);
+	border-radius: 10px;
+	border:1px solid #ddd;
+	min-width:250px;
+	display: none;
+	z-index: 60;
+}
+.addAndDelete > ul li {
+	background:#eee;
+}
+.addAndDelete > ul li {
+	font-size:17px;
+	padding:0 10px;
+	font-weight:550;
+	transition:0.3s
+}
+.addAndDelete > ul li:hover {
+	background:#ccc
+}
+.addAndDelete > ul li:not(:last-child) {
+	border-bottom:1px solid #ddd
+}
+.addAndDelete > ul li > button {
+	border:0;
+	margin:0;
+	outline:0;
+	padding:0;
+	background:none;
+	width:100%;
+	text-align: right;
+}
+.addAndDelete > ul::after {
+	content:"";
+	position:absolute;
+	top:-20px;
+	left:10px;
+	border-left: 10px solid transparent;
+	border-top: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #fff;
+}
+.addAndDelete a > div ul {
+	margin:0;
+}
+.addAndDelete a > div ul li {
+	font-size: 17px;
+	border-bottom:1px solid #ddd;
+	transition: 0.3s;
+	padding:2px 0px
+}
+.addAndDelete a > div ul li:hover {
+	background:#eee;
+	padding:2px 10px
+}
+.addAndDelete a::after {
+	display: none;
+}
+.pairant .addPost .allMyPosts .post .postHeade > span {
+	font-size: 25px;
+	cursor: pointer;
+	font-weight:600
+}
+.alertNotification , .alert2 {
+	position:fixed;
+	bottom:30px;
+	right:-100%;
+	padding:14px;
+	padding-left:30px;
+	transition:0.5s;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+	z-index: 200;
+}
+
+.pairant .addPost .allMyPosts .post .postBody h5 {
+	padding: 0 20px;
+	margin-bottom:10px;
+	font-size:17px;
+}
+.pairant .addPost .allMyPosts .post .postBody img , .pairant .addPost .allMyPosts .post .postBody video {
+	width:100%;
+	max-height:500px
+}
+.pairant .addPost .allMyPosts .post .enterActions {
+	padding:0 15px 10px
+}
+.pairant .addPost .allMyPosts .post .enterActions .likes ,
+.pairant .addPost .allMyPosts .post .enterActions .mackAction ,
+.pairant .addPost .allMyPosts .post .enterActions .writeComment  {
+	border-bottom:1px solid #ddd;
+	align-items: center;
+	justify-content: space-between;
+	padding:8px 0
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .mackAction {
+	border-bottom:none;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments {
+	position:relative;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment {
+	padding:10px 10px 0;
+	align-items: center;
+	position:relative;
+	border-right:2px solid rgb(226, 221, 221);
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment::after {
+	content:"";
+	position:absolute;
+	top:15px;
+	right:0px;
+	width:15px;
+	height:2px;
+	background:rgb(226, 221, 221);
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .comment::after {
+	right:0px;
+	top:0px;
+	width:16px;
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .comment {
+	padding:0 15px 0 0 !important
+}
+ 
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment:hover > .comment::after , .pairant .addPost .allMyPosts .post .enterActions .myComments .comment:hover::after {
+	background-color: rgb(206, 75, 52);
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment:hover > .comment , .pairant .addPost .allMyPosts .post .enterActions .myComments .comment:hover {
+	border-right:2px solid rgb(206, 75, 52)
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .image {
+	width:35px;
+	height:35px;
+	margin-left:7px
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .image img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText {
+	flex-grow: 1;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .commentPhoto {
+	width:100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .commentPhoto div {
+	width:33.333%;
+	height:100px;
+	padding:5px;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .commentPhoto div img {
+	width:100%;
+	height:100%;
+	border-radius: 5px;
+	box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+	border:1px solid #ddd
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .text{
+	background:#eee;
+	padding:5px 10px;
+	border-radius: 12px;
+	position:relative;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .text span.number {
+	position: absolute;
+	bottom:0;
+	left:0;
+	padding:2px 4px;
+	background:#fff;
+	border-radius:10px;
+	font-weight: 450;
+	box-shadow: 3px 3px 8px rgba(0,0,0,.1);
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText a {
+	display: block;
+	text-transform: capitalize;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText a:hover {
+	text-decoration: underline !important;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText > span {
+	word-break: break-all
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .controllers 
+{
+	padding-right:15px
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .controllers button {
+	border:0;
+	outline:0;
+	background: none;
+	font-weight: 590;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .pairant .mainText .controllers button:hover {
+	text-decoration: underline;
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button {
+	border:0;
+	outline: 0;
+	background:none;
+	font-size:18px;
+	color:#888;
+	font-weight:590;
+	width:33.33%;
+	transition: 0.2s;
+	position:relative;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .mackAction button {
+	width:auto;
+	font-size:14px;
+	font-weight:400;
+
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button > div {
+	position:absolute;
+	top:0;
+	display: flex;
+	left:50%;
+	transform:translate(-70% , -50%) scale(0.7);
+	z-index: 30; 
+	padding:3px 5px;
+	background:white;
+	box-shadow: 2px 2px 4px rgba(0,0,0,.2);
+	border-radius: 25px;
+	opacity: 0;
+	visibility: hidden;
+	transition: 0.2s;
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction > button:first-of-type:hover > div {
+	transform:translate(-70% , -110%) scale(1);
+	opacity: 1;
+	visibility: visible;
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button:first-of-type > div span {
+	font-size:27px;
+	margin:0 4px;
+	transition:0.4s;
+	opacity: 0.9;
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button:first-of-type > div span:hover {
+	transform:scale(1.2)
+
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button:hover {
+	background:#eee
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button.heart {
+	color:#E75758
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button.thumbsup {
+	color:rgb(27, 121, 245)
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button.heart_eyes , .pairant .addPost .allMyPosts .post .enterActions .mackAction button.hushed , .pairant .addPost .allMyPosts .post .enterActions .mackAction button.cry , .pairant .addPost .allMyPosts .post .enterActions .mackAction button.joy {
+	color:#EAAC43
+}
+.pairant .addPost .allMyPosts .post .enterActions .mackAction button.angry {
+	color:#DD6B0E
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .writeComment > div:last-child {
+	position:relative;
+	flex-grow: 1;
+}
+.pairant .addPost .allMyPosts .post .enterActions .writeComment > div:first-child a {
+	display: block;
+	width:100%;
+	height:100%
+}
+.pairant .addPost .allMyPosts .post .enterActions .writeComment > div:last-child > div {
+	font-size: 19px;
+	color:rgb(194, 193, 193);
+	cursor: pointer;
+	position: absolute;
+	top:50%;
+	left:10px;
+	transform:translateY(-50%);
+	z-index: 50;
+}
+
+.pairant .addPost .allMyPosts .post .enterActions .writeComment > div:last-child input {
+	border:0;
+	outline:0;
+	width:100%;
+	background:#eee;
+	font-size:18px;
+	padding:5px 15px;
+	border-radius:20px;
+}	
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .writeComment  {
+	margin-right:20px;
+	display: none;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment .writeComment.active {
+	display: flex;
+}
+.pairant .addPost .allMyPosts .post .enterActions .myComments .comment div:last-child input {
+	padding:3px 15px;
+}
+.pairant .addPost .allMyPosts .post .enterActions .likes > span > span:nth-child(1) {
+	font-size:17px;
+	font-weight:600;
+	color:#666
+}
+.pairant .addPost .allMyPosts .post .enterActions .likes > span:first-child > span:nth-child(3) {
+	transform: translateX(10px);
+	display: inline-block;
+}
+.pairant .addPost .allMyPosts .post .enterActions .likes > span:first-child > span:nth-child(4) {
+	transform: translateX(20px);
+	display: inline-block;
+}
+.alert2 {
+	padding-left:15px;
+}
+.alert2 i {
+	margin-right:30px;
+	font-size:20px;
+	transform-origin: top center;
+	animation: notific 1s ease-in-out infinite;
+}
+.alert2.active {
+	right: 20px
+}
+.alertNotification > div , .alert2 > div {
+	color:#222;
+	font-size:17px;
+}
+@keyframes notific {
+	0% {
+		transform:rotate(0deg)
+	} 20% {
+		transform:rotate(-8deg)
+	} 40% {
+		transform:rotate(16deg)
+	} 60% {
+		transform:rotate(-8deg)
+	} 80% {
+		transform:rotate(16deg)
+	} 100% {
+		transform:rotate(0deg)
+	}
+}
+.alertNotification svg {
+	margin-left:20px
+}
+.alertNotification.active {
+	right: 20px;
+}
+.spechialVendoer a {
+	color:#000
+}
+.spechialVendoer div.slide-content img {
+	margin-bottom:8px;
+	height:150px
+}
+.spechialVendoer div.slide-content h4 {
+	font-size:20px;
+	text-transform: capitalize;
+	margin-bottom:8px
+}
+.spechialVendoer div.slide-content p {
+	margin-bottom:5px;
+	font-size:14px;
+}
+.spechialVendoer div.slide-content p i {
+	color:green;
+}
+.spechialVendoer div.slide-content > div {
+	margin-bottom:10px
+}
+
+.userProfile .personalData {
+	margin-right:30px;
+	display: flex;
+
+}
+.userProfile .personalData > a {
+	width:168px;
+	height:168px;
+	margin-top:-50px;
+	position: relative;
+	border-radius: 50%;
+}
+.online {
+	position:relative;
+	display: block;
+}
+.userProfile .personalData > .online > span , .online > span {
+	position:absolute;
+	width:8px !important;
+	height:8px !important;
+	border-radius: 50%;
+	bottom:-3%;
+	left:17%;
+	background:white;
+	padding:1px;
+	box-shadow: 3px 3px 7px rgba(0,0,0,.1);
+	display: none;
+}
+.userProfile .personalData > .online.active > span , .online.active > span {
+	display: block;
+}
+.userProfile .personalData > .online > span span , .online > span > span {
+	width:100%;
+	height:100%;
+	background:rgb(19, 146, 19);
+	display: block;
+	border-radius: 50%;
+}
+.userProfile .personalData > a > img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+	background:#fff;
+	padding:5px;
+	box-shadow: 4px 4px 10px rgba(0,0,0,.1);
+}
+.userProfile .personalData .userData {
+	margin-right:20px
+}
+.userProfile .personalData .userData h3 {
+	font-size:32px;
+	text-transform: capitalize;
+	color:#555;
+	font-weight: 600;
+	margin:0;
+}	
+.userProfile .personalData .userData a {
+	margin:0;
+	font-size:20px;
+	color:#888
+}
+.userProfile .personalData .userData .frindes a {
+	width:32px;
+	height:32px;
+	margin-right:-10px;
+}
+
+.userProfile .personalData .userData .frindes a img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+	padding:3px;
+	box-shadow: 4px 4px 7px rgba(0,0,0,.1);
+	background:white;
+}
+.userProfile .personalData .userData .frindes a img:hover {
+	background:#eee
+}
+
+
+nav .messages {
+	position:absolute;
+	z-index: 170;
+	top:calc(100% + 20px);
+	width:500px;
+	background:white;
+	box-shadow:8px 8px 15px rgba(0,0,0,.2);
+	border:1px solid #ddd;
+	padding:20px;
+	border-radius: 5px;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.3s;
+}
+nav .messages.active {
+	visibility: visible;
+	opacity: 1
+}
+nav .messages::after {
+	content:"";
+	border-left:10px solid transparent;
+	border-right:10px solid transparent;
+	border-top:10px solid transparent;
+	border-bottom:10px solid white;
+	position:absolute;
+	z-index: 100;
+	top:-20px;
+	right:0px;
+	transform:translateX(-50%);
+}
+nav .messages .over {
+	width: 100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	background:rgb(255, 255, 255 , 0.6);
+	z-index: 10;
+}
+nav .messagesController.active .messages .over {
+	display:flex
+}
+nav .messages .over i {
+	color:#222 !important;
+	background:none !important;
+	font-size:20px;
+}
+nav .windowOne {
+	width:100%;
+}
+
+nav .messages .header .search {
+	position:relative;
+	margin-bottom:7px
+}
+nav .messages .header .search i {
+	height:100%;
+	height:calc(100% - 2px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color:#666;
+	width:7%;
+	background:transparent;
+	font-size:15px;
+	position:absolute;
+	right:1px;
+	top:1px;
+	background:#eee;
+	border-radius: 0;
+}
+
+nav .messages .header .search input {
+	width:100%;
+	padding:6px 8%;
+	font-size:17px;
+	border-radius: 3px;
+	border:1px solid #ddd;
+	outline: 0;
+} 
+nav .messages .header .search input::-webkit-input-placeholder 
+{
+	color:#999;
+	font-family: sans-serif;
+	font-style: italic;
+	font-size: 15px;
+}
+nav .messages .header ul.controller {
+	background:#eee;
+	margin:0;
+	padding:0;
+	border-radius: 15px;
+	overflow:hidden;
+	position:relative
+}
+nav .messages .header ul.controller::after {
+	content:"";
+	position:absolute;
+	top:0;
+	left:0;
+	width:50%;
+	height:100%;
+	background:#ccc;
+	z-index: 1;
+	border-radius: 15px;
+	transition: 0.5s;
+}
+nav .messages .header ul.controller li {
+	width:50%;
+	padding:7px 0;
+	margin:0;
+	text-align: center;
+	position:relative;
+	z-index: 5;
+	cursor: pointer;
+}
+nav .messages.userMessage .header ul::after {
+	left:0;
+}
+nav .messages.userActive .header ul::after {
+	left:50%;
+}
+nav .messages .header .search input:focus {
+	border-color:#1E9FF2;
+}
+nav .messages .main {
+	overflow:hidden;
+}
+
+nav .messages .pairant {
+	width:100%;
+	position: relative;
+	padding-top:20px;
+	transition:0.4s;
+	overflow: auto;
+}
+nav .messages .pairant > div {
+	width:50%;
+	position:relative
+}
+nav .messages .pairant > div .over {
+	position:absolute;
+	top:0;
+	left:0;
+	background:#eee;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width:100%;
+	height:100%;
+}
+
+
+nav .messages .pairant > div {
+	width:100%;
+	display: none;
+}
+nav .messages.userMessage .pairant .windowTow {
+	display: block;
+}
+nav .messages.userActive .pairant .windowOne {
+	display: block;
+}
+nav .messages.userMessage .pairant .windowTow ul {
+	max-height: 400px;
+	overflow:auto
+}
+nav .messages.userMessage .pairant .windowTow ul li .img {
+	width:57px;
+	height:57px;
+}
+nav .messages.userMessage .pairant .windowTow ul li .img a {
+	display:block;
+	width:100%;
+	height:100%
+}
+nav .messages.userMessage .pairant .windowTow ul li .img a img {
+	width:100%;
+	height:100%
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head {
+	flex-grow: 1;
+	text-align: left;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head h4 {
+	font-size:18px;
+	margin:0
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head {
+	margin:0
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head > span {
+	display: block;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head > span:nth-of-type(1) {
+	font-size:14px;
+	display: block;	
+	margin-bottom:5px
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .head > span:nth-of-type(2) {
+	color:#0066c0;
+}
+
+nav .messages.userMessage .pairant .windowTow ul li .text .head > span:nth-of-type(1) span:nth-of-type(1) {
+	color:#00796b;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .footer {
+	margin-right:10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .footer i {
+	color:#222 !important;
+	background:none !important;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .footer img {
+	width:17px;
+	height:17px;
+	border-radius: 50%;
+}
+nav .messages.userMessage .pairant .windowTow ul li .text .footer span {
+	width:10px;
+	height:10px;
+	background:#0066c0;
+	border-radius: 50%;
+}
+nav .messages .pairant .windowOne ul {
+	margin:0;
+}
+nav .messages .pairant .windowOne ul li , nav .messages .pairant .windowTow ul li {
+	border-bottom:1px solid #ddd;
+	background:#eee;
+	margin:0;
+	padding:10px 12px;
+	box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+}
+nav .messages .pairant .windowOne ul li:hover , nav .messages .pairant .windowTow ul li:hover {
+	background:#ddd
+}
+nav .messages .pairant .windowOne ul li:not(:last-of-type) , nav .messages .pairant .windowTow ul li:not(:last-of-type) {
+	margin-bottom:12px !important
+}
+nav .messages .pairant .windowOne ul li div.mainContent .img a {
+	width:45px;
+	height:45px;
+	display: block;
+	padding:0
+}
+nav .messages .pairant .windowOne ul li div.mainContent .img a img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text {
+	flex-grow: 1;
+	padding-right:20px
+} 
+nav .messages .pairant .windowOne ul li div.mainContent .text .head {
+	align-items: center;
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text .head h4 {
+	font-size:17px;
+	text-transform: capitalize;
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text .head span {
+	color:#1E9FF2 
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text .footer {
+	justify-content: space-between;
+	align-items: center;
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text .footer p {
+	margin:0;
+	font-size:16px;
+	text-transform: capitalize;
+	color:#666
+}
+nav .messages .pairant .windowOne ul li div.mainContent .text .footer i {
+	background:none;
+	width:auto;
+	height:auto;
+	color:#aaa;
+	font-sizE:16px;
+}
+.chate {
+	position:fixed;
+	bottom:20;
+	left:7%;
+	z-index: 70;
+	display: none;
+}
+.chate.active {
+	display: flex;
+	align-items: center;
+}
+.chate .box {
+	margin:0 10px;
+	width:330px;
+	box-shadow: 10px 10px 15px rgba(0,0,0,.1);
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	overflow:hidden;
+}
+
+.chate .box .header { 
+	width:100%;
+	background:white;
+	padding:1px;
+	box-shadow: 10px 10px 10px rgba(0,0,0,.1);
+	position:relative;
+	z-index: 5;
+}
+.chate .box .header > div {
+	padding:7px
+}
+.chate .box .header > div.user {
+	width:60%
+}
+.chate .box .header > div.controller {
+	width:40%
+}
+.chate .box .header > .user {
+	transition:0.5s;
+}
+.chate .box .header .user:hover {
+	background:#eee;
+	cursor: pointer;
+}
+.chate .box .header .user a {
+	display: block;
+	width:32px;
+	height:32px;
+	margin-left:10px
+}
+.chate .box .header .user a img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+}
+.chate .box .header .information {
+	flex-grow: 1;
+}
+
+.chate .box .header .information h4 {
+	font-size:15px;
+	text-transform: capitalize;
+	margin-bottom:0;
+	font-weight:600;
+	white-space: nowrap;
+}
+.chate .box .header .information span {
+	font-size:13px
+}
+.chate .box .header .information i {
+	font-size:12px;
+	color:#007DF2;
+	margin-right:10px;
+	font-weight: 300;
+}
+
+.chate .box .header > div.controller {
+	text-align: left;
+}
+.chate .box .header .controller i {
+	color:#007DF2;
+	font-size:18px;
+	margin:0 2px;
+	cursor: pointer;
+}
+.chate .box .content {
+	width:100%;
+	height:350px;
+	overflow-y: auto;
+	background:white;
+	display: flex;
+	flex-direction: column-reverse;
+}
+.chate .box .content .messages {
+	width:100%;
+	padding:10px;
+}
+.chate .box .content .messages > div {
+	max-width:100%;
+	display: flex;
+	flex-direction: column;
+}
+.chate .box .content .messages div p {
+	font-size:14px;
+	border-radius: 15px;
+	font-family: "Tajawal" !important;
+}
+.chate .box .content .messages div.me p {
+	padding:7px;
+	background:#5f9df1;
+	color:White;
+	margin:0 auto 5px 0;
+}
+.chate .box .content .messages div.frind p {
+	padding:7px;
+	background:#eee;
+	color:#222;
+	margin:0 0 5px auto;
+}
+.chate .box .content .messages div.me ~ div.frind {
+	margin-bottom: 10px !important;
+}
+.chate .box .content .noMessage {
+	width:100%;
+	height:100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.chate .box .content .noMessage .img {
+	width:110px;
+	height:110px;
+	margin-bottom:15px
+}
+.chate .box .content .noMessage .img img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+	box-shadow: 4px 4px 10px rgba(0,0,0,.1);
+	background:#eee;
+	padding:2px
+}
+.chate .box .content .noMessage a {
+	font-size:19px;
+	text-transform: capitalize;
+	text-decoration: underline !important;
+	color:#444
+}
+.chate .box .footer {
+	background:white;
+	padding:7px 
+}
+.chate .box .footer .assets {
+	margin-left:10px
+}
+.chate .box .footer .assets i {
+	font-size:18px;
+	color:#007DF2;
+	margin:0 4px
+}
+.chate .box .footer .form {
+	flex-grow: 1;
+	position: relative;
+}
+
+.chate .box .footer .form i {
+	position: absolute;
+	top:50%;
+	transform:translateY(-50%);
+	background:#007DF2;
+	color:white;
+	width:20px;
+	height:20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	left:10px;
+	cursor: pointer;
+}
+.chate .box .footer .form input 
+{
+	width:100%;
+	border:0;
+	background:#eee;
+	border-radius: 18px;
+	padding:4px 7px 4px 35px;
+	font-size: 15px;
+}
+
+.chate .box .footer > i {
+	font-size:24px;
+	margin-right:10px;
+	color:#007DF2;
+	cursor: pointer;
+}
+
+
+nav.main_navbar {
+	position: fixed !important;
+	width:100% ;
+	z-index: 100;
+	top:0;
+	left:0
+
+  }
+  nav .collapse .child1 > li:nth-child(1) a {
+	  background:#eee;
+	  padding:4px 0px 4px 15px;
+	  border-radius:50px;
+  }
+  nav .collapse .child1 li a img {
+	  width:30px;
+	  height:30px;
+	  border-radius: 50%;
+	  margin-left:10px
+  }   
+  nav .collapse .child1 li a span {
+	  font-size: 16px;
+	  font-weight:650;
+	  color:#555
+  }
+  nav .collapse .child1 li > i {
+	  width:40px;
+	  height:40px;
+	  background:rgb(84, 199, 245);
+	  border-radius: 50%;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  opacity: 0.8;
+	  color:white;
+	  cursor: pointer;
+  }
+  nav .collapse .child1 li {
+	  margin-left:10px ;
+	  position: relative;
+  }
+  nav .collapse .child1 li a i:hover {
+	  opacity: 1;
+  }
+
+  nav .collapse .child2 li a {
+	  font-size:20px;
+	  font-weight:500;
+	  background:#eee;
+	  padding:10px 29px;
+	  border-radius: 10px;
+  }
+
+  nav .collapse .notification { 
+	  position:absolute;
+	  transform: translate(50%,0%);
+	  top:0;
+	  right:0;
+	  background:rgb(236, 13, 13);
+	  color:white;
+	  border-radius: 50%;
+	  width:19px;
+	  height:19px;
+	  font-size:14px;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+  }
+  nav .collapse .requestNotification > div.pairant , nav .collapse .userNotification > div.pairant {
+	position:absolute;
+	z-index: 50;
+	top:125%;
+	right:-20px;
+	background:white;
+	box-shadow: 8px 8px 17px rgba(0,0,0,.2);
+	padding:10px;
+	border-radius: 10px;
+	opacity: 0;
+	visibility: hidden;
+	transition:0.3s;
+  }
+  nav .collapse .requestNotification > div.pairant::after , nav .collapse .userNotification > div.pairant::after {
+	  content:"";
+	  border-left: 10px solid transparent;
+	  border-right: 10px solid transparent;
+	  border-top: 10px solid transparent;
+	  border-bottom: 10px solid white;
+	  position:absolute;
+	  top:-20px;
+	  right:28px
+  }
+  nav .collapse .requestNotification > div.pairant > div , nav .collapse .userNotification > div.pairant > div {
+	position: relative;
+	width:420px;
+	max-height:80vh;
+	overflow-Y: hidden;
+  }
+  nav .collapse .requestNotification > div.pairant:hover > div , nav .collapse .userNotification > div.pairant:hover > div {
+	overflow-Y: scroll;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main , nav .collapse .userNotification > div.pairant > div > ul li .main {
+	width:100%;
+	align-items: center;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li , nav .collapse .userNotification > div.pairant > div > ul li {
+	  background:#eee;
+	  padding:5px;
+	  border-radius: 5px;
+	  margin:0;
+	  border:1px solid #ddd;
+	  box-shadow: 3px 3px 7px rgba(0,0,0,.1);
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li:not(:last-child) , nav .collapse .userNotification > div.pairant > div > ul li:not(:last-child) {
+	margin:0 0 10px;
+  }
+  nav .collapse .requestNotification > div.pairant:hover > div ul li , nav .collapse .userNotification > div.pairant:hover > div > ul li{
+	margin:0 0 10px 10px;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main > a.photo , nav .collapse .userNotification > div.pairant > div > ul li .main > a.photo {
+	  width:56px;
+	  height:56px;
+	  margin-left:20px;
+	  display: block;
+	  padding:0
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main > a img {
+	  width:100%;
+	  height:100%;
+	  border-radius: 50%;
+	  margin:0 !important
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data {
+	flex-grow: 1;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data p {
+	font-size:16px;
+	font-family: inherit !important;
+	margin-bottom:10px
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data p span {
+	  font-weight: 650;
+	  text-transform: capitalize;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data .controlls div button {
+	padding:6px 20px;
+	border:0;
+	outline: 0;
+	color:white;
+	border-radius: 4px;
+	transition:0.4s
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data .controlls div button:hover {
+	  opacity: 0.7;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data .controlls div button:nth-child(1) {
+	background:#555;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data .controlls div button:nth-child(2) {
+	background:#00796b;
+  }
+  nav .collapse .requestNotification > div.pairant > div ul li .main .data .controlls span {
+	  color:rgb(15, 101, 199);
+	  font-weight: 650;
+  }
+
+
+  nav .collapse .requestNotification > div.pairant > div > div.over , nav .collapse .userNotification > div.pairant > div > div.over {
+	  display: none;
+	  background-color: #eee;
+	  align-items: center;
+	  justify-content: center;
+	  position:absolute;
+	  top:0;
+	  left:0;
+	  width:100%;
+	  height:100%
+  }
+  nav .collapse .requestNotification > div.pairant > div > div.over i , nav .collapse .userNotification > div.pairant > div > div.over i {
+	  font-size:25px;
+	  color:#333;
+	  background:none
+  }
+  nav .collapse .requestNotification.active > div.pairant , nav .collapse .userNotification.active > div.pairant {
+	opacity: 1;
+	visibility: visible;
+  }
+  nav .collapse .requestNotification > div.pairant.active > div > div.over , nav .collapse .userNotification > div.pairant.active > div > div.over {
+	display: flex;
+  }
+  nav .collapse .userNotification .pairant .header .head {
+	padding:7px 7px 0;
+	background:#ddd;
+	margin-bottom: 12px;
+	border-radius: 10px;
+}
+nav .collapse .userNotification .pairant .header .head h4 {
+  margin:0
+}
+nav .collapse .userNotification .pairant .header .head .notificSetings i {
+  font-size:17px;
+  background:none;
+  color:#222;
+}
+nav .collapse .userNotification .pairant .header ul {
+	margin-bottom:12px;
+}
+nav .collapse .userNotification .pairant .header ul li a {
+	padding:10px 15px;
+	border-radius:20px;
+	background:#eee;
+	margin-left:6px;
+	font-size:15px;
+	font-weight:600;
+	color:#222 !important;
+	display: block;
+}
+nav .collapse .userNotification .pairant .header ul li a:hover {
+	background:#ccc
+}
+nav .collapse .userNotification .pairant .header ul li a.active {
+	color:rgb(42, 153, 218) !important;
+	background:rgb(42, 153, 218,0.5)
+}
+nav .collapse .userNotification .pairant .header ul li a.active:hover {
+  background:rgb(42, 153, 218,0.7)
+}
+nav .collapse .userNotification .pairant > div > ul li {
+  padding:10px;
+  transition:0.4s;
+  background-color: #eee !important;
+  border:0 !important;
+  box-shadow: none !important;
+}
+nav .collapse .userNotification .pairant > div > ul li:not(:last-child) {
+	border-bottom:1px solid #ddd !important
+}
+nav .collapse .userNotification .pairant > div >ul li:hover {
+	background-color: #ddd !important;
+} 
+
+nav .collapse .userNotification .pairant > div > ul li a .text {
+	flex-grow: 1;
+}
+nav .collapse .userNotification .pairant > div > ul li a .text .shourt {
+	width:90%;
+	overflow: hidden;
+	color:#111;
+	font-size:16px;
+}
+nav .collapse .userNotification .pairant > div > ul li a .assets  {
+	position:relative;
+	width:56px;
+	height:56px;
+	border-radius: 50%;
+	border:1px solid #ddd;
+	margin-left:10px
+}
+nav .collapse .userNotification .pairant > div >ul li a .assets  > img:nth-child(1) {
+	width:100%;
+	height:100%
+}
+nav .collapse .userNotification .pairant > div >ul li a .assets  > img:nth-child(2) {
+	width:28px;
+	height:28px;
+	position: absolute;
+	bottom:0;
+	left:0;
+	transform:translate(-20%,13%);
+	margin:0
+}
+
+nav .collapse .userNotification .pairant > div >ul li a .text p {
+	font-size:15px;
+	color:#222;
+	margin:0;
+	padding:7px 0 7px
+}
+nav .collapse .userNotification .pairant > div >ul li a .text p span {
+	font-weight:600;
+	color:#000
+}
+nav .collapse .userNotification .pairant > div >ul li a .text span {
+	color:#009aff;
+	font-weight:400
+}
+nav .collapse .userNotification .pairant > div >ul li a > span {
+	width:12px;
+	height:12px;
+	background:hsl(214deg 89% 52%);
+	border-radius: 50%;
+}
+  #user-profile .cover {
+	  position: relative !important;
+  }
+  #user-profile .cover button {
+	position: absolute;
+	bottom:10px;
+	left:10px;
+	background:white;
+	border-radius:5px;
+	padding:6px 12px;
+	border:0;
+	outline:0;
+	font-size: 16px;
+	color:#777;
+	font-weight:650;
+	cursor: pointer;
+
+  }	
+  #user-profile .cover button input {
+	  position: absolute;
+	  top:0;
+	  left:0;
+	  width:100%;
+	  height:100%;
+	  opacity: 0;
+	  cursor: pointer;
+  }
+
+
+.w-100 {
+	position: relative;
+}
+.asideBox {
+	position:fixed;
+	left:0;
+	top:0;
+	height:100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding:20px 20px 40px;
+	z-index: 50;
+}
+.asideBox a {
+	display: block;
+	width:57px;
+	height:57px;
+}
+.asideBox a:not(:first-of-type) {
+	margin-top:15px
+}
+.asideBox a img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+	box-shadow: 5px 5px 14px rgba(0, 0, 0, 0.3);
+}
+
+
+.aside2 {
+	width:100%;
+	position:relative;
+}
+.aside2 .content2 {
+	position:fixed;
+	width:340px;
+	height:calc(100vh - 105px);
+	right:calc(2.5% + 15px);
+	top:105px;
+	z-index:20;
+	overflow: auto;
+}
+.aside2 .content2 ul {
+	padding:30px 20px;
+	border-radius: 10px;
+	background-color: #E9E9E9;
+}
+.aside2 .content2 ul li {
+	padding:7px 10px;
+	border-radius:7px;
+	transition:0.4s;
+	margin-bottom:4px;
+	background:#ddd;
+	margin-bottom:7px
+}
+
+.aside2 .content2 ul li:hover {
+	background:#eee;
+}
+
+.aside2 .content2 ul li .image {
+	margin-left:10px
+}
+.aside2 .content2 ul li .text h4 {
+	font-size:17px;
+	color:#222;
+	font-weight:500;
+	margin:0
+}
+.aside2 .content2 ul li:hover h4 {
+	color:#000;
+}
+.aside2 .content2 ul li .text span {
+	color:#263238;
+	font-size:13px
+}
+
+.aside2 .content2 ul li .image img {
+	border-radius: 50%;
+}
+.myActiveFrindes h4 {
+	font-size:16px;
+}
+.myActiveFrindes {
+	width:100%;
+	position:fixed;
+	width:315px;
+	height:calc(100vh - 105px);
+	left:calc(2.5% + 15px);
+	top:105px;
+	z-index:30;
+	overflow: auto;
+}
+.myActiveFrindes .header {
+	margin-bottom:35px
+}
+.myActiveFrindes .header h3 {
+	font-size:18px;
+	color:#555;
+}
+.myActiveFrindes .header .search {
+	position:relative;
+}
+.myActiveFrindes .header .search input {
+	width:100%;
+	border:0;
+	outline: 0;
+	background:#eee;
+	border:1px solid #ccc;
+	border-radius: 20px;
+	padding:6px 30px 6px 6px;
+	font-size:16px;
+	box-shadow:5px 5px 10px rgb(0, 0, 0 , 0.1)
+}
+.myActiveFrindes .header .search i {
+	position:absolute;
+	top:50%;
+	right:10px;
+	transform:translateY(-50%);
+	color:#555;
+	font-size:17px;
+	cursor: pointer;
+}
+
+.myActiveFrindes > ul li {
+	align-items: center;
+	padding:7px;
+	transition:0.4s;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.myActiveFrindes > ul li:hover {
+	background:#ddd;
+}
+
+.myActiveFrindes > ul li a {
+	display: block;
+	width:30px;
+	height:30px;
+	margin-left:15px;
+}
+.myActiveFrindes > ul li a img {
+	width:100%;
+	height:100%;
+	border-radius: 50%;;
+}
+.myActiveFrindes > ul li span {
+	font-size:16px;
+	font-weight:550;
+	text-transform: capitalize;
+	color:#000;
+	font-style: italic;
+}
+
+
+
+
+
+
+
+.mainPageLink.active {
+	background:#74D0F5 !important;
+	color:#fff
+}
+.carousel-item {
+	margin-bottom:50px
+}
+.carousel-item a {
+	color:#222 !important
+}
+.carousel-item .image img {
+	width:100%;
+	height:150px
+}
+.carousel-item .text {
+	text-align: center;
+	padding-top:80px
+}
+.carousel-item .text h2 {
+	font-size:28px !important;
+	margin-bottom:20px;
+	font-family: "Quintessential";
+	font-weight:500
+
+}
+.carousel-item .text p {
+	font-size:16px;
+}
+#btn-cart {
+	position:relative;
+}
+
+#btn-cart i {
+	font-size:27px
+}
+#btn-cart > span {
+	position: absolute;
+	padding:1px  6px;
+	border-radius: 50%;
+	font-size:13px;
+	font-weight:600;
+	top:-20px;
+	right:5px
+}

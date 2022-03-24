@@ -1,0 +1,109 @@
+npm install --save body هذا الموديل كان يستخدم في node js العاديه وليس express ويستخدم في جمع البيانات من البوست
+
+npm install --save body-parser
+const body_parser = require("body-parser").urlencoded({extended : true}) true علشان استخدم qs بد query string
+
+npm install --save path  يستخدم لوضع المسار الصحيح لملفات الفيو الخاصه بمشروعي وتستخدم لحل مشكله الباك اسلاش الخاصه بالماك والينوكس والاسلاش الخاصه بالويندوز
+npm install --save ejs
+
+npm install --save mongodb علشان اعمل اتصال مع mongodb   اذاي اتعامل مع mongodb عن طريق mongodrivar
+npm uninstall --save mongoose اذاي اتعامل مع mongodb باستخدام mongose    علشان اعمل اتصال مع الداتا بيز    
+
+
+npm i --save express-session 
+npm i --save connect-mongodb-session لكي اعمل اتصال بين mongodb و session اي اخزن في السشن في الداتا بيز
+من الافضل ان يتم تخزين السشن في الداتا بيز لانه يستهلك مساحه كبيره من الرمات 
+npm install --save connect-flash
+
+
+
+npm install express-validator
+هذا الموديل خاص بعمل   validation للبيانات الخاصه بك 
+وهو يعتمد علي session , flash لذلك يجب ان يستدعي بعدهم
+
+/********************************************************************************************//
+start connect data base 
+sequelize 
+npm install --save-dev sequelize sequelize-cli -g pg
+npm sequelize-cli علشان اجيب كل اوامر cli
+/********************************************************************************************//
+
+
+{
+    $in , $nin , $lte , $gte , $ne , $lt , $eq , $gt , 
+}
+
+
+
+يجب ان تكون الفورم من النوع application/x-www-form-urlencoded
+لو هستخدم body-parser
+
+/**--------------------------------------------------------*/
+cookie-parser = npm install --save cookie-parser 
+
+res.cookie(name, 'value', {expire: 360000 + Date.now()}); 
+res.cookie(name, 'value', {maxAge: 360000});
+   res.clearCookie('foo');
+req.cookies لعرض كل cookies
+/**--------------------------------------------------------*/
+
+/**--------------------------------------------------------*/
+sockit io 
+
+clint.emit("اسم الحدث" , يمكن تمرير اكتر من ارجيومنت )
+/***/ مثال
+sockit.emit("sendMessage" , p1 , p2 , p3)
+clint.on("sendMessage" , (p1 , p2 , p3) => {
+})
+/***/
+
+عند عمل اتصال جديد بالسوكيت الخاص بي يقوم السوكت باعطاءه id جديد يمكن طباعته باستخدام 
+sockit.id
+
+clint.emit  مهناها انه عندما يقوم الكلينت بعمل هذا الحدث افعل كذه مع هذا الكلينت
+io.emit مهناها انه عندما يقوم الكلينت بعمل ه
+sockit.broadcast.emit علي كل الكلينت ما عدا الي انا فيه
+/**--------------------------------------------------------*/
+
+/**--------------------------------------------------------*/
+لو افترضنا اني عاوز اعمل روم معينه يكون فيها كذا عضو ويكونو مع بعض وابعت ليهم نوتيفيكيشا معينه اعمل العاديه
+في الحاله دي في حاجه اسمها 
+clint.join(اسم الحجره)
+ولما اجي اخرج من الروم بستخدم حاجه اسمها 
+clint.leave(اسم الحجره)
+clint.leaveAll() مغادره كل الحجر التي تم الالتحاق بها
+لو انا عاوز ابعت رساله لكل الي عندي اعمل الاتي
+clint.to(اسم الحجره ).emit("")
+  انا عاوز ابعت رساله ماعدا نفسي لو اعمل الاتي
+clint.broadcast.to(اسم الحجره ).emit("")
+/**--------------------------------------------------------*/
+
+
+
+
+
+
+1- comment
+2- active
+3- liks
+4- disLiks
+5- user_id
+6- product_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

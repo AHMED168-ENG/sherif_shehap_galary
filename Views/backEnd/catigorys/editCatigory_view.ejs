@@ -1,0 +1,225 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/catigors/"> الاقسام </a>
+                                </li>
+                                <li class="breadcrumb-item active">تعديل القسم
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل الغة </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" class="form" method="post">
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات القسم <%= defaultLanguage.language %></h4>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> اسم القسم </label>
+                                                            <input type="text" value="<%= catigorys_data["name_" + defaultLanguage.shourtcut] %>" class="form-control" placeholder="ادخل اسم القسم" name="catigors[0][name]">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["catigors[0].name"]) { %>
+                                                                    <span class="text-danger"><%=validationError["catigors[0].name"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> وصف القسم </label>
+                                                            <textarea type="text" class="form-control" placeholder="ادخل وصف القسم" name="catigors[0][description]"><%= catigorys_data["description_" + defaultLanguage.shourtcut] %></textarea>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["catigors[0].description"]) { %>
+                                                                    <span class="text-danger"><%=validationError["catigors[0].description"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="catigors[0][shourtcut]" value="<%= defaultLanguage.shourtcut %>">
+                                                </div>
+
+
+                                                <ul class="nav nav-tabs nav-topline">
+                                                    <% fullLanguage.forEach((element , i) => { %>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link <%= i == 0 ? "active" : "" %>" data-toggle="tab"
+                                                            href="#<%= i %>"><%= element.language %></a>
+                                                        </li>
+                                                    <% }) %>  
+                                                </ul>
+
+                                                <div class="tab-content pt-1">
+                                                    <% fullLanguage.forEach((element , i) => { %>
+                                                        <div class="tab-pane <%= i == 0 ? "active" : ""%>" id="<%= i %>">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> اسم القسم </label>
+                                                                        <input type="text" value="<%= catigorys_data['name_' + element.shourtcut ] %>" class="form-control" placeholder="ادخل اسم القسم" name="catigors[<%=(i + 1)%>][name]">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError["catigors[" + (i + 1) + "].name"]) { %>
+                                                                                <span class="text-danger"><%=validationError["catigors[" + (i + 1) + "].name"][0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> وصف القسم </label>
+                                                                        <textarea type="text" class="form-control" placeholder="ادخل وصف القسم" name="catigors[<%=(i + 1)%>][description]"><%= catigorys_data["description_" + element.shourtcut] %></textarea>
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError["catigors[" + (i + 1) + "].description"]) { %>
+                                                                                <span class="text-danger"><%=validationError["catigors[" + (i + 1) + "].description"][0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="catigors[<%= (i + 1) %>][shourtcut]" value="<%= element.shourtcut %>">
+                                                    <% }) %> 
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="active"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= catigorys_data.active ? "checked" : "" %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الحالة </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="interAction"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= catigorys_data.interAction ? "checked" : "" %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الغاء التفاعل علي القسم</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صور القسم </label>
+                                                <div class="custom-file">
+                                                    <input type="file" multiple name="image" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.image) { %>
+                                                        <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صوره الشعار </label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="slug" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose slug</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.slug) { %>
+                                                        <span class="text-danger"><%=validationError.slug[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="showImage">
+                                                <h3>catigory images</h3>
+                                                <div class="row">
+                                                    <% catigorys_data.image.split("--").forEach((element , i) => { %>
+                                                        <% if (i < catigorys_data.image.split("--").length - 1) { %>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <img src="/admin/asset/images/categoris_photo/<%= element %>" alt="">
+                                                            </div>
+                                                        <% } %>
+                                                    <% }) %>
+                                                </div>
+                                            </div>
+
+                                            <div class="showImage">
+                                                <h3>slug image</h3>
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-6"> 
+                                                        <% if (catigorys_data.slug) { %>
+                                                            <img src="/admin/asset/images/categoris_photo/<%= catigorys_data.slug.split('--')[0] %>" alt="">
+                                                        <% } %>                                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                    onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                            <input type="hidden" name="oldImage" value="<%= catigorys_data.image %>">
+                                            <input type="hidden" name="oldSlug" value="<%=catigorys_data.slug%>">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+</body>
+</html>
+               

@@ -1,0 +1,195 @@
+<style>
+.searchTable tr td {
+    padding:10px 20px !important;
+    position:relative
+}
+.searchTable tr td label {
+    margin:0;
+    padding-right:10px
+}
+.searchTable tr td > a {
+    margin:0;
+    padding:0;
+    text-align: left;
+    color:white;
+    width:80px;
+    margin:0;
+    float: left;
+}
+.searchTable tr td > a {
+    width:37px;
+    height:37px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white
+}
+.searchTable tr td.searchText {
+    width:400px
+}
+.searchTable tr td > a:hover {
+    background:#999;
+    color:white
+}
+.searchTable tr td > a ~ div {
+    background:#222;
+    color:white;
+    width:100px
+}
+.searchTable tr td > a ~ div ul {
+    width:100%;
+    padding:0 4px;
+    margin:0
+}
+.searchTable tr td > a ~ div ul li form {
+    margin:0
+}
+.searchTable tr td > a ~ div ul li a , .searchTable tr td > a ~ div ul li button {
+    display:block;
+    width:100%;
+    padding:5px 10px;
+    color:white;
+    transition:0.2s
+}
+.searchTable tr td > a ~ div ul li button {
+    background:none;
+    border:0;
+    outline: 0;
+    cursor: pointer;
+}
+.searchTable tr td > a ~ div ul li a:hover , .searchTable tr td > a ~ div ul li button:hover {
+    background:rgb(70, 69, 69)
+}
+.searchTable tr td > a::after {
+    display: none;
+}
+.allSelected {
+    background:#222;
+    margin:20px 0 0 0  !important;
+    padding:10px 0 !important;
+    display: none !important;
+}
+.allSelected div:nth-child(1) form {
+    margin:0
+}
+.allSelected.active {
+    display: flex !important;
+}
+.allSelected div:nth-child(2) {
+    text-align: left;
+    font-size:17px;
+    color:#fff;
+    font-weight:400
+}
+</style>
+
+    <%- include("../layouts/head") %> 
+    
+    
+    
+        <%- include("../layouts/main-header") %> 
+        <%- include("../layouts/main-sidebar") %> 
+
+        <div class="app-content content">
+            <div class="content-wrapper">
+                <%- include("../layouts/notification") %> 
+
+                <div class="row">
+                    <% if (userSearch) { %>
+                        <header class="col-12 mt-2 mb-4">
+                            <h3 class="text-center">جميع البحث الخاص ب <span style="color:#1E9FF2"> <%= user.fName + " " +  user.lName%></span> </h3>
+                        </header>
+                        <h4 class="alert text-right col-12" style="margin:0;background:#888;color:white"><%= formateDate(userSearch.userSearchDate[0]) %></h4>
+                        <table class="table border searchTable table-striped table-dark" style="margin:0">
+                            <% userSearch.search.forEach((element , i) => { %>
+                                <% if (formateDate(userSearch.userSearchDate[i]) > formateDate(userSearch.userSearchDate[i - 1]) && i != 0) { %>
+                                    </table>
+                                        <h4 class="alert text-right col-12" style="margin:0;background:#888;color:white"><%= formateDate(userSearch.userSearchDate[i]) %></h4>
+                                    <table class="table border searchTable table-striped table-dark" style="margin:0">
+                                <% } %>
+                                <tr>
+                                    <td><input class="check" type="checkbox" name="search[]" data_search="<%= userSearch.search[i] %>" id="<%= i %>"><label for="<%= i %>"><%= formateDate(userSearch.userSearchDate[i] , "time") %></label></td>
+                                    <td class="searchText"><%= userSearch.search[i] %></td>
+                                    <td>
+                                        <% if (userSearch.catigorys[i]) { %>
+                                            <span><%= userSearch.catigorysName[i] %></span>
+                                        <% } else { %>
+                                            <span>جميع الاقسام</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                            ...
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-left">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <form action="/admin/userSearch/deleteUserSearch/<%= userSearch.id %>" method="post">
+                                                        <input type="hidden" name="searchHistory" value="<%= i + "," %>">
+                                                        <button>Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                
+
+                            <% }) %>
+                        </table>
+                        <div class="allSelected col-12 row align-items-center">
+                            <div class="col-sm-6 col-12">
+                                <form action="/admin/userSearch/deleteUserSearch/<%= userSearch.id %>" method="post">
+                                    <input type="hidden" class="searchHistory" name="searchHistory">
+                                    <button class="btn btn-secondary ">Delete</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <span> selected <span></span></span>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="col-12 alert alert-danger">
+                            لا يوجد اي بحث خاص بالعضو هنا
+                        </div>
+                        <a href="/admin/userSearch/addUserSearch/<%= user.id %>" class="btn btn-primary btn-block">اضافه بحث</a>
+                    <% } %>
+                
+    
+                </div>
+            </div>
+        </div>
+    
+    
+        <%- include("../layouts/footer") %> 
+        <%- include("../layouts/footer-scripts") %> 
+    
+        <script>
+            var checkBox = document.querySelectorAll(".check");
+            var allSelected = document.querySelector(".allSelected");
+            var searchHistory = document.querySelector(".searchHistory");
+
+            checkBox.forEach(ele => {
+                ele.onclick = function() {
+                    var count = 0
+                    var arr = []
+                    checkBox.forEach(ele => {
+                        if(ele.checked) {
+                            count++
+                            allSelected.classList.add("active")
+                            arr.push(ele.getAttribute("data_search"))
+                            searchHistory.value = arr;
+                        }
+                    })
+                    allSelected.querySelector("div:nth-child(2) span span").innerHTML = count
+                    if(count == 0) {
+                        allSelected.classList.remove("active")
+                        arr = []
+                    }
+                }
+            })
+        </script>
+    </body>
+    </html>

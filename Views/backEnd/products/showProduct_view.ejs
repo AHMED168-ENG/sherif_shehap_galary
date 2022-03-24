@@ -1,0 +1,103 @@
+<%- include("../layouts/head") %> 
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+<div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title">المنتجات</h3>
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية</a>
+                                </li>
+                                <li class="breadcrumb-item active"> المنتجات
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- DOM - jQuery events table -->
+                <section id="dom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">جميع المنتجات </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard">
+                                        <table
+                                            class="table display nowrap table-striped table-bordered scroll-horizontal " style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th> الاسم</th>
+                                                <th>الوصف</th>
+                                                <th>الصوره</th>
+                                                <th>القسم</th>
+                                                <th>الحالة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% allProducts.forEach(element => { %>
+                                                 <tr>
+                                                        <td><%= element["productName" + "_" + defaultLanguage] %></td>
+                                                        <td class="chang"><p><%= element["fullDescription" + "_" + defaultLanguage] %></p></td>
+                                                        <td><img style="width:70px ; height:70px" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>" alt=""></td>
+                                                        <td><%= element.productCate["name_" + defaultLanguage] %></td>
+                                                        <td><%= element.active ? "active" : "not active" %></td>
+                                                        <td>
+                                                            <div role="group"
+                                                                 aria-label="Basic example">
+                                                                <a href="edit_products/<%= element.id %>" class="btn btn-outline-dark box-shadow-3 mr-1 mb-1">Edit</a>
+                                                                <form method="post" action="deleteProduct/<%= element.id %>" class="d-inline-block">
+                                                                    <input type="hidden" name="productImage" value="<%= element.productImage %>">
+                                                                    <input type="hidden" name="descriptionImage" value="<%= element.descriptionImage %>">
+                                                                    <input type="hidden" name="productVideo" value="<%= element.productVideo %>">
+                                                                    <button class="btn btn-outline-danger box-shadow-3 mr-1 mb-1">Delete</button>
+                                                                </form>
+                                                                <a href="activeProduct/<%= element.id %>" class="btn btn-outline-primary box-shadow-3 mr-1 mb-1"><%= !element.active ? "active" : "not active" %></a>
+                                                                <a href="/admin/productComments/show/<%= element.id %>" class="btn btn-outline-primary box-shadow-3 mr-1 mb-1">All comments</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <div class="justify-content-center d-flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+</body>
+</html>
+
+

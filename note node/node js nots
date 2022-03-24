@@ -1,0 +1,92 @@
+node app.js لتشغيل المشروع الخاص بنا
+window = global 
+document = process
+process.argv = لاظهار جميع الارجيومنت
+
+انواع moduels in node js 
+1 build in module that this module downloade in my app whene i dowinload my broject
+2- thired bart module that i installed it in my app
+3- custom module that i maked in my project to make my broject order\
+
+انواع التثبيت في المشروع 
+1- local meen that this pakage will install in my project only npm install ****
+2- global meen that my package will install in my operation npm install -g  ***
+
+
+to make backage.json you should do this order (npm init)
+
+  "scripts": { 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }, جذءيه scripts معناها انه  npm run + اسم الاسكربت
+
+  npm install multer --save backage in dependences
+  npm install multer --save-dev تسطيب backage in dev dependences
+
+
+  لكي اتمكن من انشاء سرفر يجب استخدام module http 
+  const http = require("http");
+  const app = http.createServer()
+
+  انواع الفنكشن في الجافا سكريبت 
+  1- syncronas function وهي داله تعمل دون عمل داله ثانيه معها في نفس الوقت 
+  2- asyncronas function هي داله تعمل ويعمل معها داله اخري في نفي الوقت عادي 
+  مثل timmer function (settime out , setintervel )
+  مثل web event
+
+علشان اغير عدد thireds in my prject 
+process.env.UV._THREADPOOL_SIZE = ""
+ولاكن قبل ان استخدم هذه الطريقه يجب ان اكتب هذا الامر في الكوماند
+set UV._THREADPOOL_SIZE = 2
+
+ماهي node js = single thrats asyncronas function
+ماهي thred  هي عباره عن function بتتنفز سطر ورا سطر 
+
+middleWare = هي عباره عن function بتتنفز عند عمل الطلب
+app.use("/") معناها اي مسار بيبدا ب "/" 
+app.use("/about")  معناها اي مسار بيبدا ب "/about"
+app.all("/") معناها المسار الي بيطابق هذا الرويت
+
+
+// in node but express help use more
+const body = require("body/form")
+router.post("/post" , (req , res , next) => {
+    res.send(body(req, (err , body) => {
+        console.log(body)
+    }))
+})
+
+عند عمل اي طلب الي السرفر فانه يتم تنفيز كل الاكواد الموجوده بداخله بما في ذلك اي middleWare 
+واذا كان هناك اي middleWare تريد استخدامها في مسار معين يتم وضع المسار
+
+عند عمل ملف استاتك ثابت لاستدعاء الملفات منه نقوم 
+app.use(express.static(path.join(__dirname , "")));
+<link rel="stylesheet" href="/index.css"> ويجب ان تبدا ب "/" علي عكس render()
+
+default value to 
+app.set("views" , "views")
+
+الفرق مابين 
+sendfile , render 
+sendfile اذا كنت اريد ارسال ملف html عادي 
+render عند ارسال template engent
+
+
+علشان اتعامل مع function 
+<%- function %>
+
+علشان اتعامل مع properits 
+<%= function %>
+
+
+router.post("/form" , (req , res , next) => {
+    mongoDB.connect("mongodb://localhost/first_shop_curd" , (error , result) => {
+        if(error) {
+            console.log(error)
+        } else {
+            result.db().collection("users").findOne().then(res => {
+                console.log(res)
+            })
+        }
+        result.close()
+    })
+})

@@ -1,0 +1,170 @@
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerVendoer")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/lowerVendoerNave")  %> 
+
+        <!-- Start Brands -->
+        <div class="cars-brands-home">
+            <div class="container">
+        <!-- Start Product - Description  -->
+        <div class="product-description mt-5">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="col-lg-5">
+                        <div class="pro-info">
+                            
+                            <h4 class="title d-inline-block"> <%= myCatigory["name_" + defaultLanguage] %></h4>
+                            <% if (myCatigory.slug) { %>
+                                <div class="mt-2 mb-2">
+                                    <h6>شعار القسم</h6>
+                                    <% if (!myCatigory.catigoryId) { %>
+                                        <img class="d-block" style="width:50px;height:50px;" src="/admin/asset/images/categoris_photo/<%= myCatigory.slug.split("--")[0] %>" alt="">
+                                    <% } else { %>
+                                        <img class="d-block" style="width:50px;height:50px;" src="/admin/asset/images/subCatigory_photo/<%= myCatigory.slug.split("--")[0] %>" alt="">
+                                    <% } %>
+                                </div>
+                            <% } %>
+                            <% if (myCatigory.catigoryId) { %>
+                                <div>
+                                    <span>نوع القسم : فرعي</span>
+                                    <span class="d-block"><%= mainCatigory %> <%= myCatigory["name_" + defaultLanguage] %></span>
+                                </div>
+                            <% } else { %>
+                                <div style="margin-bottom:15px">
+                                    <span>نوع القسم : رءيسي</span>
+                                </div>
+                            <% } %>
+                            <div class="">
+                                <ul class="rating text-left">
+                                    <li class="fa fa-star disable"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                </ul>
+                                <span>4.0 مراجعة العملاء</span>
+                            </div>
+
+                            <div class="pro-price mt-2 mb-2">
+                                <span class="mr-2"> تاريخ الانشاء : <%= formateDate(myCatigory.createdAt) %></span>
+                            </div>
+
+                            <p>
+                                <%= myCatigory["description_" + defaultLanguage] %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="primary-img mb-3">
+                            <% if (!myCatigory.catigoryId) { %>
+                                <img style="max-height:400px" src="/admin/asset/images/categoris_photo/<%= myCatigory.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                            <% } else { %>
+                                <img style="max-height:400px" src="/admin/asset/images/subCatigory_photo/<%= myCatigory.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <% myCatigory.image.split("--").forEach((element , i) => { %>
+                            <div class="col-imgs">
+                                <% if (!myCatigory.catigoryId) { %>
+                                    <% if (i < myCatigory.image.split("--").length - 1) { %>
+                                        <img style="width:100%" src="/admin/asset/images/categoris_photo/<%= element %>" class="img-fluid" alt="0" />
+                                    <% } %>
+                                <% } else { %>
+                                    <% if (i < myCatigory.image.split("--").length - 1) { %>
+                                        <img style="width:100%" src="/admin/asset/images/subCatigory_photo/<%= element %>" class="img-fluid" alt="0" />
+                                    <% } %>
+                                <% } %>
+                                
+                            </div>
+                        <% }) %>
+                    </div>
+
+                </div><!-- End Row -->
+            </div>
+        </div>
+        <!-- Start Product - Description  -->
+        </div>
+    </div>
+    <!-- End Brands -->
+
+
+    
+        <!-- Start Section Products -->
+        <div class="category-products">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-12">
+
+                        <header class="mt-2 mb-5 d-flex align-items-center justify-content-center">
+                            <h4>
+                                منتجاتك في هذا القسم (<%=myProduct.length%>)
+                            </h4>
+                        </header>
+
+                        <div class="row">
+                            <% myProduct.forEach(element => { %>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="#">
+                                                <img style="height:290px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3 class="title">
+                                                <a href="#"><%= element["productName_" + defaultLanguage]%></a>
+                                                <span class="float-right"><%= element.productState ? "جديد" : "قديم" %></span>
+                                            </h3>
+                                            <p><%= element["ProductOverview_" + defaultLanguage] %></p>
+                                            <div>
+
+                                                <% if (element.descount) { %>
+                                                    <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                    <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } else {%>
+                                                    <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } %>
+                                                <span class="float-right">
+                                                    <a href="vendoer_edit_product/<%=element.id%>"><i class="fa fa-fw fa-edit"></i></a>
+                                                    <a href="#"><i class="far fa-fw fa-trash-alt text-danger"></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+
+                        </div><!-- End row -->
+
+                        <br />
+                        <div class="row">
+                            <ul class="pagination justify-content-center" style="margin: auto;">
+                                <% pages.forEach((element , i) => { %>
+                                    <li class="page-item">
+                                        <a class="page-link <%= pageNumber == i + 1 ? "active" : "" %>" href="<%= element.url %>" aria-label="Previous">
+                                            <span aria-hidden="true"><%= element.number %></span>
+                                        </a>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                    </div><!-- End col 9 -->
+                </div><!-- End Row -->
+            </div>
+        </div>
+        <!-- End Section Products -->
+
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+
+</body>
+    

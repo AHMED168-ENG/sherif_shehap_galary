@@ -1,0 +1,46 @@
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerVendoer")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/lowerVendoerNave")  %> 
+
+        <!-- Start Brands -->
+        <div class="cars-brands-home">
+            <div class="container">
+                <h4>
+                    <span class="title">اقسام المنتجات الخاصه بي</span>
+                </h4>
+
+                <div class="row">
+
+                    <% allMyCatigory.forEach(element => { %>
+                        <div class="col-lg-2">
+                            <div class="brand-box">
+                                <a href="catigoryDetails/<%=element.id %>">
+                                    <% if (!element.catigoryId) { %>
+                                        <img style="height:100px;width:150px" src="/admin/asset/images/categoris_photo/<%= element.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                                    <% } else { %>
+                                        <img style="height:100px;width:150px" src="/admin/asset/images/subCatigory_photo/<%= element.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                                    <% } %>
+                                </a>
+                            </div>
+                            <h6 class="text-center"><%= element["name_" + defaultLanguage] %></h6>
+                        </div>
+                    <% }) %>
+
+                </div>
+
+
+            </div>
+        </div>
+        <!-- End Brands -->
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+
+</body>
+    

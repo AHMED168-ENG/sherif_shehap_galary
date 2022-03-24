@@ -1,0 +1,6 @@
+
+<% if (notification) { %>
+    <div class="text-center alert alert-<%= notification.type %>" style="color:white !important;font-size:20px" >
+        <%= notification.message %>
+    </div>
+<% } %>

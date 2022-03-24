@@ -1,0 +1,205 @@
+        <!-- Start Section -->
+        <div class="section-search">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="right mt-3">
+                            <form action="/AddProductSearch/<%= user ? user.id : "0" %>" method="post">
+                               <div class="row">
+
+                                    <div class="col-md-5 ">
+                                        <select id="inputState" onchange="getCatigory(event)" data_count="0" name="mainCatigory[]" class="form-control">
+                                            <option selected value="0">اختر القسم اللذي تريد البحث فيه</option>
+                                            <% allCatigory.forEach(element => { %>
+                                                <option value="<%= element.id %>"><%= element["name_" + defaultLang]  %></option>
+                                            <% }) %>
+                                        </select>
+                                        <div class="allCatigorySelect" ></div>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <div class="input-group dataSearch">
+                                            <input style="box-shadow: none !important;" type="text" name="search" autocomplete="off" class="form-control searchText" placeholder="ما المنتج الذي تبحث عنه" id="in-sea" />
+                                            <div class="input-group-prepend">
+                                                <button style="box-shadow:none !important;outline:none !important" class="btn btn-outline-secondary sendSearch" id="button-addon1"><i class="fa fa-search"></i></button>
+                                            </div>
+                                            <ul class="list-unstyled">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="left mb-3 mt-3" >
+                            <ul class="list-unstyled align-items-center justify-content-end d-flex">
+
+                                <% if (user) { %>
+                                    <li class="list-inline-item" style="position: relative;">
+                                        <div class="dropdown">
+                                              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-fw fa-user primary-i"></i>
+                                                حسابى
+                                              </button>
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                
+                                                <p class="dropdown-item user-aria">
+                                                    <% if (user.image) { %>
+                                                        <a href="/userProfile/<%= user.id %>"><img class="float-left" src="/admin/asset/images/users_photo/<%= user.image.split("--")[0] %>" width="49" height="49" /></a>
+                                                    <% } else { %>
+                                                        <a href="/userProfile/<%= user.id %>"><img class="float-left" src="/admin/asset/images/users_photo/avatar.png" width="49" height="49" /></a>
+                                                    <% } %>
+                                                    <span class="float-left ml-2">
+                                                        <%= user.fName %> <%= user.lName %>
+                                                        <br />
+                                                        <%= user.email %>
+                                                    </span>
+                                                </p>
+    
+                                                <a class="dropdown-item" href="#"><i class="fa fa-fw fa-user"></i> اعدادات</a>
+                                                <a class="dropdown-item" href="#"><i class="fa fa-fw fa-shopping-bag"></i> طلباتي</a>
+                                                <a class="dropdown-item" href="#"><i class="far fa-fw fa-heart"></i> قائمة الرغبات</a>
+                                                <a class="dropdown-item" href="#"><i class="far fa-fw fa-envelope"></i> اتصل بنا</a>
+                                                <a class="dropdown-item noti" href="#"><i class="far fa-fw fa-bell"></i> إشعارات <span>80</span></a>
+                                                
+                                                <form action="/signOut" method="post">
+                                                    <button class="dropdown-item"><i class="fa fa-fw fa-sign-out-alt"></i> تسجيل خروج</button>
+                                                </form>                                            
+                                              </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-inline-item" >
+                                        <a href="/shopingCard/<%= user.id %>" style="color:white">
+                                        <span id="btn-cart">
+                                            <% if (User_Reserved_ProductsLength) { %>
+                                                <span><%= User_Reserved_ProductsLength %></span> 
+                                            <% } %>
+                                            <i class="fa fa-fw fa-shopping-cart primary-i"></i> عربة التسوق
+                                        </span></a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="list-inline-item"><a class="btn btn-primary ml-auto" href="/signIn" style="color:white">تسجيل الدخول</a></li>
+                                    <li class="list-inline-item"><a class="btn btn-secondary ml-auto" href="/signUp" style="color:white">انشاء حساب</a></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copySelect d-none">
+            <select id="inputState" onChange="getCatigory(event)" name="mainCatigory[]" class="form-control">
+                <option value=""></option>
+            </select>
+        </div>
+        <!-- End Section -->
+
+<script>
+            
+var counter = 0;
+var allCatigorySelect = document.querySelector(".allCatigorySelect")
+var copySelect = document.querySelector(".copySelect")
+var searchText = document.querySelector(".searchText")
+var ul = document.querySelector(".dataSearch ul")
+
+function copyElement(data) {
+    var child = copySelect.cloneNode(true);
+    child.classList.remove("d-none")
+    counter++
+    child.querySelector("select").setAttribute("data_count" , counter)
+    child.querySelector("select").setAttribute("name" , `mainCatigory[]`)
+    data.catigorys.forEach(ele => {
+        child.querySelector("select").innerHTML += `<option value="${ele.id}">${ele["name_" + "<%= defaultLang %>"]}</option>`
+    })
+    allCatigorySelect.appendChild(child)
+}
+
+function removeElement(dataCount) {
+        var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+        elements.forEach(ele => {
+            if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                ele.remove()
+            }
+        })   
+        counter = dataCount  
+    }
+function getCatigory(e , eleId = 0) {
+    var id = e.target.value ? e.target.value : 0;
+    var dataCount = e.target.getAttribute("data_count")
+    if(id != 0) {
+        $.ajax({
+        type : "post",
+        url  : "/admin/supCatigory/getMainCatigoryAjax/" + id + "/" + eleId,
+        success(data) {
+            if(data.catigorys.length > 0) {
+                if(counter == dataCount) {
+                    copyElement(data)
+                } else if(counter > dataCount) {
+                    var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+                    elements.forEach(ele => {
+                        if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                            ele.remove()
+                        }
+                    })
+                    counter = dataCount
+                    copyElement(data , allCatigorySelect , copySelect)
+                }
+            } else {
+                removeElement(dataCount)
+            }
+        },
+        error() {
+            console.log("error")
+        }
+        })
+    } else {
+        removeElement(dataCount)
+    }
+}
+
+searchText.oninput = function() {
+    var search = this.value;
+    $.ajax({
+        type : "post",
+        url  : "/getSearchData/",
+        data : {
+            search : search
+        },
+        success(data) {
+            clearDataSearch()
+            if(search != ""){
+                data.forEach(ele => {
+                    ul.innerHTML += `<li onclick="putSearchData(event)">${ele["productName_" + '<%= defaultLang %>']}</li>`
+                })
+            }
+        },
+        error() {
+        console.log("error")
+        }
+    })
+}
+function clearDataSearch() {
+    ul.querySelectorAll("li").forEach(ele => {
+        ele.remove()
+    })
+}
+function putSearchData(e) {
+    searchText.value = e.target.innerHTML;
+    clearDataSearch()
+}
+
+var sendSearch = document.querySelector(".sendSearch")
+sendSearch.onclick = function(e) {
+    if(searchText.value == "") {
+        e.preventDefault()
+        searchText.parentElement.classList.add("active")
+        setTimeout(() => {
+            searchText.parentElement.classList.remove("active")
+        }, 700);
+    }
+}
+
+</script>

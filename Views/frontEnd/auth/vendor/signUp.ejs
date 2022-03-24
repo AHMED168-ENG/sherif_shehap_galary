@@ -1,0 +1,163 @@
+
+<%- include("../../inclueds/head")  %>
+
+<style>
+    * {
+        font-family: 'Tajawal', sans-serif;
+    }
+    p {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+
+<head>
+<body>
+<%- include("../../inclueds/lower_header_auth")  %>
+
+
+        <!-- //////////////////////////////////////////////////// -->
+        <div class="signin">
+            <div class="container">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <h5>Holy guacamole!</h5> اذا لم تسجل كل البيانات سنقوم باستخدام البيانات الخاصه بك كمستخدم
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <%- include("../../inclueds/notification")  %>
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="right p-4 mb-3">
+                            
+                            <h4>مرحبا بك فى <span class="main-color">Zone </span><small>قم بانشاء حساب التاجر الخاص بك</small></h4>
+                            <br /> <br />
+
+                            <form method="post" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">الاسم الاول <span class="text-danger">*</span></label>
+                                    <input type="text" name="fName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.fName) { %>
+                                            <span class="text-danger"><%=validationError.fName[0].msg %></span>
+                                        <% } %>
+                                    <% } %>  
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">الاسم الثاني <span class="text-danger">*</span></label>
+                                    <input type="text" name="lName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.lName) { %>
+                                            <span class="text-danger"><%=validationError.lName[0].msg %></span>
+                                        <% } %>
+                                    <% } %>                                 
+                                </div>
+
+                                <div class="form-group">
+                                    <label>السجل التجاري <span class="text-danger">*</span></label>
+                                    <div class="custom-file">
+                                        <input name="CommercialRegister" type="file" class="custom-file-input" id="customFile" accept="pdf/*" />
+                                        <label class="custom-file-label" for="customFile">اختيار ملف</label>
+                                        <% if (validationError) { %>
+                                            <% if (validationError.CommercialRegister) { %>
+                                                <span class="text-danger"><%=validationError.CommercialRegister[0].msg %></span>
+                                            <% } %>
+                                        <% } %>   
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>الصوره الخاصه بك <span class="text-danger">*</span></label>
+                                    <div class="custom-file">
+                                        <input name="image" type="file" class="custom-file-input" id="customFile" accept="image/*" />
+                                        <label class="custom-file-label" for="customFile">اختيار الصوره</label>
+                                         <% if (validationError) { %>
+                                            <% if (validationError.image) { %>
+                                                <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                            <% } %>
+                                        <% } %>   
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Email">البريد الالكترونى <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" class="form-control" id="Email">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.email) { %>
+                                            <span class="text-danger"><%=validationError.email[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone">رقم الجوال <span class="text-danger">*</span></label>
+                                    <input type="number" name="mobile" class="form-control" id="mobile">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.mobile) { %>
+                                            <span class="text-danger"><%=validationError.mobile[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+                                <div class="form-group pass_show">
+                                    <label for="PASS">كلمة المرور <span class="text-danger">*</span></label>
+                                    <input type="password" name="password" class="form-control" id="PASS">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.password) { %>
+                                            <span class="text-danger"><%=validationError.password[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+
+                                <div class="form-group pass_show">
+                                    <label for="CPASS">تاكيد كلمة المرور <span class="text-danger">*</span></label>
+                                    <input type="password" name="confirmPassword" class="form-control" id="CPASS">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.confirmPassword) { %>
+                                            <span class="text-danger"><%=validationError.confirmPassword[0].msg %></span>
+                                        <% } %>
+                                    <% } %>                                
+                                </div>
+
+                                <div class="form-group form-check">
+                                    <input type="checkbox" name="licenc" value="1" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">وافق على الشروط والأحكام</label>
+                                    <% if (validationError) { %>
+                                        <% if (validationError.licenc) { %>
+                                            <span class="text-danger"><%=validationError.licenc[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary">تسجيل</button>
+                                 <button type="button" class="btn btn-warning mr-1"
+                                    onclick="history.back();">
+                                    <i class="ft-x"></i> تراجع
+                                </button>
+                            </form>
+
+                            <p class="mb-0 mt-2">
+                                إذا كان لديك حساب بالفعل؟ <a href="signIn">تسجيل الدخول هنا</a>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="left">
+                            <img src="/frontEnd/assets/img/login.svg" class="img-fluid" alt="0" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+<%- include("../../inclueds/footer_script")  %>
+<%- include("../../inclueds/footer")  %>
+</body>

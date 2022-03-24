@@ -1,0 +1,393 @@
+
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerVendoer")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/lowerVendoerNave")  %> 
+
+<div class="trader-account">
+                
+    <div class="head">
+        
+        <div class="content">
+            <div class="container">
+                
+                <div>
+                    
+                    <p><img src="/admin/asset/images/users_photo/<%= vendoer.vendorImage.split("--")[0] %>" /></p>
+                    <h6><%= vendoer.vendorFname + " " + vendoer.vendorLname %></h6>
+                    <p style="margin-bottom:10px">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><%= user.addres %></span>
+                    </p>
+                    <p style="margin-bottom:10px">
+                        <a href="/admin/asset/images/users_photo/<%= vendoer.commercFile.split("--")[0] %>">السجل التجاري</a>
+                    </p>
+                    <p>
+                        <i class="far fa-star"></i>
+                        <span>3.89</span> <br />
+                        <span>قيم 536 شخصًا</span>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="page pt-5">
+        <div class="container">
+            <%- include("../inclueds/notification") %> 
+
+            
+            <div class="row">
+                    <div class="col-3">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">تفاصيل الحساب</a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">التخصص</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">اوقات العمل</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">أمان الحساب</a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+
+                                <!-- <h4 class="text-right"><a href="#"><i class="fa fa-edit"></i></a></h4> -->
+
+                                <form enctype="multipart/form-data" action="" method="post">
+                                    <div class="form-group">
+                                        <label for="vendorFname">الاسم الاول </label>
+                                        <input type="text" name="vendorFname" class="form-control" id="storeName" value="<%= vendoer.vendorFname %>" />
+                                        <% if (validationError) { %>
+                                            <% if (validationError.vendorFname) { %>
+                                                <span class="text-danger"><%=validationError.vendorFname[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vendorLname">الاسم الثاني</label>
+                                        <input type="text" name="vendorLname" class="form-control" id="vendorLname" value="<%= vendoer.vendorLname %>">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.vendorLname) { %>
+                                                <span class="text-danger"><%=validationError.vendorLname[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vendoerEmail">الايميل</label>
+                                        <input type="text" name="vendoerEmail" class="form-control" id="vendoerEmail" value="<%= vendoer.vendoerEmail %>">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.vendoerEmail) { %>
+                                                <span class="text-danger"><%=validationError.vendoerEmail[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="owner">اسم صاحب المتجر</label>
+                                        <input type="text" readonly class="form-control" id="owner" value="<%= user.fName + " " + user.lName %>">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email">ايميل صاحب المتجر</label>
+                                        <input type="text" readonly class="form-control" id="email" value="<%= user.email %>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="age">العمر</label>
+                                        <input type="text" readonly class="form-control" id="age" value="<%= user.age %>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="addres">العنوان</label>
+                                        <input type="text" readonly class="form-control" id="addres" value="<%= user.addres %>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="mobile">رقم الجوال</label>
+                                        <input type="number" name="mobile" class="form-control" id="mobile" value="0<%= vendoer.mobile %>">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.mobile) { %>
+                                                <span class="text-danger"><%=validationError.mobile[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="projectinput2"> ادخل الصوره الخاصه بالمتجر</label>
+                                        <div class="custom-file">
+                                            <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
+                                            <input type="hidden" class="form-control" name="oldImage" id="oldImage" value="<%= vendoer.vendorImage %>">
+                                            <label class="custom-file-label" for="inputGroupFile01">chose image </label>
+                                        </div>
+                                        <% if (validationError) { %>
+                                            <% if (validationError.image) { %>
+                                                <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="projectinput2"> ادخل السجل التجاري الخاص بك اذا اردت</label>
+                                        <div class="custom-file">
+                                            <input type="file" name="commercFile" class="custom-file-input" id="inputGroupFile02">
+                                            <input type="hidden" class="form-control" name="oldCommerc" id="oldCommerc" value="<%= vendoer.commercFile %>">
+                                            <label class="custom-file-label" for="inputGroupFile02">chose file </label>
+                                        </div>
+                                        <% if (validationError) { %>
+                                            <% if (validationError.commercFile) { %>
+                                                <span class="text-danger"><%=validationError.commercFile[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+           
+                                    <div class="form-group text-center">
+                                        <button class="btn-primary btn">حفظ</button>
+                                    </div>
+
+
+
+                                </form>
+
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                                <div class="text-center">
+                                    <span class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">إضافة تخصص</span>
+                                </div>
+
+                                <br />
+
+                                <div class="accordion" id="accordionExample">
+                                    
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    هيونداي
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>Hyundai elantra</p>
+                                                <p>Hyundai sonata</p>
+                                                <p>Hyundai tucson</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Audi
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>Hyundai elantra</p>
+                                                <p>Hyundai sonata</p>
+                                                <p>Hyundai tucson</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                BMW
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>Hyundai elantra</p>
+                                                <p>Hyundai sonata</p>
+                                                <p>Hyundai tucson</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--  -->
+
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        السبت
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الاحد
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الاثنين
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الثلاثاء
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الاربعاء
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الخميس
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6>
+                                    <input type="checkbox" />
+                                        الجمعة
+                                        <span class="float-right" dir="ltr">
+
+                                            <span>
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> PM
+                                            </span>
+                                            <span class="mr-4">
+                                                <input type="text" style="width:60px;text-align:center;" value="8.00" /> AM
+                                            </span>
+
+                                        </span>
+                                    </h6>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+                                <form action="/vendor/editVendoerDataPassword" method="post">
+                                    <label>كلمة المرور</label>
+                                    <input type="password" name="password" class="form-control" />
+                                    <% if (validationError) { %>
+                                        <% if (validationError.password) { %>
+                                            <span class="text-danger"><%=validationError.password[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                    <br />
+
+                                    <button class="btn btn-primary">تغيير كلمة المرور</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+            
+            </div>
+
+
+        </div><!-- End Container -->
+    </div>
+</div>
+
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+</body>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

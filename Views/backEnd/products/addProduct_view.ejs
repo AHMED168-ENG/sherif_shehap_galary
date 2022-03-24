@@ -1,0 +1,561 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/products/">جميع المنتجات</a>
+                                </li>
+                                <li class="breadcrumb-item active">اضافت المنتج
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form">اضافه منتج جديد</h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form class="form" method="post" enctype="multipart/form-data">
+                                            <% activeLanuage.forEach((element , i) => { %>
+                                                <div class="form-body">
+                                                    <h4 class="form-section"><i class="ft-home"></i> بيانات المنتج <%= element.language %></h4>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> اسم المنتج </label>
+                                                                <input type="text" value="<%= old1.length > 0 ? old1[i].productName : '' %>" class="form-control" placeholder="ادخل اسم المنتج" name="products[<%=i%>][productName]" autocomplate="on">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].productName"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].productName"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> لمحه عن المنتج </label>
+                                                                <textarea type="text" class="form-control" placeholder="ادخل لمحه عن القسم" name="products[<%=i%>][ProductOverview]"><%= old1.length > 0 ? old1[i].ProductOverview : '' %></textarea>
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].ProductOverview"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].ProductOverview"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>وصف دقيق عن المنتج</label>
+                                                                <input type="text" value="<%= old1.length > 0 ? old1[i].fullDescription : '' %>" name="products[<%= i %>][fullDescription]" id="tags" class="form-control">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].fullDescription"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].fullDescription"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>ادخل اسماء القطع المكونه للمنتج</label>
+                                                                <input value="<%= old1.length > 0 ? old1[i].pieceName : '' %>" type="text" name="products[<%= i %>][pieceName]" id="tags" class="form-control">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].pieceName"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].pieceName"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>ادخل الوان كل قطعه بترتيب القطع</label>
+                                                                <input value="<%= old1.length > 0 ? old1[i].colors : '' %>" type="text" name="products[<%= i %>][colors]" id="tags" class="form-control">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].colors"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].colors"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>ادخل الاخشاب المستخدمه في المنتج</label>
+                                                                <input value="<%= old1.length > 0 ? old1[i].typeOfWood : '' %>" type="text" name="products[<%= i %>][typeOfWood]" id="tags" class="form-control">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["products[" + i + "].typeOfWood"]) { %>
+                                                                        <span class="text-danger"><%=validationError["products[" + i + "].typeOfWood"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="products[<%=i%>][shourtcut]" value="<%= element.shourtcut %>">
+                                            <% }) %>
+                                            <hr>
+                                            <div class="row">
+                                            
+                                                <div class="col-md-12">
+                                                    <label>ادخل الكلمات المفتاحيه التي من خلالها يتم البحث عن المنتج</label>
+                                                    <div class="form-group">
+                                                        <input value="<%= old1.length > 0 ? old2[0].keyWord : '' %>" type="text" name="keyWord" id="tags" class="form-control">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["keyWord"]) { %>
+                                                                <span class="text-danger"><%=validationError["keyWord"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1"> سعر المنتج</label>
+                                                        <input value="<%= old1.length ? old2[0].price : '0' %>" type="number" min="0" value="0" class="form-control" placeholder="ادخل سعر المنتج" name="price">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["price"]) { %>
+                                                                <span class="text-danger"><%=validationError["price"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1"> ثمن تركيب المنتج</label>
+                                                        <input value="<%= old1.length ? old2[0].structure : '0' %>" type="number" min="0" value="0" class="form-control" placeholder="ادخل سعر تركيب المنتج اذا لم تدخل السعر سيكون التركيب مجاني" name="structure">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["structure"]) { %>
+                                                                <span class="text-danger"><%=validationError["structure"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <small for="projectinput1"> ادخل ثمن شحن المنتج اذا لم تدخل الثمن وكان سعر المشتريات يزيد عن 10000 سيكون الشحن مجاني</small>
+                                                        <input value="<%= old1.length ? old2[0].shipping : '0' %>" type="number"  min="0" value="0" class="form-control" placeholder="ادخل ثمن شحن المنتج" name="shipping">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["shipping"]) { %>
+                                                                <span class="text-danger"><%=validationError["shipping"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1"> ادخل الضمان بالايام</label>
+                                                        <input value="<%= old1.length ? old2[0].security : '0' %>" type="number"  min="0" value="0" class="form-control" placeholder="ادخل الضمان بالايام" name="security">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["security"]) { %>
+                                                                <span class="text-danger"><%=validationError["security"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1">كيف يكون الدفع</label>
+                                                        <select name="pay" class="form-control">
+                                                            <option <%= old1.length ? (old2[0].pay == "1" ? "selected" : "") : '' %> value="1">عن طريق الموقع </option>
+                                                            <option <%= old1.length ? (old2[0].pay == "0" ? "selected" : "") : '' %> value="0">عند الاستلام</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+ 
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1"> عدد القطع المكونه للمنتج</label>
+                                                        <input value="<%= old1.length ? old2[0].pieces : '0' %>" type="number"  min="0" value="0" class="form-control" placeholder="ادخل عدد القطع المكونه للمنتج" name="pieces">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["pieces"]) { %>
+                                                                <span class="text-danger"><%=validationError["pieces"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                    
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1"> الخصم اذا اردت</label>
+                                                        <input value="<%= old1.length ? old2[0].descount : '0' %>" type="number"  min="0" value="0" class="form-control" placeholder="ادخل خصم المنتج" name="descount">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["descount"]) { %>
+                                                                <span class="text-danger"><%=validationError["descount"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1">اصدار المنتج</label>
+                                                        <input value="<%= old1.length ? old2[0].version : '' %>" type="number" class="form-control" placeholder="ادخل اصدار المنتج" name="version">
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["version"]) { %>
+                                                                <span class="text-danger"><%=validationError["version"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="active"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= old1.length ? (old2[0].active == "1" ? "checked" : "") : 'checked' %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الحالة </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="comments"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= old1.length ?( old2[0].comments == "1" ? "checked" : "") : 'checked' %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">تفعيل الكومنتات </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="likes"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= old1.length ? (old2[0].likes == '1' ? "checked" : "") : 'checked' %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">تفعيل الليكات </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="interAction"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= old1.length ? (old2[0].interAction == "1" ? "checked" : "") : 'checked' %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الغاء التفاعل علي المنتج </label>
+                                                    </div>
+                                                </div>    
+                                            </div>
+
+
+
+                                            <div class="allCatigorySelect" >
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label for="projectinput1">القسم الرءيسي</label>
+                                                        <select onChange="getCatigory(event)" data_count="0" name="mainCatigory[]" class="language form-control">
+                                                            <option></option>
+                                                            <% catigorys.forEach(element => { %>
+                                                                <option value="<%= element.id %>"><%= element["name_" + defaultLanguage] %></option>
+                                                            <% }) %>
+                                                        </select>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["mainCatigory"]) { %>
+                                                                <span class="text-danger"><%=validationError["mainCatigory"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="dayeOfUsed" >
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label for="projectinput2"> حالت المنتج</label>
+                                                        <select name="productState" onChange="checkProductSatat(event)" class="direction form-control">
+                                                            <optgroup label="من فضلك أختر حالت المنتج ">
+                                                                <option></option>
+                                                                <option <%= old1.length ? (old2[0].productState == "1" ? "selected" : "") : '' %> value="1" >جديد</option>
+                                                                <option <%= old1.length ? (old2[0].productState == "0" ? "selected" : "") : '' %> value="0" >مستعمل</option>
+                                                            </optgroup>
+                                                        </select>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["productState"]) { %>
+                                                                <span class="text-danger"><%=validationError["productState"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                <% if (old1.length && old2[0].productState == "0") { %>
+                                                    <div class="copyDayes">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> </label>
+                                                            <input type="number" value="<%= old2[0].dayesOfUsed %>" class="form-control" placeholder="ادخل عدد ايام استخدام المنتج" name="dayesOfUsed">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["dayesOfUsed"]) { %>
+                                                                    <span class="text-danger"><%=validationError["dayesOfUsed"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="dayeOfWork" >
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label for="projectinput2"> هل المنتج متاح</label>
+                                                        <select name="available" onChange="checkProductDayeOfWork(event)" class="direction form-control">
+                                                            <optgroup label="هل المنتج متاح">
+                                                                <option></option>
+                                                                <option value="1" <%= old1.length ? (old2[0].available == "1" ? "selected" : "") : "" %> >متاح</option>
+                                                                <option value="0" <%= old1.length ? (old2[0].available == "0" ? "selected" : "") : "" %> >غير متاح ولاكن يمكن العمل عليه</option>
+                                                            </optgroup>
+                                                        </select>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["available"]) { %>
+                                                                <span class="text-danger"><%=validationError["available"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <% if (old1.length && old2[0].available == "0") { %>
+                                                    <div class="copyDayesOfwork">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> </label>
+                                                            <input type="number" value="<%= old2[0].dayeOfWork %>" class="form-control" placeholder="ادخل عدد ايام العمل علي المنتج" name="dayeOfWork">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["dayeOfWork"]) { %>
+                                                                    <span class="text-danger"><%=validationError["dayeOfWork"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صور المنتج </label>
+                                                <div class="custom-file">
+                                                    <input type="file" multiple name="productImage" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose image product</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.productImage) { %>
+                                                        <span class="text-danger"><%=validationError.productImage[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صوره وصف المنتج </label>
+                                                <div class="custom-file">
+                                                    <input type="file" multiple name="descriptionImage" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose description image</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.descriptionImage) { %>
+                                                        <span class="text-danger"><%=validationError.descriptionImage[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="projectinput2"> فيديو لوصف المنتج</label>
+                                                <div class="custom-file">
+                                                    <input type="file" multiple name="productVideo" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose description videw</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.productVideo) { %>
+                                                        <span class="text-danger"><%=validationError.productVideo[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                    </form>
+                                    <div class="d-none copySelect">
+                                        <div class="form-group">
+                                            <label for="projectinput1">القسم الفرعي</label>
+                                            <select onChange="getCatigory(event)" name="mainCatigory[]" class="language form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-none copyDayes">
+                                        <div class="form-group">
+                                            <label for="projectinput1"> </label>
+                                            <input type="number" class="form-control" placeholder="ادخل عدد ايام استخدام المنتج" name="dayesOfUsed">
+                                        </div>
+                                    </div>
+                                    <div class="d-none copyDayesOfwork">
+                                        <div class="form-group">
+                                            <label for="projectinput1"> </label>
+                                            <input type="number" class="form-control" placeholder="ادخل عدد ايام العمل علي المنتج" name="dayeOfWork">
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+<script src="/admin/asset/Tagging-System-Autocomplete-Amsify-Suggestags/js/jquery.amsify.suggestags.js"></script>
+<script>
+    $('input[id="tags"]').amsifySuggestags({
+
+  type : 'amsify',
+  suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+
+});
+</script>
+<script>
+var counter = 0;
+var allCatigorySelect = document.querySelector(".allCatigorySelect")
+var copySelect = document.querySelector(".copySelect")
+var dayeOfUsed = document.querySelector(".dayeOfUsed")
+var dayeOfWork = document.querySelector(".dayeOfWork")
+var copyDayes = document.querySelector(".copyDayes")
+var copyDayesOfwork = document.querySelector(".copyDayesOfwork")
+    function copyElement(data) {
+        var child = copySelect.cloneNode(true);
+        child.classList.remove("d-none")
+        counter++
+        child.querySelector("select").setAttribute("data_count" , counter)
+        child.querySelector("select").setAttribute("name" , `mainCatigory[]`)
+        data.catigorys.forEach(ele => {
+            child.querySelector("select").innerHTML += `<option value="${ele.id}">${ele["name_" + "<%= defaultLanguage %>"]}</option>`
+        })
+        allCatigorySelect.appendChild(child)
+    }
+
+    function removeElement(dataCount) {
+        var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+        elements.forEach(ele => {
+            if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                ele.remove()
+            }
+        })   
+        counter = dataCount  
+    }
+
+    function getCatigory(e , eleId = 0) {
+        var id = e.target.value ? e.target.value : 0;
+        var dataCount = e.target.getAttribute("data_count")
+        if(id) {
+            $.ajax({
+            type : "post",
+            url  : "/admin/supCatigory/getMainCatigoryAjax/" + id + "/" + eleId,
+            success(data) {
+                if(data.catigorys.length > 0) {
+                    if(counter == dataCount) {
+                        copyElement(data)
+                    } else if(counter > dataCount) {
+                        var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+                        elements.forEach(ele => {
+                            if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                                ele.remove()
+                            }
+                        })
+                        counter = dataCount
+                        copyElement(data , allCatigorySelect , copySelect)
+                    }
+                } else {
+                    removeElement(dataCount)
+                }
+            },
+            error() {
+                console.log("error")
+            }
+            })
+        } else {
+            removeElement(dataCount)
+        }
+    }
+
+    function checkProductSatat(e) {
+        var value = e.target.value;
+        if(value == "0") {
+            var child = copyDayes.cloneNode(true)
+            child.classList.remove("d-none")
+            dayeOfUsed.appendChild(child)
+        } else {
+            if(dayeOfUsed.childElementCount > 1) {
+                dayeOfUsed.lastElementChild.remove()
+            }
+        }
+    }
+    function checkProductDayeOfWork(e) {
+        var value = e.target.value;
+        if(value == "0") {
+            var child = copyDayesOfwork.cloneNode(true)
+            child.classList.remove("d-none")
+            dayeOfWork.appendChild(child)
+        } else {
+            if(dayeOfWork.childElementCount > 1) {
+                dayeOfWork.lastElementChild.remove()
+            }
+        }
+    }
+
+</script>
+
+
+</body>
+</html>

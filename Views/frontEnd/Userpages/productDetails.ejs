@@ -1,0 +1,706 @@
+
+
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerUser")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/search")  %> 
+<%- include("../inclueds/alert")  %>
+
+
+        <!-- Start Product - Description  -->
+        <div class="product-description mt-5">
+            <div class="container" style="max-width:99%">
+                <header style="margin-bottom:35px">
+                    <h5><%= fullCatigory %></h5>
+                </header>
+                <div class="row">
+
+                    <div class="col-lg-1">
+                        <div class="col-imgs">
+                            <% product.productImage.split("--").forEach((element , i) => { %>
+                                <% if (i < product.productImage.split("--").length - 1) { %>
+                                    <img src="/admin/asset/images/products_image/<%= element %>" class="img-fluid mb-3" alt="0" />
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    </div> 
+                    <div class="col-lg-5">
+                        <div class="primary-img mb-3">
+                            <img style="height:370px" src="/admin/asset/images/products_image/<%= product.productImage.split("--")[0] %>" class="img-fluid mb-3" alt="0" />
+                        </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" style="width:100%;outline:0;border:1px solid #ddd;padding:4px 10px" class=" d-block" data-toggle="modal" data-target="#exampleModal">
+                            صور اكثر لوصف امنتج
+                        </button>
+                        <small>
+                            صور المنتج المرفقة تستخدم لأغراض التّوضيح فقط. أما المنتج فهو كرسي بمساند ذراعين بارز الملمس من ريبل.
+                        </small>
+                        <!-- Modal -->
+                        <div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="max-width:58%" role="document">
+                            <div class="modal-content" style="max-width:100%">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">صور لوصف المنتج اكثر</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                    <div class="modal-body">
+                                            
+                                        <div id="carouselExampleIndicators" class="carousel slide col-12 " style="height:100%" data-ride="carousel">
+                                            <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                            </ol>
+                                            <div class="carousel-inner">
+                                                <% product.descriptionImage.split("--").forEach((element , i) => { %>
+                                                    <% if (i < product.descriptionImage.split("--").length - 1) { %>
+                                                        <div class="carousel-item <%= i == 0 ? "active" : "" %>">
+                                                            <img style="width:100%;height:400px" src="/admin/asset/images/products_image/<%= element %>" class="img-fluid mb-3" alt="0" />
+                                                        </div>
+                                                    <% } %>
+                                                <% }) %>
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pro-info">
+                            
+                            <h4 class="title"><%= product["productName_" + defaultLang] %></h4>
+                            <a href="<%= product.productVendor ? "/userProfile/" + product.productVendor.userId : "" %>"><%= product.productVendor ? product.productVendor.vendorFname + " " + product.productVendor.vendorLname : "Added With Admin"  %></a>
+                            <div class="">
+                                <ul class="rating text-left">
+                                    <li class="fa fa-star disable"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                </ul>
+                                <span>4.0 مراجعة العملاء</span>
+                            </div>
+
+                            <div class="pro-price mt-2 mb-2">
+                                <% if (product.descount) { %>
+                                    <span class="main-color font-weight-bold" style="text-decoration: line-through">Eg <%= product.price %> </span>
+                                    <span> - </span>
+                                    <span class="price main-color font-weight-bold"><%= (product.price - ((product.descount / 100) * product.price)).toFixed(3) %> Eg</span>
+                                <% } else { %>
+                                    <span class="main-color font-weight-bold d-block">السعر : <%= product.price %> Eg</span>
+                                <% } %>
+                                <span class="main-color font-weight-bold d-block">الشحن : <%= product.shipping ? product.shipping + " EG" : "مجاني" %> </span>
+                                <span class="main-color font-weight-bold d-block">التركيب : <%= product.structure ? product.structure + " Eg" : "مجاني" %> </span>
+
+                                <small class="d-block">الاسعار تشمل القيمه الضريبيه</small>
+                                <div class="notific row">
+                                    <div class="col-6">
+                                        <img src="/admin/asset/images/products_image/car.png" alt="">
+                                        <span class="shipping">تشحن من موقعنا</span>
+                                        <div>
+                                            <h5>تشحن من موقعنا</h5>
+                                            <p>تدير شركتنا عملية تسليم هذا المنتج. تتوفر خاصية تتبع تسليم الطلب إلى عتبة المنزل</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="/admin/asset/images/products_image/lock.png" alt="">
+                                        <span class="financial">معاملتنا امنه</span>
+                                        <div>
+                                            <h5>معاملتنا امنه</h5>
+                                            <p>نعمل بجد لحماية أمنك وخصوصيتك. يقوم نظام أمان الدفع لدينا بتشفير معلوماتك أثناء نقلها. إننا لا نمنح معلومات بطاقتك الائتمانية للبائعين، ولا نبيع معلوماتك للآخرين معرفة المزيد</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                <%= product["ProductOverview_" + defaultLang] %>
+                            </p>
+
+                            <ul class="row fulldescription list-unstyled ">
+                                <% product["fullDescription_" + defaultLang].split(",").forEach(element => { %>
+                                    <li class="col-md-6"><%= element %></li>
+                                <% }) %>
+                            </ul>
+                            <button class="readMore">اقرا اكثر</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="order" style="border:1px solid #ddd;padding:10px">
+                            <span class="d-block" style="color:rgb(255, 72, 0);font-weight: 600">السعر الكلي : <%= (product.descount ? parseInt((product.price - ((product.descount / 100) * product.price)).toFixed(3)) : parseInt(product.price)) + (product.shipping ? parseInt(product.shipping) : 0) + (product.structure ? parseInt(product.structure) : 0)  %> Eg</span>                       
+                            <span class="d-block" style="color:green;font-weight: 700;"><%= product.available ? "متوفر" : "غير متوفر : ولاكن يمكن العمل علي تصنيعه  " %></span>
+                            <% if (!product.available) { %>
+                                <span class="d-block" style="color:gray">يتم الانتهاء من تصنيعه بعد <%= product.dayeOfWork %> ايام</span>                            
+                            <% } %>
+                            <div class="input-group mt-4 pb-3">                   
+                                <input type="number" id="quantityOfProduct" name="quantity" class="form-control input-number text-center" value="1" min="1" max="10">
+                            </div>
+                            <% if (user) { %>
+                                <div class="buy">
+                                    <div onclick="AddToShipingCart1()">اضف الي العربه</div>
+                                    <a href="">اشتري الان</a>
+                                    <div class="<%= productsIdInShopingCard[product.id] ? 'd-block' : 'd-none' %>" id="countityNotific">يوجد <span> <%= productsIdInShopingCard[product.id] ? productsIdInShopingCard[product.id].count : 0 %></span> من هذا المنتج ف سله مشترياتك</div>
+                                </div>
+                            <% } else { %>
+                                <a href="/signIn" class="btn btn-primary btn-block">تسجيل الدخول</a>
+                                <a href="/signUp" class="btn btn-success  btn-block">انشاء حساب</a>
+                            <% } %>
+                        </div>
+                    </div>
+
+
+                </div><!-- End Row -->
+
+
+                <hr />
+            
+                <div class="videowDescription row align-items-center">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled" >
+                            <li>حاله المتج : <span><%= product.productState ? "جديد بالكامل" : "مستعمل" %></span></li>
+                            <% if (!product.productState) { %>
+                                <li>عدد ايام استعمال المنتج : <span><%= product.dayesOfUsed %></span></li>
+                            <% } %>
+                            
+                            <% if (product.security) { %>
+                                <li>الضمان بالايام : <span><%= product.security %> يوم</span></li>
+                            <% } %>
+                            <li>الاخشاب المستخدمه : <% product["typeOfWood_" + defaultLang].split(",").forEach(element => { %>
+                                <span style="color:white;background:rgb(12, 132, 148);margin-right:10px;padding:0 10px"><%= element %></span>
+                            <% }) %></li>
+                            <li>عدد القطع المكونه للمنتج : <span><%= product.pieces %></span></li>
+                            <table class="table border  table-striped table-dark" style="margin:20px 0">
+                                <tr>
+                                    <td>اسم القطعه</td>
+                                    <% product["pieceName_" + defaultLang].split(",").forEach(element => { %>
+                                        <td><%=element  %></td>
+                                    <% }) %>
+                                </tr>
+                                <tr>
+                                    <td>لون القطعه</td>
+                                    <% product["colors_" + defaultLang].split(",").forEach(element => { %>
+                                        <td><%=element  %></td>
+                                    <% }) %>
+                                </tr>
+                            </table>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <% if (product.productVideo) { %>
+                            <h5 class="text-center">فيديو لوصف المنتج</h5>
+                            <video controls style="width:100%">
+                                <source src="/admin/asset/images/products_image/<%= product.productVideo.split("--")[0] %>" >
+                            </video>
+                        <% } else { %>
+                            <p class="text-center" style="font-style:italic;color:#444;font-size:19px;background:#eee;padding:5px">لايوجد فيديو وصف</p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="product_rating row">
+                    <div class="col-md-3">
+                        <h4 style="color:#555;font-weight:700;">مراجعات المستخدمين</h4>
+                        <% if (productRate) { %>
+                            <% for(var x = 0 ; x < 5 ; x++){ %>
+                                <i style="color:#FFBA00;font-size:18px" class="<%=  x < ((sumOfRate * 100 ) / (productRate.ratings.length * 5)) / 20   ? 'fa fa-star' : 'fa fa-star-o ' %>"></i>
+                            <% } %>
+                            <span style="font-size:20px;color:#000;margin-right:20px"><%= (((sumOfRate * 100 ) / (productRate.ratings.length * 5)) / 20).toFixed(1) %> من 5</span>
+                            <span style="font-size:15px;color:#000;margin-bottom:20px" class="d-block"><%= productRate.ratings.length %> تقيمات العملاء</span>
+                            <ul class="list-unstyled">
+                                <% for(var x = 0 ; x < 5 ; x++){ %>
+                                    <li>
+                                        <a href="" class="d-flex align-items-center">
+                                            <span style="width:20%"><%= x + 1 %> نجمه</span>
+                                            <div class="progress" style="width:70%">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width:<%= (arrayOfstar[x] * 100) / productRate.ratings.length %>%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <span style="width:10%;margin-right:8px"><%= ((arrayOfstar[x] * 100) / productRate.ratings.length).toFixed(1) %>%</span>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                  <h6 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" onclick="accordion_button(event)" >
+                                      كيف يتم حساب التقيم ?
+                                    </button>
+                                  </h6>
+                                  <div class="accordion-collapse">
+                                        لحساب التقييم الإجمالي بالنجوم والنسبة المئوية للتصنيف بالنجوم، فإننا لا نستخدم متوسطًا بسيطًا. وبدلاً من ذلك، ينظر نظامنا إلى أشياء مثل مدى حداثة المراجعة وإذا ما كان المراجع قد اشترى المنتج على Amazon أم لا. كما يحلل المراجعات للتحقق من الجدارة بالثقة
+                                  </div>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            لم يتم التقيم علي المنتج بعد
+                        <% } %>
+                        <hr>
+
+                        <% if (user) { %>
+                            <div class="addRate">
+                                <h4 style="color:#000">قم بمشاركتنا تقيمك</h4>
+                                <small class="d-block">انقر علي التقيم المراد</small>
+                                <i class="<%= userRate < 1 ? 'fa fa-star-o' : 'fa fa-star active' %>" data_number="1"></i>
+                                <i class="<%= userRate < 2 ? 'fa fa-star-o' : 'fa fa-star active' %>" data_number="2"></i>
+                                <i class="<%= userRate < 3 ? 'fa fa-star-o' : 'fa fa-star active' %>" data_number="3"></i>
+                                <i class="<%= userRate < 4 ? 'fa fa-star-o' : 'fa fa-star active' %>" data_number="4"></i>
+                                <i class="<%= userRate < 5 ? 'fa fa-star-o' : 'fa fa-star active' %>" data_number="5"></i>
+                            </div>
+                        <% }%>
+                    </div>
+                    <div class="col-md-7 offset-md-1">
+                        <header>
+                            <h4 style="color:#555;font-weight:700;text-align: center;margin:20px 0 40px">كومنتات المنتج</h4>
+                        </header>
+                        <div class="row productComments">
+                            <% if (productComments.length > 0) { %>
+                                <% productComments.forEach(element => { %>
+                                    <div class="col-12" style="margin-bottom:20px">
+                                        <div class="main row align-items-center">
+                                            <div class="image col-md-2">
+                                                <% if (element.CommentUser.image) { %>
+                                                    <a href="/userProfile/<%= element.CommentUser.id %>"><img src="/admin/asset/images/users_photo/<%= element.CommentUser.image.split("--")[0] %>" alt=""></a>
+                                                <% } else { %>
+                                                    <img src="/admin/asset/images/users_photo/avatar.png">
+                                                <% } %>
+                                            </div>
+                                            <div class="comment col-md-9">
+                                                <div class="d-flex justify-content-between">
+                                                    <a href=""><h4><%= element.CommentUser.fName %> <%= element.CommentUser.lName %></h4></a>
+                                                    <span><%= formateDate(element.createdAt) %></span>
+                                                </div>
+                                                <div class="text">
+                                                    <div>
+                                                        <p><%= element.comment %></p>
+                                                    </div>
+                                                </div>
+                                                <% if ( user ) { %>
+                                                    <div class="enterAction" id="<%= element.id%>">
+                                                        <span class="deslike <%= element.desLikesUser.includes(user.id) ? "active" : "" %>"><span><%= element.desLikes %> </span><i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>  </span>
+                                                        <span class="like <%= element.likesUser.includes(user.id) ? "active" : "" %>"><span><%= element.likes %> </span> <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i></span>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                <% }) %>
+                                
+                            <% } else { %>
+                                <div class="col-12">
+                                    <p class="text-center" style="font-style:italic;color:#444;font-size:19px;background:#eee;padding:5px">لايوجد كومنتات علي المنتج</p>
+                                </div>
+                            <% } %>
+                            <% if (user) { %>
+                                <div class="enterComment col-9 offset-2">
+                                    <textarea placeholder="enter your comment" class="commentValue"></textarea>
+                                    <div class="commentNotification">يجب ادخال قيمه !</div>
+                                    <button type="button" onclick="addCommentFunction(event)" class="addComment">Add Comment</button>
+                                    <a href="/ProductAllComments/<%= product.id %>">See All Comments</a>
+                                </div>
+                            <% } else { %>
+                                <div class="enterComment col-9 offset-2">
+                                    <a href="/ProductAllComments/<%= product.id %>">See All Comments</a>
+                                    <a class="btn btn-primary text-center" href="/signIn">قم بالتسجيل لكي تستطيع التفاعل</a>
+                                </div>
+                                
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <br />
+
+            </div>
+        </div>
+        <!-- Start Product - Description  -->
+
+        
+
+        <!-- Start Section Top Sellers -->
+        <% if (productWithHigRate.length > 0) { %>
+            <div class="top-sellers">
+                <div class="container">
+                    <h5>
+                        <span class="title">المنتجات المتميزة</span>
+                    </h5>
+                    <br />
+    
+                    <section class="center slider">
+                        <% productWithHigRate.forEach(element => { %>
+                            <div>
+                                <div class="product-grid3">
+                                    <div class="product-image3">
+                                        <a href="/productDetails/<%= element.id %>">
+                                            <img style="height:250px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                        </a>
+                                        <ul class="social">
+                                            <li><i class="fa fa-shopping-bag"></i></li>
+                                            <li onclick="AddToShipingCart2('<%= element.id %>')"><i class="fa fa-shopping-cart"></i></li>
+                                        </ul>
+                                        
+                                        <h4 style="color:#222;padding:12px 0 0;font-size:19px"><%= element["productName_" + defaultLang] %></h4>
+                                        
+                                        </div>
+                                    <div class="product-content">
+                                        <h3 class="title" style="width:120px;overflow: hidden;white-space: nowrap;"><%= element["ProductOverview_" + defaultLang] %></h3>
+                                        <ul class="rating">
+                                            <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                            <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                            <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                            <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                            <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                        </ul>
+                                        <div>
+                                            <% if (element.descount) { %>
+                                                <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                            <% } else {%>
+                                                <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+    
+                    </section>
+    
+                </div>
+            </div>
+        <% } %>
+        <!-- End Section Top Sellers -->
+
+        <!-- Start Section Top Sellers -->
+        <% if (productRelated.length > 4) { %>
+            <div class="top-sellers">
+                <div class="container">
+                    <h5>
+                        <span class="title">منتجات لها علاقه بالمنتج</span>
+                    </h5>
+                    <br />
+    
+                    <section class="center slider">
+                        <% productRelated.forEach(element => { %>
+                            <% element.catigorysProduct.forEach(element => { %>
+                                <div>
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="/productDetails/<%= element.id %>">
+                                                <img style="height:250px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                            </a>
+                                            <ul class="social">
+                                                <li><i class="fa fa-shopping-bag"></i></li>
+                                                <li onclick="AddToShipingCart2('<%= element.id %>')"><i class="fa fa-shopping-cart"></i></li>
+                                            </ul>
+                                            
+                                            <h4 style="color:#222;padding:12px 0 0;font-size:19px"><%= element["productName_" + defaultLang] %></h4>
+                                            
+                                            </div>
+                                        <div class="product-content">
+                                            <h3 class="title" style="width:120px;overflow: hidden;white-space: nowrap;"><%= element["ProductOverview_" + defaultLang] %></h3>
+                                            <ul class="rating">
+                                                <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                            </ul>
+                                            <div>
+                                                <% if (element.descount) { %>
+                                                    <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                    <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } else {%>
+                                                    <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% }) %>
+    
+                    </section>
+    
+                </div>
+            </div>
+        <% } %>
+        <!-- End Section Top Sellers -->
+
+
+        <div class="col-12 d-none commentTest" style="margin-bottom:20px">
+            <div class="main row align-items-center">
+                <div class="image col-md-2">
+                    <img src="" alt="">
+                </div>
+                <div class="comment col-md-9">
+                    <div class="d-flex justify-content-between">
+                        <a href=""><h4></h4></a>
+                        <span>الان</span>
+                    </div>
+                    <div class="text">
+                        <div>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="enterAction">
+                        <span><span>0</span><i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>  </span>
+                        <span><span>0</span> <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+
+<script>
+    
+    function enterActionFunc() {
+        var enterAction = document.querySelectorAll(".enterAction > span")
+        enterAction.forEach(ele => {
+        ele.onclick = function() {
+            var child = this.querySelector("span").innerHTML
+            if(this.classList.contains("active")) {
+                this.classList.remove("active")
+                this.querySelector("span").innerHTML = parseInt(child) - 1
+            } else {
+                this.classList.add("active")
+                this.querySelector("span").innerHTML = parseInt(child) + 1 
+                if(this.classList.contains("deslike")) {
+                    if(this.nextElementSibling.firstElementChild.innerHTML > 0 && this.nextElementSibling.classList.contains("active")) this.nextElementSibling.firstElementChild.innerHTML = parseInt(this.nextElementSibling.firstElementChild.innerHTML) - 1
+                    this.nextElementSibling.classList.remove("active")
+                }  else {
+                    if(this.parentElement.firstElementChild.firstElementChild.innerHTML > 0 && this.parentElement.firstElementChild.classList.contains("active")) this.parentElement.firstElementChild.firstElementChild.innerHTML = parseInt(this.parentElement.firstElementChild.firstElementChild.innerHTML) - 1
+                    this.parentElement.firstElementChild.classList.remove("active")                     
+                }
+            }  
+            var likes = this.parentElement.lastElementChild.firstElementChild.innerHTML
+            var desLike = this.parentElement.firstElementChild.firstElementChild.innerHTML
+            var commentId = this.parentElement.getAttribute("id")
+            $.ajax({
+                data : {
+                    commentId : parseInt(commentId),
+                    userId : parseInt("<%= user ? user.id : 0 %>"),
+                    likes : parseInt(likes),
+                    desLikes : parseInt(desLike)
+                },
+                type : "post",
+                url : "/admin/productComments/addProductInterActionAjax",
+                success(data) {
+                    console.log(data)
+                },
+                error() {
+                    console.log("error")
+                }
+            })
+        }
+    })
+
+    }
+    enterActionFunc()
+    var readMore = document.querySelector(".readMore");
+    var fulldescription = document.querySelector(".fulldescription")
+    readMore.onclick = () => {
+        if(fulldescription.classList.contains("active")) {
+            readMore.innerHTML = "اقرا اكثر"
+            fulldescription.classList.remove("active")
+        } else {
+            readMore.innerHTML = "اقرا اقل"
+            fulldescription.classList.add("active")        
+        }
+    }
+    function accordion_button(e) {
+        e.target.parentElement.parentElement.classList.toggle("active")
+    }
+
+    var addComment = document.querySelector(".addComment");
+    var commentNotification = document.querySelector(".commentNotification");
+    function addCommentFunction (e) {
+        var comment = document.querySelector(".commentValue").value
+        if(comment == ""  || comment.includes("  ")) {
+            commentNotification.style = "background:rgb(189, 44, 44)"
+            commentNotification.innerHTML = "ادخل قيمه مسبقه وافصل بمسافه واحده"
+            commentNotification.classList.add("active")
+            setTimeout(() => {
+                commentNotification.classList.remove("active")
+            }, 3000);
+        } else {         
+            $.ajax({
+                data : {
+                id : "<%= user ? user.id : 0 %>",
+                comment : comment,
+                productId : "<%= product.id %>"
+                },
+                type : "post",
+                url : "/admin/productComments/addProductCommentAjax",
+                success(data) {
+                    commentNotification.style = "background:green"
+                    commentNotification.innerHTML = "تم اضافه كومنت جديد"
+                    commentNotification.classList.add("active")
+                    setTimeout(() => {
+                        commentNotification.classList.remove("active")
+                    }, 3000);   
+
+
+                    var productComments = document.querySelector(".productComments");
+                    var child = document.querySelector(".commentTest").cloneNode(true)
+                    child.classList.remove("d-none")
+                    child.querySelector(".main .comment .text div p").innerHTML = comment
+                    child.querySelector(".main .comment a h4").innerHTML = "<%= user ? user.fName + ' ' + user.lName : '' %>"
+                    var img = child.querySelector(".main .image img")
+                    child.querySelector(".enterAction").setAttribute("id" , data.id)
+                    img.src = "/admin/asset/images/users_photo/<%= user ? (user.image ? user.image.split('--')[0] : 'avatar.png') : '' %>"
+                    productComments.insertBefore(child , document.querySelector(".enterComment"))
+                    enterActionFunc()
+
+                },
+                error() {
+                    console.log("error")
+                }
+            })
+        }
+        document.querySelector(".commentValue").value = "" 
+    }
+
+    var rateIcon = document.querySelectorAll(".addRate i")
+    rateIcon.forEach(element => {
+        element.onmousemove = function() {
+            rateIcon.forEach((ele , i) => {
+                if(i < element.getAttribute("data_number")) {
+                    ele.className = "fa fa-star active"
+                } else {
+                    ele.className = "fa fa-star-o "
+                }
+            })
+        }
+        element.onclick = function() {
+            $.ajax({
+                data : {
+                userId : parseInt("<%= user? user.id : 0 %>"),
+                rate : parseInt(element.getAttribute("data_number")),
+                productId : parseInt("<%= product.id %>")
+                },
+                type : "post",
+                url : "/admin/productComments/addRateProduct",
+                success() {
+
+                }
+            })
+        }
+    })
+
+    var quantityOfProduct = document.getElementById("quantityOfProduct")
+    var countityNotific = document.getElementById("countityNotific")
+    var alert2 = document.querySelector(".alert2");
+    function AddToShipingCart2(productId , reload) {
+      $.ajax({
+            url : "/addProductToShopingCart",
+            type : "post",
+            data : {
+                count : 1,
+                userId : '<%= user ? user.id : "" %>',
+                productId : productId
+            },
+            success(data) {
+                alert2.classList.add("active")
+                alert2.querySelector("div").innerHTML = "تم اضافه المنتج في قاءمه المشتريات"
+                setTimeout(() => {
+                    alert2.classList.remove("active")
+                } , 3000)
+  
+                var btn_cart = document.getElementById("btn-cart")
+                var shopingCartNumber = btn_cart.querySelector("span")
+                if(shopingCartNumber) {
+                  shopingCartNumber.innerHTML = parseInt(shopingCartNumber.innerHTML) + 1
+                } else {
+                  var span = document.createElement("span");
+                  span.innerHTML = 1
+                  btn_cart.appendChild(span)
+                }
+                if(reload) {
+                  window.location.reload()
+                }
+            },
+            error() {
+                alert2.classList.add("active")
+                alert2.querySelector("div").innerHTML = "هناك خطا ما في العمليه"
+                setTimeout(() => {
+                    alert2.classList.remove("active")
+                } , 3000)
+            }
+        })
+    }
+    function AddToShipingCart1() {
+        var min = parseInt(quantityOfProduct.getAttribute("min"))
+        var max = parseInt(quantityOfProduct.getAttribute("max"))
+        var value = parseInt(quantityOfProduct.value)
+        if(value > max || value < min) {
+            alert2.classList.add("active")
+            alert2.querySelector("div").innerHTML = `يجب ان لا تزيد الكميه عن ${max} ولا تقل عن ${min}`
+            setTimeout(() => {
+                alert2.classList.remove("active")
+            } , 3000)
+            quantityOfProduct.value = "1"
+        } else {
+            $.ajax({
+                url : "/addProductToShopingCart",
+                type : "post",
+                data : {
+                    count : quantityOfProduct.value,
+                    userId : '<%= user ? user.id : "" %>',
+                    productId : '<%= product.id %>'
+                },
+                success(data) {
+                    alert2.classList.add("active")
+                    alert2.querySelector("div").innerHTML = "تم اضافه المنتج في قاءمه المشتريات"
+                    setTimeout(() => {
+                        alert2.classList.remove("active")
+                    } , 3000)
+
+                    var countityOfProductInShepping = countityNotific.querySelector("span")
+                    var countityOfProductInShepping = parseInt(countityOfProductInShepping.innerHTML)  + parseInt(quantityOfProduct.value) 
+                    countityNotific.className = "d-block"
+                    countityNotific.innerHTML = `يوجد <span>${countityOfProductInShepping}</span> من هذا المنتج ف سله مشترياتك`
+                    quantityOfProduct.value = "1"
+                },
+                error() {
+                    alert2.classList.add("active")
+                    alert2.querySelector("div").innerHTML = "هناك خطا ما في العمليه"
+                    setTimeout(() => {
+                        alert2.classList.remove("active")
+                    } , 3000)
+                }
+            })
+        }
+    }
+</script>
+
+</body>
+    

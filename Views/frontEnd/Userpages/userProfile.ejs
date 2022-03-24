@@ -1,0 +1,801 @@
+
+<link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
+      rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/admin/asset/vendors/js/gallery/photo-swipe/photoswipe.css">
+<link rel="stylesheet" type="text/css" href="/admin/asset/vendors/js/gallery/photo-swipe/default-skin/default-skin.css">
+<!-- BEGIN VENDOR CSS-->
+<link rel="stylesheet" type="text/css" href="/admin/asset/css/vendors.css">
+<link rel="stylesheet" type="text/css" href="/admin/asset/css-rtl/app.css">
+<style>
+    body {
+        height:1500px !important
+    }
+</style>
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+  
+    <%- include("../inclueds/navPareUserProfile")  %>
+    <%- include("../inclueds/alert")  %>
+
+<div class="userProfile">
+  <!-- Button trigger modal -->
+
+  <div class="container" style="max-width:90%">
+    
+    <div id="user-profile">
+        <div class="row">
+          <div class="col-12">
+            <div class="card profile-with-cover">
+              <div class="cover card-img-top img-fluid bg-cover height-350" style="background: url('/admin/asset/images/<%= moreDataForUser ? (moreDataForUser.coverImage ? `users_photo/cover_image/${moreDataForUser.coverImage.split("--")[0]}` : "carousel/14.jpg") : "carousel/14.jpg" %>') 50%;">
+                <% if (UserCookie.id == user.id) { %>
+                  <button onchange="changCoverPhoto(event)"><input type="file" accept="image/*"><i class="fa fa-camera"></i> تعديل صوره الغلاف </button>
+                <% } %>
+              </div>
+              <div class="media profil-cover-details w-100 align-items-end" >
+                <div class="media-left pl-2 pt-2">
+                  <div class="personalData">
+                    <a href="#" class="profile-image">
+                      <img src="/admin/asset/images/users_photo/<%= user.image.split("--")[0] %>" 
+                      alt="Card image">
+                    </a>
+                    <div class="userData">
+                        <h3 class="card-title"><%= user.fName + " " + user.lName %></h3>
+                        <a href=""><%= userfrindesData.length %> الاصدقاء</a>
+                        <div class="d-flex frindes">
+                          <% userfrindesData.forEach(element => { %>
+                            <a class="online ID<%= element.id %>"  href="/userProfile/<%= element.id %>" title="<%= element.fName %> <%= element.lName %>">
+                              <img src="/admin/asset/images/users_photo/<%= element.image.split("--")[0] %>" alt="">
+                              <span>
+                                <span></span>
+                              </span>
+                            </a>
+                          <% }) %>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="media-body pt-3 px-2">
+                  <div class="row">
+                    <div class="col text-right">
+                      <% if (UserCookie.id != user.id) { %>
+                        <button type="button" data_type="<%= ifFrind %>" class="btn btn-<%= ifFrind == "no" ? "primary" :  ifFrind == "yes" ? "danger" : ifFrind == "pending" ? "secondary" : "" %> addFrind "><i class="la la-<%= ifFrind == "no" ? "plus" : "minus" %>"></i> <span><%= ifFrind == "yes" ? "UnFollow" : ifFrind == "no" ? "Follow" : ifFrind == "pending" ? "Cancel" : "" %></span></button>
+                      <% } %>
+                      <div class="btn-group d-none d-md-block float-right ml-2" role="group" aria-label="Basic example">
+                        <% if (UserCookie.id != user.id) { %>
+                          <button onclick="openChate(event , '<%= user.id %>')" type="button" class="btn btn-success"><i class="la la-dashcube"></i> Message</button>
+                        <% } %>
+                        <% if (UserCookie.id == user.id) { %>
+                          <a href="/editPersonalInformation"><button type="button" class="btn btn-success d-flex align-items-center" ><i class="la la-cog"></i>  تعديل البيانات الشخصه</button></a>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr style="margin-top:25px">
+              <nav class="navbar navbar-light navbar-profile" style="padding-top:0">
+                <button class="navbar-toggler d-sm-none" type="button" data-toggle="collapse" aria-expanded="false"
+                aria-label="Toggle navigation"></button>
+                <nav class="navbar navbar-expand-lg" style="padding-top:0">
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#"><i class="la la-line-chart"></i> Timeline <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="la la-user"></i> Profile</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="la la-briefcase"></i> Projects</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="la la-heart-o"></i> Favourites</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="la la-bell-o"></i> Notifications</a>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="row pairant" style="margin:0">
+
+
+        <div class="col-md-4 aside AsideScroll">
+            <div class="content">
+                <div class="information">
+                  <h3>نبذه مختصره</h3>
+                  <p>Would it be better "to live as a monster, or to die as a good man?"</p>
+                  <ul class="list-unstyled">
+                      <li><i class="fa fa-user" aria-hidden="true"></i> <span>الايميل :</span> <%= user.email %> </li>
+                      <li><i class="fa fa-location-arrow" aria-hidden="true"></i><span>العنوان :</span> <%= user.addres %> </li>
+                      <li><i class="fa fa-user" aria-hidden="true"></i> <span>العمر :</span> <%= user.age %> </li>
+                      <li><i class="fa fa-user" aria-hidden="true"></i><span>ادمن :</span> <%= user.isAdmin ? "yes" : "no" %> </li>
+                      <li><i class="fa fa-user" aria-hidden="true"></i><span>باءع :</span> <%= user.isVendor ? "yes" : "no" %> </li>
+                      <li><i class="fa fa-user" aria-hidden="true"></i><span>الموبيل :</span> <%= "0" + user.number %> </li>
+                  </ul>
+              </div>
+              <div class="images">
+                <div class="head d-flex">
+                  <h4>الصور</h4>
+                  <a href="">عرض كل الصور</a>
+                </div>
+                <% if (images) { %>
+                  <div class="img ">
+                    <div class="card-content">
+                      <div class="card-body  my-gallery" style="padding:0px" itemscope itemtype="http://schema.org/ImageGallery">
+                        <div class="row" style="margin:0">
+                          <% images.forEach(element => { %>
+                            <figure class="col-lg-4 col-md-6 col-12" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                              <a href="/admin/asset/images/posts/<%= element.image.split("--")[0] %>" itemprop="contentUrl" data-size="480x360">
+                                <img class="img-thumbnail img-fluid" src="/admin/asset/images/posts/<%= element.image.split("--")[0] %>"
+                                itemprop="thumbnail" alt="Image description" />
+                              </a>
+                            </figure>
+                          <% }) %>
+                        </div>
+                      </div>
+                      <!--/ Image grid -->
+                      <!-- Root element of PhotoSwipe. Must have class pswp. -->
+                      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                        <!-- Background of PhotoSwipe. 
+                      It's a separate element as animating opacity is faster than rgba(). -->
+                        <div class="pswp__bg"></div>
+                        <!-- Slides wrapper with overflow:hidden. -->
+                        <div class="pswp__scroll-wrap">
+                          <!-- Container that holds slides. 
+                          PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                          Don't modify these 3 pswp__item elements, data is added later on. -->
+                          <div class="pswp__container">
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                          </div>
+                          <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                          <div class="pswp__ui pswp__ui--hidden">
+                            <div class="pswp__top-bar">
+                              <!--  Controls are self-explanatory. Order can be changed. -->
+                              <div class="pswp__counter"></div>
+                              <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                              <button class="pswp__button pswp__button--share" title="Share"></button>
+                              <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                              <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                              <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                              <!-- element will get class pswp__preloader-active when preloader is running -->
+                              <div class="pswp__preloader">
+                                <div class="pswp__preloader__icn">
+                                  <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                              <div class="pswp__share-tooltip"></div>
+                            </div>
+                            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                            </button>
+                            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                            </button>
+                            <div class="pswp__caption">
+                              <div class="pswp__caption__center"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                <% } %>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 addPost">
+            <div>
+                <div class="text d-flex">
+                    <a href="#" class="online ID<%= UserCookie.id %>" >
+                      <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="">
+                      <span>
+                        <span></span>
+                      </span>
+                    </a>
+                    <button type="button" style="width:100%;outline:0;border:1px solid #ddd;padding:4px 10px" class=" d-block" data-toggle="modal" data-target="#exampleModal">
+                      <% if (UserCookie.id == user.id) { %>
+                        بما تفكر يا  <%= UserCookie.fName %> .... 
+                      <% } else { %>
+                        اكتب شيء الي <%= user.fName %> .... 
+                      <% } %> 
+                    </button>
+                    <div class="modal fade addPostReal"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" style="max-width:58%" role="document">
+                      <div class="modal-content" style="max-width:100%">
+                        <div class="overflow">
+                          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                        </div>
+                          <div class="modal-header justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <h5 class="modal-title text-center" id="exampleModalLabel">إنشاء منشور</h5>
+                          </div>
+                          <div class="modal-body">
+                              <div class=" d-flex align-items-center">
+                                <a href="#" class="online ID<%= UserCookie.id %>">
+                                  <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split('--')[0]%>" alt="">
+                                  <span>
+                                    <span></span>
+                                  </span>
+                                </a>
+                                <h5><%= UserCookie.fName + " " + UserCookie.lName %></h5>
+                              </div>
+                              <div class="post">
+                                <textarea class="VALUE_OF_POST" type="text" placeholder="بم تفكر يا <%= UserCookie.fName %> ?"></textarea>
+                              </div>
+                              <div class='assets'>
+                                
+                              </div>
+                              <div class="control d-flex">
+                                <span>اضف الي منشورك</span>
+                                <div>
+                                  <form class="assetsFile" enctype="multipart/form-data">
+                                    <i class="fa fa-picture-o asset" title="Add Image"><input onchange="putAssets(event , 'top')" type="file" name="img" accept="image/*" data_else="video"></i>
+                                    <i class="fa fa-video-camera asset" title="Add Video"><input onchange="putAssets(event , 'top')" type="file" accept="video/*" name="video" data_else="img"></i>
+                                    <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                      <div class="allEmoji">
+                                        <div class="head active">
+                                          <ul class="list-unstyled">
+                                              <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                                <li onclick="catigoryEmoji(event , 'top')" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                              <% } %>
+                                          </ul>
+                                        </div>
+                                        <div class="emojis ">
+                                          <div>
+                                            <span></span>
+                                            <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                          </div>
+                                          <ul class="list-unstyled">
+                                          
+                                          </ul>
+                                        </div>
+                                        <div class="over">
+                                          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                        </div>
+                                      </div>
+                                    </i>
+                                    <i class="fa fa-bars" title="More Setting" aria-hidden="true"></i>
+                                  </form>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-block" onclick="addPost()">نشر</button>
+                          </div>
+                      </div>
+                    </div>
+                  
+                  </div>
+                </div>
+            </div> 
+            <div class="allMyPosts">
+              <div class="modal fade addPostReal"  id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="max-width:58%" role="document">
+                <div class="modal-content" style="max-width:100%">
+                  <div class="overflow">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                  </div>
+                    <div class="modal-header justify-content-center">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                      <h5 class="modal-title text-center" id="exampleModalLabel">إنشاء منشور</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class=" d-flex align-items-center">
+                          <a href="/userProfile/<%= UserCookie.id %>" class="online  ID<%= UserCookie.id %>">
+                            <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split('--')[0]%>" alt="">
+                            <span><span></span></span>
+                          </a>
+                          <h5><%= UserCookie.fName + " " + UserCookie.lName %></h5>
+                        </div>
+                        <div class="post">
+                          <textarea class="VALUE_OF_POST" type="text" placeholder="بم تفكر يا <%= UserCookie.fName %> ?"></textarea>
+                        </div>
+                        <div class='assets'>
+                          
+                        </div>
+                        <div class="control d-flex">
+                          <span>اضف الي منشورك</span>
+                          <div>
+                            <form class="assetsFile" enctype="multipart/form-data">
+                              <i class="fa fa-picture-o asset" title="Add Image"><input onchange="putAssets(event , 'bottom')" type="file" name="img" accept="image/*" data_else="video"></i>
+                              <i class="fa fa-video-camera asset" title="Add Video"><input onchange="putAssets(event , 'bottom')" type="file" accept="video/*" name="video" data_else="img"></i>
+                              <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                <div class="allEmoji">
+                                  <div class="head active">
+                                    <ul class="list-unstyled">
+                                        <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                          <li onclick="catigoryEmoji(event , 'bottom')" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                        <% } %>
+                                    </ul>
+                                  </div>
+                                  <div class="emojis ">
+                                    <div>
+                                      <span></span>
+                                      <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                    </div>
+                                    <ul class="list-unstyled">
+                                    
+                                    </ul>
+                                  </div>
+                                  <div class="over">
+                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                  </div>
+                                </div>
+                              </i>
+                              <i class="fa fa-bars" title="More Setting" aria-hidden="true"></i>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-block" onclick="editPost(event)">نشر</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+              <div class="addAndDeleteComment">
+                <div class="editComment">
+                  <div class="content">
+                    <h4>تعديل الكومنت الخاص بك</h4>
+                    <textarea cols="30" rows="10"></textarea>
+                    <div class="assets">
+
+                    </div>
+                    <div class="addAssets d-flex">
+                      <h4>اضف الي منشورك</h4>
+                      <div>
+                        <i class="fa fa-file-image-o" aria-hidden="true">
+                          <input type="file" multiple onchange="changeAssets(event)" name="img" accept="image/*" title="chose photo" >
+                        </i>
+                        <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                          <div class="allEmoji">
+                            <div class="head active">
+                              <ul class="list-unstyled">
+                                  <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                    <li onclick="catigoryEmoji(event , 'editComment')" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                  <% } %>
+                              </ul>
+                            </div>
+                            <div class="emojis ">
+                              <div>
+                                <span></span>
+                                <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                              </div>
+                              <ul class="list-unstyled">
+                              
+                              </ul>
+                            </div>
+                            <div class="over">
+                              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                            </div>
+                          </div>
+                        </i>
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <button class="btn  btn-block" onclick="editCommentAjax(event)">edit Comment</button>
+                    <div class="over">
+                      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% Posts.rows.forEach(element => { %>
+                <div class="post" id="<%= element.id %>">
+                  <div class="postHeade d-flex">
+                    <div class="pairant d-flex">
+                      <div class="left">
+                        <a href="/userProfile/<%= element.postsUser.id %>" class="online ID<%= element.postsUser.id %>">
+                          <img src="/admin/asset/images/users_photo/<%= element.postsUser.image.split("--")[0] %>" alt="">
+                          <span><span></span></span>
+                        </a>
+                      </div>
+                      <div class="right">
+                        <div class="fromNotTo d-flex">
+                          <% if (element.from == element.to) { %>
+                            <a href="/userProfile/<%= element.postsUser.id %>"><h4><%= element.postsUser.fName %> <%= element.postsUser.lName %></h4></a>
+                          <% } else { %>
+                            <a class="to" href="/userProfile/<%= element.postsUser.id %>"><h4><%= element.postsUser.fName %> <%= element.postsUser.lName %></h4></a> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> <a href="/userProfile/<%= element.postsUserTo.id %>"><h5><%= element.postsUserTo.fName %> <%= element.postsUserTo.lName %></h5></a>  
+                          <% } %>
+                        </div>
+                        <span><%= date(element.createdAt , "date") + " " + date(element.createdAt , "time") %> <i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    
+                    <% if (element.from == UserCookie.id || element.to ==  UserCookie.id) { %>
+                      <div class="addAndDelete ">
+                          <span onclick="showMenue(event)" class="mnue" >...</span>
+                          <ul class="list-unstyled">
+                            <li>
+                              <button type="button" onclick="getPostData(event , '<%= element.id %>')" class=" d-block" data-toggle="modal" data-target="#exampleModal1">
+                                تعديل
+                              </button>
+                            </li>
+                            <li onclick="deletePost(event)">
+                                حذف
+                            </li>
+                        </ul>
+                      </div>
+                    <% } %>
+
+                  </div>
+                  <div class="postBody">
+                    <% if (element.post) { %>
+                      <h5><%= element.post%></h5>
+                    <% } %>
+                    <% if (element.image) { %>
+                      <img src="/admin/asset/images/posts/<%= element.image.split("--")[0] %>" alt="">
+                    <% } %>
+                    
+                    <% if (element.video) { %>
+                      <video controls src="/admin/asset/images/posts/<%= element.video.split("--")[0] %>" alt=""></video>
+                    <% } %>
+                    
+                  </div>
+                  <div class="enterActions">
+                    <div class="d-flex likes">
+                      <span class='number'>
+                        <span><%= element.PostsLikes ? element.PostsLikes.types.length : 0 %></span> 
+                          <% if (element.PostsLikes) { %>
+                            <% getSomeOfUserEmoji(element.PostsLikes.types).forEach(element2 => { %>
+                                <span><%= GetEmojin(element2) %></span>
+                            <% }) %>
+                          <% } %>
+                        </span>
+                        <span><span><%= element.commentNumber %></span> تعليق</span>
+                    </div>
+                    <div class="mackAction d-flex">
+                        <button class="<%= element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id)) != "-1" ? element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id))] + " emoji" : "" ) : "" %>">
+                          <% if (element.PostsLikes && element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id)) != "-1") { %>
+                              <span><%= GetEmojin(element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id))]) %></span>
+                          <% } %>
+                           <i class="fa fa-thumbs-up" <%= element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id)) != "-1" ? 'style=display:none' : '') : '' %> aria-hidden="true"></i> 
+                           <span class="emojiName" onclick="removeOrAddLike(event , '<%= element.id%>')"><%= element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id)) != "-1" ? element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt(UserCookie.id))] : "اعجبني" ) : "اعجبني" %></span>
+                           <div class="emoji">
+                            <span onclick="addLikes(event , 'thumbsup' , '<%= element.id%>')" title="اعجبني"><%= GetEmojin("thumbsup") %></span>
+                            <span onclick="addLikes(event , 'heart' , '<%= element.id%>')" title="احببت"><%= GetEmojin("heart") %></span>
+                            <span onclick="addLikes(event , 'heart_eyes' , '<%= element.id%>')" title="ادعمه"><%= GetEmojin("heart_eyes") %></span>
+                            <span onclick="addLikes(event , 'angry' , '<%= element.id%>')" title="اغضبني"><%= GetEmojin("angry") %></span>
+                            <span onclick="addLikes(event , 'hushed' , '<%= element.id%>')" title="واو"><%= GetEmojin("hushed") %></span>
+                            <span onclick="addLikes(event , 'cry' , '<%= element.id%>')" title="احزنني"><%= GetEmojin("cry") %></span>
+                            <span onclick="addLikes(event , 'joy' , '<%= element.id%>')" title="هاهاها"><%= GetEmojin("joy") %></span>
+                           </div> 
+                        </button>
+                        <button><i class="fa fa-comment-o" aria-hidden="true"></i> تعليق</button>
+                        <button><i class="fa fa-share" aria-hidden="true"></i> مشاركه</button>
+                    </div>
+                                
+                    <div class="myComments">
+                      <% element.postComments.forEach(element2 => { %>
+                        <div class="comment" id="<%= element2.id %>">
+                          <div class="pairant d-flex">
+                            <div class="image">
+                              <a href="/userProfile/<%= element2.id %>" class="online ID<%= element2.postCommentUser.id %>">
+                                <img src="/admin/asset/images/users_photo/<%= element2.postCommentUser.image.split("--")[0] %>" alt="">
+                                <span><span></span></span>
+                              </a>
+                            </div>
+                            <div class="mainText">
+                              <div class="text">
+                                <a href="/userProfile/<%= element2.postCommentUser.id %>"><%= element2.postCommentUser.fName + " " + element2.postCommentUser.lName %></a>
+                                <span><%= element2.comment %></span>
+                                <span class='number'>
+                                  <span><%= element2.LikesTypes ? element2.LikesTypes.length : 0 %></span> 
+                                  <% if (element2.LikesTypes) { %>
+                                    <% getSomeOfUserEmoji(element2.LikesTypes).forEach(element => { %>
+                                        <span><%= GetEmojin(element) %></span>
+                                    <% }) %>
+                                  <% } %>
+                                </span>
+                              </div>
+                              <div class="commentPhoto">
+                                <% if (element2.images) { %>
+                                  <% element2.images.split("--").forEach(element => { %>
+                                    <% if (element.trim()) { %>
+                                        <div>
+                                            <img src="/admin/asset/images/commentsPhoto/<%= element %>" alt="">
+                                        </div>
+                                    <% } %> 
+                                  <% }) %>
+                                <% } %>
+                              </div>
+                              <div class="controllers mackAction">
+                                  <button class="<%= element2.usersLikes ? (element2.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? element2.LikesTypes[element2.usersLikes.indexOf(parseInt(UserCookie.id))] + " emoji" : "" ) : "" %>">
+                                    <% if (element2.usersLikes && element2.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1") { %>
+                                        <span><%= GetEmojin(element2.LikesTypes[element2.usersLikes.indexOf(parseInt(UserCookie.id))]) %></span>
+                                    <% } %>
+                                      <i class="fa fa-thumbs-up" <%= element2.usersLikes ? (element2.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? 'style=display:none' : '') : '' %> aria-hidden="true"></i> 
+                                      <span class="emojiName" onclick="removeOrAddLike(event , '<%= element2.id%>' , 'bottom')"><%= element2.usersLikes ? (element2.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? element2.LikesTypes[element2.usersLikes.indexOf(parseInt(UserCookie.id))] : "اعجبني" ) : "اعجبني" %></span>
+                                      <div class="emoji">
+                                      <span onclick="addLikes(event , 'thumbsup' , '<%= element2.id%>' , 'bottom')" title="اعجبني"><%= GetEmojin("thumbsup") %></span>
+                                      <span onclick="addLikes(event , 'heart' , '<%= element2.id%>' , 'bottom')" title="احببت"><%= GetEmojin("heart") %></span>
+                                      <span onclick="addLikes(event , 'heart_eyes' , '<%= element2.id%>' , 'bottom')" title="ادعمه"><%= GetEmojin("heart_eyes") %></span>
+                                      <span onclick="addLikes(event , 'angry' , '<%= element2.id%>' , 'bottom')" title="اغضبني"><%= GetEmojin("angry") %></span>
+                                      <span onclick="addLikes(event , 'hushed' , '<%= element2.id%>' , 'bottom')" title="واو"><%= GetEmojin("hushed") %></span>
+                                      <span onclick="addLikes(event , 'cry' , '<%= element2.id%>' , 'bottom')" title="احزنني"><%= GetEmojin("cry") %></span>
+                                      <span onclick="addLikes(event , 'joy' , '<%= element2.id%>' , 'bottom')" title="هاهاها"><%= GetEmojin("joy") %></span>
+                                      </div> 
+                                  </button>
+                                  <button onclick="showInputReplayComment(event)">رد</button>
+                                  <span><span></span> <%= date(element2.createdAt , "date") %> <i class="fa fa-clock-o" aria-hidden="true"></i> </span>
+                                  <% if (element.from == UserCookie.id || element.to ==  UserCookie.id || element2.userId == UserCookie.id) { %>
+                                    <div class="addAndDelete d-inline">
+                                      <span onclick="showMenue(event ,'<%= element2.id %>')" class="mnue">...</span>
+                                        <ul class="list-unstyled">
+                                          <li onclick="editComment(event , '<%= element2.id %>')">
+                                              تعديل
+                                          </li>
+                                          <li onclick="deleteCommentPost(event , '<%= element.id %>')">
+                                              حذف
+                                          </li>
+                                        </ul>
+                                    </div>
+                                  <% } %>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="writeComment">
+                            <div class="left">
+                              <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                                <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt=""></a>
+                                <span>
+                                  <span></span>
+                                </span>
+                            </div>
+                            <div>
+                              <input type="text" name="" id="" onkeyup="addCommentPost(event , '<%= element.id%>' , '<%= element2.id %>')" placeholder="ادخل ردا الي <%= element2.postCommentUser.fName + " " +element2.postCommentUser.lName %>...">
+                              <div>
+                                <i class="fa fa-photo" aria-hidden="true">
+                                  <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                                </i>
+                                <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                  <div class="allEmoji">
+                                    <div class="head active">
+                                      <ul class="list-unstyled">
+                                          <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                            <li onclick="catigoryEmoji(event)" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                          <% } %>
+                                      </ul>
+                                    </div>
+                                    <div class="emojis ">
+                                      <div>
+                                        <span></span>
+                                        <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                      </div>
+                                      <ul class="list-unstyled">
+                                      
+                                      </ul>
+                                    </div>
+                                    <div class="over">
+                                      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                    </div>
+                                  </div>
+                                </i>                           
+                              </div>
+                             </div>
+                          </div>
+                          <div class="assets"></div>
+
+                        <% element2.supComments.forEach(element3 => { %>
+                          <div class="comment" id="<%= element3.id %>">
+                            <div class="pairant d-flex">
+                              <div class="image">
+                                <a href="" class="online ID<%= element3.postCommentUser.id %>">
+                                  <img src="/admin/asset/images/users_photo/<%= element3.postCommentUser.image.split("--")[0] %>" alt="">
+                                  <span>
+                                    <span></span>
+                                  </span>
+                                </a>
+                              </div>
+                              <div class="mainText">
+                                <div class="text">
+                                  <a href="/userProfile/<%= element3.postCommentUser.id %>"><%= element3.postCommentUser.fName + " " + element3.postCommentUser.lName %></a>
+                                  <span><%= element3.comment %> </span>
+                                  <span class='number'>
+                                    <span><%= element3.LikesTypes ? element3.LikesTypes.length : 0 %></span> 
+                                    <% if (element3.LikesTypes) { %>
+                                      <% getSomeOfUserEmoji(element3.LikesTypes).forEach(element => { %>
+                                          <span><%= GetEmojin(element) %></span>
+                                      <% }) %>
+                                    <% } %>
+                                  </span>
+                                </div>
+                                <div class="commentPhoto">
+                                  <% if (element3.images) { %>
+                                    <% element3.images.split("--").forEach(element => { %>
+                                      <% if (element.trim()) { %>
+                                          <div>
+                                              <img src="/admin/asset/images/commentsPhoto/<%= element %>" alt="">
+                                          </div>
+                                      <% } %> 
+                                    <% }) %>
+                                  <% } %>
+                                </div>
+                                <div class="controllers mackAction">
+                                  <button class="<%= element3.usersLikes ? (element3.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? element3.LikesTypes[element3.usersLikes.indexOf(parseInt(UserCookie.id))] + " emoji" : "" ) : "" %>">
+                                    <% if (element3.usersLikes && element3.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1") { %>
+                                        <span><%= GetEmojin(element3.LikesTypes[element3.usersLikes.indexOf(parseInt(UserCookie.id))]) %></span>
+                                    <% } %>
+                                     <i class="fa fa-thumbs-up" <%= element3.usersLikes ? (element3.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? 'style=display:none' : '') : '' %> aria-hidden="true"></i> 
+                                     <span class="emojiName" onclick="removeOrAddLike(event , '<%= element3.id%>' , 'bottom')"><%= element3.usersLikes ? (element3.usersLikes.indexOf(parseInt(UserCookie.id)) != "-1" ? element3.LikesTypes[element3.usersLikes.indexOf(parseInt(UserCookie.id))] : "اعجبني" ) : "اعجبني" %></span>
+                                     <div class="emoji">
+                                      <span onclick="addLikes(event , 'thumbsup' , '<%= element3.id%>' , 'bottom')" title="اعجبني"><%= GetEmojin("thumbsup") %></span>
+                                      <span onclick="addLikes(event , 'heart' , '<%= element3.id%>' , 'bottom')" title="احببت"><%= GetEmojin("heart") %></span>
+                                      <span onclick="addLikes(event , 'heart_eyes' , '<%= element3.id%>' , 'bottom')" title="ادعمه"><%= GetEmojin("heart_eyes") %></span>
+                                      <span onclick="addLikes(event , 'angry' , '<%= element3.id%>' , 'bottom')" title="اغضبني"><%= GetEmojin("angry") %></span>
+                                      <span onclick="addLikes(event , 'hushed' , '<%= element3.id%>' , 'bottom')" title="واو"><%= GetEmojin("hushed") %></span>
+                                      <span onclick="addLikes(event , 'cry' , '<%= element3.id%>' , 'bottom')" title="احزنني"><%= GetEmojin("cry") %></span>
+                                      <span onclick="addLikes(event , 'joy' , '<%= element3.id%>' , 'bottom')" title="هاهاها"><%= GetEmojin("joy") %></span>
+                                     </div> 
+                                  </button>                                  
+                                  <button onclick="showInputReplayComment(event)">رد</button>
+                                  <span><span><%= date(element3.createdAt , "date") %></span> <i class="fa fa-clock-o" aria-hidden="true"></i> </span>
+                                  <% if (element.from == UserCookie.id || element.to ==  UserCookie.id || element3.userId == UserCookie.id) { %>
+                                    <div class="addAndDelete d-inline">
+                                      <span onclick="showMenue(event , '<%= element3.id %>')" class="mnue">...</span>
+                                      <ul class="list-unstyled">
+                                        <li onclick="editComment(event , '<%= element3.id %>')">
+                                          تعديل
+                                        </li>
+                                        <li onclick="deleteCommentPost(event , '<%= element.id %>')">
+                                          حذف
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  <% } %>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="writeComment">
+                              <div class="left">
+                                <a href="/userProfile/<%= UserCookie.id %>"><img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt=""></a>
+                                <span><span></span></span>
+                              </div>
+                              <div>
+                                <input type="text" name="" id="" onkeyup="addCommentPost(event , '<%= element.id%>' , '<%= element3.id %>')" placeholder="ادخل ردا الي <%= element3.postCommentUser.fName + " " + element3.postCommentUser.lName %>...">
+                                <div>
+                                  <i class="fa fa-photo" aria-hidden="true">
+                                    <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                                  </i>
+                                  <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                    <div class="allEmoji">
+                                      <div class="head active">
+                                        <ul class="list-unstyled">
+                                            <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                              <li onclick="catigoryEmoji(event)" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                            <% } %>
+                                        </ul>
+                                      </div>
+                                      <div class="emojis ">
+                                        <div>
+                                          <span></span>
+                                          <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                        </div>
+                                        <ul class="list-unstyled">
+                                        
+                                        </ul>
+                                      </div>
+                                      <div class="over">
+                                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                      </div>
+                                    </div>
+                                  </i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="assets"></div>
+                            <span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '<%= element3.id %>' , '<%= element.id %>' , 'sup' )">عرض المزيد من الكمنتات</span>
+                          </div>
+  
+                        <% }) %>
+                        <% if (element2.supComments.length > 0) { %>
+                          <span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '<%= element2.id %>' , '<%= element.id %>' , 'sup' )">عرض المزيد من الكمنتات</span>
+                        <% } %>
+                      </div>
+                      <% }) %>
+                      <% if (element.postComments.length >= 3) { %>
+                        <span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '' , '<%= element.id %>' , 'main')">عرض المزيد من الكمنتات</span>
+                      <% } %>
+                    </div>
+                    
+                    <div class="writeComment d-flex">
+                      <div class="left">
+                        <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                          <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="">
+                          <span>
+                            <span></span>
+                          </span>
+                        </a>
+                      </div>
+                      <div>
+                        <input type="text" onkeyup="addCommentPost(event , '<%= element.id%>')" placeholder="ادخل تعليقا...">
+                        <div>
+                          <i class="fa fa-photo" aria-hidden="true">
+                            <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                          </i>
+                          <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                            <div class="allEmoji">
+                              <div class="head active">
+                                <ul class="list-unstyled">
+                                    <% for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ %>
+                                      <li onclick="catigoryEmoji(event)" data_number="<%= prop%>"><span><%= x[prop] %></span> <%= {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] %></li>
+                                    <% } %>
+                                </ul>
+                              </div>
+                              <div class="emojis ">
+                                <div>
+                                  <span></span>
+                                  <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                </div>
+                                <ul class="list-unstyled">
+                                
+                                </ul>
+                              </div>
+                              <div class="over">
+                                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                              </div>
+                            </div>
+                          </i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="assets"></div>
+
+                  </div>
+                  <div class="over">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+        </div>
+        <aside class="asideBox">
+          <% chateAside.forEach(element => { %>
+            <a onclick="openChate(event , '<%= element.FromChatUser.id != UserCookie.id ? element.FromChatUser.id : element.chatUser.id %>' , mackShourtCut(event))" class="online ID<%= element.FromChatUser.id != UserCookie.id ? element.FromChatUser.id : element.chatUser.id %> ">
+              <img src="/admin/asset/images/users_photo/<%= element.FromChatUser.id != UserCookie.id ? element.FromChatUser.image.split("--")[0] : element.chatUser.image.split('--')[0] %>" alt="">
+              <span style="width:12px !important;height:12px !important">
+                <span></span>
+              </span>
+            </a>
+          <% }) %>
+        </aside>
+      </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<%- include("../inclueds/footer_script") %>
+<%- include("../inclueds/sockitInit") %>
+<script src="/frontEnd/assets/js/moment.js"></script>
+<%- include("../inclueds/allFunctionsAndScriptsInProfile") %>
+
+
+<script src="/admin/asset/vendors/js/gallery/masonry/masonry.pkgd.min.js"
+type="text/javascript"></script>
+<script src="/admin/asset/vendors/js/gallery/photo-swipe/photoswipe.min.js"
+type="text/javascript"></script>
+<script src="/admin/asset/vendors/js/gallery/photo-swipe/photoswipe-ui-default.min.js"
+type="text/javascript"></script>
+
+<!-- BEGIN PAGE LEVEL JS-->
+<script src="/admin/asset/js/scripts/gallery/photo-swipe/photoswipe-script.js"
+type="text/javascript"></script>
+</body>
+    

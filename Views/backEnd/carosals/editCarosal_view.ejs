@@ -1,0 +1,283 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/Carosals/"> الكاروسالات </a>
+                                </li>
+                                <li class="breadcrumb-item active">تعديل كاروسال جديد
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل كاروسال </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form class="form" method="post" enctype="multipart/form-data">
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات الكاروسال <%= defaultLanguageCarosal.language %></h4>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> عنوان الكاروسال </label>
+                                                            <textarea type="text" class="form-control" placeholder="ادخل موقع الكاروسال في الموقع" name="carosal[0][header]"><%= carosalData["header_" + defaultLanguageCarosal.shourtcut] %></textarea>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["carosal[0].header"]) { %>
+                                                                    <span class="text-danger"><%=validationError["carosal[0].header"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> وصف الكاروسال </label>
+                                                            <textarea type="text" class="form-control" placeholder="ادخل وصف الكاروسال" name="carosal[0][description]"><%= carosalData["description_" + defaultLanguageCarosal.shourtcut] %></textarea>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["carosal[0].description"]) { %>
+                                                                    <span class="text-danger"><%=validationError["carosal[0].description"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <input type="hidden" value="<%= defaultLanguageCarosal.shourtcut %>" name="carosal[0][shourtcut]" class="custom-file-input" id="inputGroupFile01">
+
+                                            <% fullLanguage.forEach((element , i) => { %>
+                                                <div class="form-body">
+                                                    <h4 class="form-section"><i class="ft-home"></i> بيانات الكاروسال <%= element.language %></h4>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> عنوان الكاروسال </label>
+                                                                <textarea type="text" class="form-control" placeholder="ادخل موقع الكاروسال في الموقع" name="carosal[<%= (i + 1) %>][header]"><%= carosalData["header_" + element.shourtcut] %></textarea>
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["carosal[" + (i + 1) + "].header"]) { %>
+                                                                        <span class="text-danger"><%=validationError["carosal[" + (i + 1) + "].header"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> وصف الكاروسال </label>
+                                                                <textarea type="text" class="form-control" placeholder="ادخل وصف الكاروسال" name="carosal[<%=(i + 1)%>][description]"><%= carosalData["description_" + element.shourtcut] %></textarea>
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["carosal[" + (i + 1) + "].description"]) { %>
+                                                                        <span class="text-danger"><%=validationError["carosal[" + (i + 1) + "].description"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" value="<%= element.shourtcut %>" name="carosal[<%=(i + 1)%>][shourtcut]" class="custom-file-input" id="inputGroupFile01">
+
+                                            <% }) %>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="active"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= carosalData.active ? "checked" : "" %>
+                                                            />
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الحالة </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="projectinput1"> موقع الكاروسال </label>
+                                                <select name="location" class="language form-control">
+                                                    <option></option>
+                                                    <% allCarosalsLocations.forEach(element => { %>
+                                                        <option <%= carosalData.locationInProject == element ? "selected" : "" %>><%= element %></option>
+                                                    <% }) %>
+                                                </select>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError["location"]) { %>
+                                                        <span class="text-danger"><%=validationError["location"][0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="allCatigorySelect" >
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label for="projectinput1">القسم الرءيسي</label>
+                                                        <select onChange="getCatigory(event)" data_count="0" name="catigory[]" class="language form-control">
+                                                            <option></option>
+                                                            <% catigorys.forEach(element => { %>
+                                                                <option value="<%= element.id %>"><%= element["name_" + defaultLanguage] %></option>
+                                                            <% }) %>
+                                                        </select>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError["catigory"]) { %>
+                                                                <span class="text-danger"><%=validationError["catigory"][0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صور الكاروسال </label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                    <input type="hidden" value="<%= carosalData.images %>" name="oldImage" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.image) { %>
+                                                        <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                            <div class="showImage">
+                                                <h3>carosal images</h3>
+                                                <div class="row">
+                                                    <% carosalData.images.split("--").forEach((element , i) => { %>
+                                                        <% if (element) { %>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <img src="/admin/asset/images/carosals_photo/<%= element %>" alt="">
+                                                            </div>
+                                                        <% } %>
+                                                    <% }) %>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                    </form>
+                                    <input type="hidden" name="oldCatigory" value="<%= carosalData.catigory %>">
+                                    <div class="d-none copySelect">
+                                        <div class="form-group">
+                                            <label for="projectinput1">القسم الفرعي</label>
+                                            <select onChange="getCatigory(event)" name="catigory[]" class="language form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+    <script>
+        var counter = 0;
+        var allCatigorySelect = document.querySelector(".allCatigorySelect")
+        var copySelect = document.querySelector(".copySelect")
+            function copyElement(data) {
+                var child = copySelect.cloneNode(true);
+                child.classList.remove("d-none")
+                counter++
+                child.querySelector("select").setAttribute("data_count" , counter)
+                child.querySelector("select").setAttribute("name" , `catigory[]`)
+                data.catigorys.forEach(ele => {
+                    child.querySelector("select").innerHTML += `<option value="${ele.id}">${ele["name_" + "<%= defaultLanguage %>"]}</option>`
+                })
+                allCatigorySelect.appendChild(child)
+            }
+        
+            function removeElement(dataCount) {
+                var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+                elements.forEach(ele => {
+                    if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                        ele.remove()
+                    }
+                })   
+                counter = dataCount  
+            }
+        
+            function getCatigory(e , eleId = 0) {
+                var id = e.target.value ? e.target.value : 0;
+                var dataCount = e.target.getAttribute("data_count")
+                if(id) {
+                    $.ajax({
+                    type : "post",
+                    url  : "/admin/supCatigory/getMainCatigoryAjax/" + id + "/" + eleId,
+                    success(data) {
+                        if(data.catigorys.length > 0) {
+                            if(counter == dataCount) {
+                                copyElement(data)
+                            } else if(counter > dataCount) {
+                                var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+                                elements.forEach(ele => {
+                                    if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                                        ele.remove()
+                                    }
+                                })
+                                counter = dataCount
+                                copyElement(data , allCatigorySelect , copySelect)
+                            }
+                        } else {
+                            removeElement(dataCount)
+                        }
+                    },
+                    error() {
+                        console.log("error")
+                    }
+                    })
+                } else {
+                    removeElement(dataCount)
+                }
+            }
+        
+    </script>
+</body>
+</html>

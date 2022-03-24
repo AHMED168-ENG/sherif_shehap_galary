@@ -1,0 +1,153 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/language/"> كومنتات المونتجات </a>
+                                </li>
+                                <li class="breadcrumb-item active">إضافة كومنت جديد
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> إضافة كومنت </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form class="form" method="post" >
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات الكومنت </h4>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الكومنت</label>
+                                                            <input type="text" name="comment" class="form-control" placeholder="enter your comment ">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.comment) { %>
+                                                                    <span class="text-danger"><%=validationError.comment[0].msg %></span>
+                                                                 <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الليكات</label>
+                                                            <input type="text" name="likes" class="form-control" value="0" placeholder="enter your likes ">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.likes) { %>
+                                                                    <span class="text-danger"><%=validationError.likes[0].msg %></span>
+                                                                 <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> عدم الاعجاب</label>
+                                                            <input type="text" value="0" name="desLikes" class="form-control" placeholder="enter your desLikes ">
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.desLikes) { %>
+                                                                    <span class="text-danger"><%=validationError.desLikes[0].msg %></span>
+                                                                 <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput2"> المنتجات </label>
+                                                            <select name="productId" class="direction form-control" class="select2">
+                                                                <optgroup label="من فضلك اختر المنتج الذي تريده">
+                                                                    <option></option>
+                                                                    <% products.forEach(element => { %>
+                                                                        <option value="<%= element.id %>"><%= element["productName" + "_" + defaultLang] %></option>
+                                                                    <% }) %>
+                                                                </optgroup>
+                                                            </select>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.product) { %>
+                                                                    <span class="text-danger"><%=validationError.product[0].msg %></span>
+                                                                    <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="active"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            checked
+                                                            />
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.active) { %>
+                                                                    <span class="text-danger"><%=validationError.active[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الحالة </label>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                    onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+
+</body>
+</html>

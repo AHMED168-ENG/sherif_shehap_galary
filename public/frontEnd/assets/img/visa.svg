@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="263.162" height="161" viewBox="0 0 263.162 161">
+  <g id="cards_payment_" data-name="cards / payment " transform="translate(0 0.007)">
+    <rect id="shadow" width="263" height="161" rx="24" transform="translate(0 -0.007)" fill="none"/>
+    <path id="bg" d="M14.861,0H248.3a14.861,14.861,0,0,1,14.861,14.861V146.132A14.861,14.861,0,0,1,248.3,160.993H14.861A14.861,14.861,0,0,1,0,146.132V14.861A14.861,14.861,0,0,1,14.861,0Z" fill="#00efb6"/>
+    <rect id="chip" width="41" height="27" rx="6" transform="translate(22 66.993)" fill="#fff"/>
+    <g id="outline" transform="translate(0 -0.007)" fill="none" stroke="#18191f" stroke-miterlimit="10" stroke-width="2">
+      <rect width="263" height="161" rx="14" stroke="none"/>
+      <rect x="1" y="1" width="261" height="159" rx="13" fill="none"/>
+    </g>
+    <text id="_8765_7875_6759_4344" data-name="8765 7875 6759 4344" transform="translate(97 84.993)" fill="#fff" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0" xml:space="preserve">8765  7875  6759  4344</tspan></text>
+    <g id="user" transform="translate(22.169 114.279)">
+      <text id="diya_mehra." data-name="diya mehra." transform="translate(-0.169 24.714)" fill="#fff" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">walid eisa ismail</tspan></text>
+      <text id="CARD_HOLDER" data-name="CARD HOLDER" transform="translate(-0.169 6.714)" fill="#fff" font-size="7" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">CARD HOLDER</tspan></text>
+    </g>
+    <text id="Credic_Card" data-name="Credic Card" transform="translate(22 30.993)" fill="#fff" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Credic Card</tspan></text>
+    <path id="logo" d="M27.845,17.6l.652-4.032.614.287a9.306,9.306,0,0,0,4.373.955c1.341,0,2.78-.554,2.8-1.758,0-.784-.613-1.357-2.416-2.236-1.764-.86-4.123-2.293-4.085-4.873C29.8,2.446,33.042,0,37.645,0a11.524,11.524,0,0,1,4.18.765l-.634,3.879-.421-.191A7.945,7.945,0,0,0,37.3,3.765c-1.84,0-2.665.783-2.684,1.548,0,.841,1,1.4,2.628,2.217,2.685,1.281,3.931,2.847,3.912,4.892-.038,3.727-3.222,6.135-8.112,6.135A14.223,14.223,0,0,1,27.845,17.6Zm17.853.689h-4.89L47.731,1.816A2.284,2.284,0,0,1,50.167.325h3.6l3.76,17.962H53.216c0-.005-.418-2.044-.556-2.7H46.677l-.978,2.7h0ZM50.015,6.52c-.1.279-.136.376-.136.38-.014.04-1.48,4-1.86,5.025h3.874c-.182-.85-.983-4.751-1.073-5.193v0l-.325-1.545C50.352,5.589,50.149,6.149,50.015,6.52ZM20.27,18.288,23.185.325h4.66L24.93,18.288ZM9.051,18.269,4.9,2.661A19.032,19.032,0,0,0,0,.689L.077.325h7.5a1.928,1.928,0,0,1,2.11,1.51l1.629,8.252v0l.5,2.484L16.377.325h4.928L13.979,18.269Z" transform="translate(179.57 121.364)" fill="#18191f" opacity="0.51"/>
+  </g>
+</svg>

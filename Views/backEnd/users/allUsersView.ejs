@@ -1,0 +1,119 @@
+<%- include("../layouts/head") %> 
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+<div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title"> الاعضاء </h3>
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية</a>
+                                </li>
+                                <li class="breadcrumb-item active"> الاعضاء
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- DOM - jQuery events table -->
+                <section id="dom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">جميع اعضاء الموقع </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard">
+                                        <table
+                                            class="table display nowrap table-striped table-bordered scroll-horizontal " style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th> الاسم</th>
+                                                <th>الايميل</th>
+                                                <th>الصوره</th>
+                                                <th>الحاله</th>
+                                                <th>هل ادمن</th>
+                                                <th>هل تاجر</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% users.forEach(element => { %>
+                                                 <tr>
+                                                        <td><%= element.fName %> <%= element.lName %></td>
+                                                        <td class="chang"><p><%= element.email %></p></td></td>
+                                                        <% if (element.image) { %>
+                                                            <td><img style="width:70px ; height:70px" src="/admin/asset/images/users_photo/<%= element.image.split("--")[0] %>" alt=""></td>
+                                                        <% } else { %>
+                                                            <td><img style="width:70px ; height:70px" src="/admin/asset/images/users_photo/avatar.png" alt=""></td>
+                                                        <%}%>
+                                                        <td><%= element.active ? "active" : "notActive" %></td>
+                                                        <td><%= element.isAdmin ? "admin" : "notAdmin" %></td>
+                                                        <td><%= element.isVendor ? "vendoer" : "notVendoer" %></td>
+                                                     
+                                                        <td style="position:relative">
+                                                            <a class="btn btn-secondary dropdown-toggle" href="#" data-toggle="dropdown">controllers</a>
+                                                            <ul class="dropdown-menu " style="box-shadow: 3px 3px 7px rgba(0,0,0,0.1);" aria-labelledby="dropdownMenuButton2">
+                                                                <li><a href="editUser/<%= element.id %>" class="dropdown-item">تعديل</a></li>
+                                                                <li>
+                                                                    <a href="/admin/userSearch/addUserSearch/<%= element.id %>" class="dropdown-item"> اضافه بحث للمستخدم</a>
+                                                                    <a href="/admin/userSearch/allUserSearch/<%= element.id %>" class="dropdown-item">بحث المستخدم</a>
+                                                                </li>
+                                                                <li><a href="userActevity/<%= element.id %>" class="dropdown-item"><%= !element.active ? "مفعل" : "غير مفعل" %></a></li>
+                                                                <li><hr class="dropdown-divider"></li>
+                                                                <li>
+                                                                    <form class="d-inline-block" action="deleteUser/<%= element.id %>" method="post" style="width:100%">
+                                                                        <input type="hidden" name="userImage" value="<%= element.image %>">
+                                                                        <input type="hidden" name="userVendoer" value="<%= element.userVendorData ?  element.userVendorData.vendorImage : null %>">
+                                                                        <input type="hidden" name="userCommercFile" value="<%= element.userVendorData ?  element.userVendorData.commercFile : null %>">
+                                                                        <input type="hidden" name="fNmae" value="<%= element.fName %>">
+                                                                        <input type="hidden" name="lNmae" value="<%= element.lName %>">
+                                                                        <input type="hidden" name="email" value="<%= element.email%>">
+                                                                        <button class="dropdown-item d-block" style="cursor: pointer;width:100%;outline:0;border:0;background:none">حذف</button>
+                                                                    </form>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <div class="justify-content-center d-flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+</body>
+</html>
+
+

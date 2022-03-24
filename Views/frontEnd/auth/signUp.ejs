@@ -1,0 +1,165 @@
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/lower_header_auth")  %>
+
+        <!-- //////////////////////////////////////////////////// -->
+        
+        <div class="signin">
+            <div class="container">
+                <%- include("../inclueds/notification")  %>
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="right p-4 mb-3">
+                            
+                            <h4>مرحبا بك فى <span class="main-color">Zone</span></h4>
+                            <br /> <br />
+
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="nameOne">الإســم الاول <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nameOne" name="fName">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.fName) { %>
+                                                <span class="text-danger"><%=validationError.fName[0].msg %></span>
+                                            <% } %>
+                                        <% } %>                                    
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="name2">الإســم الثانى <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="name2" name="lName">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.lName) { %>
+                                                <span class="text-danger"><%=validationError.lName[0].msg %></span>
+                                            <% } %>
+                                        <% } %>                                    
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="age">العمر <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="age" name="age">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.age) { %>
+                                                <span class="text-danger"><%=validationError.age[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="phone">الجوال <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="phone" name="number">
+                                        <% if (validationError) { %>
+                                            <% if (validationError.number) { %>
+                                            <span class="text-danger"><%=validationError.number[0].msg %></span>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addres">العنوان <span class="text-danger ">*</span></label>
+                                    <input type="text" readonly class="form-control addres" id="addres" name="addres" value="">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.addres) { %>
+                                            <span class="text-danger"><%=validationError.addres[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">البريد الالكترونى <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.email) { %>
+                                            <span class="text-danger"><%=validationError.email[0].msg %></span>
+                                        <% } %>
+                                    <% } %>                                
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">كلمة المرور <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.password) { %>
+                                            <span class="text-danger"><%=validationError.password[0].msg %></span>
+                                        <% } %>
+                                    <% } %>                                
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">تاكيد كلمة المرور <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="exampleInputPassword2" name="confirmPassword">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.confirmPassword) { %>
+                                            <span class="text-danger"><%=validationError.confirmPassword[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="projectinput2"> صوره المستخدم </label>
+                                    <div class="custom-file">
+                                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose Your Personal Image If You Wont</label>
+                                    </div>
+                                    <% if (validationError) { %>
+                                        <% if (validationError.image) { %>
+                                            <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                <button type="submit" class="btn signUp btn-block">سجل</button>
+                                <hr>
+                                <div class="d-flex loginWithSocial">
+                                    <a href="/auth/facebook">Login<i class="fa fa-facebook" aria-hidden="true"></i> </a>
+                                </div>
+                            </form>
+
+                            <p class="mb-0 mt-2">
+                                إذا كان لديك حساب بالفعل؟ <a href="signIn">تسجيل الدخول هنا</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="left">
+                            <img src="/frontEnd/assets/img/login.svg" class="img-fluid" alt="0" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<%- include("../inclueds/footer_script")  %>
+<%- include("../inclueds/footer")  %>
+<script>
+window.onload =  function () {
+    var alertNotification = document.querySelector(".alertNotification")
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+    function showPosition(position) {
+        $.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude"+ position.coords.latitude + "&longitude" + position.coords.longitude +"&sensor=false&localityLanguage=en", function(data) {
+            document.querySelector(".addres").value = `${data.continent},${data.countryName},${data.locality}`
+        })
+    }
+    if(alertNotification) {
+        alertNotification.classList.add("active")
+        console.log(alertNotification)
+        console.log(alertNotification.classList)
+        setTimeout(() => {
+            alertNotification.classList.remove("active")
+        }, 4000);
+    }
+}
+</script>
+</body>

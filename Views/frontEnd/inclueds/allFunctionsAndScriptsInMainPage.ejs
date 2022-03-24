@@ -1,0 +1,2328 @@
+<script>
+    /*------------------------- start part of sokite ----------------------------*/
+    sockit.on("connect" , () => {
+      sockit.emit("createYourRoom" , {userId : '<%=  UserCookie.id %>'})
+      sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+    
+      })
+    
+      var allUserFrindOnline = {}
+      function shire() {
+        sockit.emit("shire")
+      }
+      function join() {
+        sockit.emit("join")
+      }
+      function leave() {
+        sockit.emit("leave")
+      }
+    sockit.on("online" , (data) => {
+        allUserFrindOnline = data.activeUser
+        document.querySelectorAll(".online").forEach(ele => {
+          ele.classList.remove("active")
+        })
+        for(var element in data.activeUser) {
+          if(data.activeUser[element].id != "") {
+            document.querySelectorAll((".ID" + data.activeUser[element].id)).forEach(ele => {
+              ele.classList.add("active")
+            })
+          }
+        }
+      })
+    
+
+    sockit.on("addNotificationUser" , () => {
+      var notificNumber = document.querySelector(".userNotification > span")
+        if(notificNumber) {
+          notificNumber.innerHTML = (parseInt(notificNumber.innerHTML) + 1)
+        } else {
+          document.querySelector(".userNotification").innerHTML += "<span class='notificationNumber notification'>1</span>"
+        }
+    })
+    sockit.on("sendMessageFrind" , (data) => {
+      var box = document.querySelector(`.box${data.userId}`);
+      if(box) {
+        if(box.querySelector(".noMessage")) box.querySelector(".noMessage").remove()
+        box.querySelector(`.messages`).innerHTML += `<div class="frind message"><p>${data.data[1]}</p></div>`
+      } else {
+        var messagesNumber = document.querySelector(".messagesController .messagesNumber")
+        if(messagesNumber) {
+          messagesNumber = parseInt(messagesNumber.innerHTML) + 1
+        } else {
+          document.querySelector(".messagesController").innerHTML += "<span class='messagesNumber notification'>1</span>"
+        }
+      }
+      if(!document.querySelector(`.messagesController .messages .chate${data.userId}`)) return
+      var text = document.querySelector(`.messagesController .messages .chate${data.userId} .text`)
+      text.querySelector(`.head > span:nth-of-type(1) > span:nth-of-type(2)`).innerHTML = data.data[1]
+      document.querySelector(`.messagesController .messages .chate${data.userId} .text .head > span:nth-of-type(2)`).innerHTML = moment(data.data[0]).fromNow()
+      document.querySelector(`.messagesController .messages .chate${data.userId} .text .head > span:nth-of-type(1) > span:nth-of-type(1)`).innerHTML = ""
+      if(!box) {
+        document.querySelector(`.messagesController .messages .chate${data.userId} .text .footer`).innerHTML = `<span></span>`
+      } else {
+        sockit.emit("changFrindChateImage" , {userId : data.userId , image : data.image , frindId : data.frindId})
+        document.querySelector(`.messagesController .messages .chate${data.userId} .text .footer`).innerHTML = ""
+      }
+    })
+    
+    sockit.on("changFrindChateImage" , (data) => {
+        if(!document.querySelector(`.messagesController .messages .chate${data.frindId}`)) return 
+      document.querySelector(`.messagesController .messages .chate${data.frindId} .text .footer`).innerHTML = `<img src='/admin/asset/images/users_photo/${data.image.split("--")[0] }' />`
+    })
+    
+    sockit.on("clickOnChateToShowMessages" , (data) => {
+    if(!document.querySelector(`.chate${data.userId}`)) return
+
+      var activeChate = document.querySelector(`.chate${data.userId} .mainContent .text .footer`)
+      activeChate.innerHTML = ""
+      var activeChateImage = document.querySelector(`.chate${data.userId} .mainContent .img a img`).cloneNode(true)
+      activeChate.appendChild(activeChateImage)
+    
+    })
+    
+/*------------------------- start messageControll ----------------------------*/
+function messageControll(e) {
+    document.querySelector(".messagesController .messages ").className = "messages active " + e.target.getAttribute("data_atr")
+}
+/*------------------------- end messageControll ----------------------------*/
+
+/*------------------------- start closeChate ----------------------------*/
+function closeChate(e , frindId) {
+  var box = e.target.parentElement.parentElement.parentElement;
+  var shourtCutChat = document.querySelector(".asideBox .ID" + frindId)
+  if(box.parentElement.childElementCount == 1) {
+    box.parentElement.classList.remove("active")
+  }
+  box.remove()
+  if(shourtCutChat) {
+    $.ajax({
+      url : "/removeIsSeenFromChate",
+      type : "post",
+      data : {
+        frindId,
+        userId : '<%= UserCookie.id%>'
+      },
+      success(data) {
+        shourtCutChat.remove()
+        messagesController.classList.remove("active")
+        document.querySelector(".alert2 > div").innerHTML = "تم ازاله ايكون الاختصار للشات"
+        document.querySelector(".alert2").classList.add("active")
+        setTimeout(() => {
+          document.querySelector(".alert2").classList.remove("active")
+        } , 3000)
+      },
+      error() {
+        messagesController.classList.remove("active")
+        document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+        document.querySelector(".alert2").classList.add("active")
+        setTimeout(() => {
+          document.querySelector(".alert2").classList.remove("active")
+        } , 3000)
+      }
+    })
+  }
+}
+/*------------------------- end closeChate ----------------------------*/
+
+/*------------------------- start openChate ----------------------------*/
+function openChate(e , frindId) {
+  var out = false
+  var chate = document.querySelector(".chate");
+  if(chate.querySelectorAll("div.box").length > 0) {
+    chate.querySelectorAll("div.box").forEach(ele => {
+      if(ele.classList.contains("box" + frindId)) {
+        out = true
+      }
+    })
+  }
+  if(out) {
+    document.querySelector(".messagesController .messages").className = "messages userMessage "
+    return
+  }
+  $.ajax({
+    url : "/getFrindMessages",
+    data : {
+      frindId,
+      userId : '<%= UserCookie.id %>',
+    },
+    type : "post",
+    success(data) {
+      var shourtCutChat = document.querySelector(".asideBox .ID" + frindId)
+      if(shourtCutChat) {
+        if(!shourtCutChat.classList.contains("d-none")) shourtCutChat.classList.add("d-none")
+      }
+      var activeChate = document.querySelector(`.chate${frindId} .mainContent .text .footer span`)
+      if(activeChate) {
+        activeChate.remove()
+        sockit.emit("clickOnChateToShowMessages" , {frindId : frindId.toString() , userId : '<%= UserCookie.id %>'})
+      }
+      sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+      document.querySelector(".messages").className = "messages userMessage "
+      if(chate.childElementCount == 0) {
+        chate.classList.add("active")
+      }
+      var box = `
+      <div class="box box${frindId}">
+      <div class="header d-flex align-items-center justify-centent-between">
+        <div class="user d-flex align-items-center">
+          <a href="" class="online ID${data[0].id}">
+            <img src="/admin/asset/images/users_photo/${data[0].image.split("--")[0]}" alt="">
+              <span><span></span></span>
+          </a>
+          <div class="information d-flex align-items-center">
+            <div>
+              <h4>${data[0].fName + " " + data[0].lName }</h4>`
+              if(data[0].onLine != true) {
+                box += `<span>7/8/2000</span>`
+              }
+              
+            box += `</div>
+            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            <div class=seting></div>
+          </div>
+        </div>
+        <div class="controller">
+          <i class="fas fa-video"></i>
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          <i class="fa fa-minus" onClick="addShourtCut(event , ${frindId} , '${data[0].image}')" aria-hidden="true"></i>
+          <i class="fa fa-times" onclick="closeChate(event , ${frindId})" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="content">
+        <div class="noMessage ${data[1].length != 0 ? "d-none" : ""}">
+            <div class="img">
+              <a href="/userProfile/${data[0].id}" class="online ID${data[0].id}">
+                <img src="/admin/asset/images/users_photo/${data[0].image.split("--")[0]}" alt="">
+                <span><span></span></span>
+              </a>
+            </div>  
+            <a href="/userProfile/${data[0].id}">View Profile</a>
+          </div>
+          <div class="messages">`
+          if(data[1].length > 0) {
+            data[1].forEach(ele => {
+              box += `<div class="${ele.from != frindId ? "me" : "frind"} message"><p>${ele.message}</p></div>`
+            })
+        }
+        box += `</div>
+      </div>
+      <div class="footer d-flex align-items-center">
+        <div class="assets">
+          <i class="fa fa-gift" aria-hidden="true"></i>
+          <i class="fa fa-file-image-o" aria-hidden="true"></i>
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </div>
+        <div class="form">
+          <i class="fa fa-smile-o" aria-hidden="true"></i>
+          <input type="text" onkeyup="sendMessage(event , ${data[0].id} , '${data[0].image}')">
+        </div>
+
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+      </div>
+    </div>
+      `;
+      chate.innerHTML += box
+    },
+    error() {
+
+    },
+  })
+
+
+
+}
+/*------------------------- start openChate ----------------------------*/
+
+/*------------------------- start sendMessage ----------------------------*/
+function sendMessage (e , frindId , image) {
+    var content = e.target.parentElement.parentElement.parentElement.querySelector(".content")
+
+    if(e.keyCode == 13 && e.target.value.trim() != "") {
+    $.ajax({
+        url : "/sendMessage",
+        data : {
+        userId : '<%= UserCookie.id %>',
+        frindId,
+        message : e.target.value,
+        isEmpty : !content.querySelector(".message") ? true : false
+        },
+        type : "post",
+        success(data) {
+        sockit.emit("sendMessageFrindSokit" , {frindId : frindId.toString() , userId : '<%= UserCookie.id  %>' , data : data , image})
+        var noMessage = content.querySelector(".noMessage")
+        if(noMessage) {
+            noMessage.classList.add("d-none")
+        }
+        content.querySelector(".messages").innerHTML += `<div class="me message"><p>${e.target.value}</p></div>`
+        e.target.value = ""
+        if(!document.querySelector(`.messagesController .chate${frindId}`)) return
+        document.querySelector(`.messagesController .chate${frindId} .mainContent .text .head > span:nth-of-type(1) span:nth-of-type(2)`).innerHTML = data[1]
+        document.querySelector(`.messagesController .chate${frindId} .mainContent .text .head > span:nth-of-type(1) span:nth-of-type(1)`).innerHTML = "you : "
+        document.querySelector(`.messagesController .chate${frindId} .mainContent .text .footer`).innerHTML = `<i class="fa fa-check-circle" aria-hidden="true"></i>`
+        document.querySelector(`.messagesController .chate${frindId} .mainContent .text .head > span:nth-of-type(2)`).innerHTML = moment(data[0]).fromNow()
+        
+        },
+        error() {
+
+        }
+    })
+    }
+}
+/*------------------------- end messageControll ----------------------------*/
+
+    var messagesController = document.querySelector(".messagesController") 
+    var chateSearch = messagesController.querySelector(".messages .header .search input")
+    var windowOne = messagesController.querySelector(".messages .windowOne")
+    var windowTow = messagesController.querySelector(".messages .windowTow")
+    /*------------------------- start messageControll ----------------------------*/
+    var messageOpend = false
+    function showMessage (e) {
+      e.target.nextElementSibling.classList.toggle("active")
+      chateSearch.value = ""
+      clearSearchChate()
+      var messagesNumber = document.querySelector(".messagesController .messagesNumber")
+      if(messagesNumber) messagesNumber.remove()
+      if(messageOpend) return
+    
+      $.ajax({
+          url : "/UserMessage",
+          data : {
+            userId : '<%= UserCookie.id %>',
+            allUserFrindOnline : allUserFrindOnline
+          },
+          type : "post",
+          success(data) {
+            messageOpend = true
+            messagesController.classList.remove("active")
+            var ul = document.createElement("ul")
+            ul.className = "list-unstyled"
+            if(data[0].length > 0) {
+    
+              data[0].forEach(ele => {
+              ul.innerHTML += `
+              <li onclick="openChate(event , ${ele.id})">
+                  <div class="mainContent d-flex">
+                    <div class="img">
+                      <a href="/userProfile/${ele.id}" class="online ID${ele.id}">
+                        <img src="/admin/asset/images/users_photo/${ele.image.split("--")[0]}" alt="">
+                        <span><span></span></span>
+                      </a>
+                    </div>
+                    <div class="text">
+                        <div class="head d-flex justify-content-between">
+                          <h4>${ele.fName} ${ele.lName} </h4>
+                          <span>4.5Am</span>
+                        </div>
+                        <div class="footer d-flex justify-centent-between">
+                          <p>message</p>
+                          <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                  </div>
+              </li>`
+            })
+    
+            windowOne.appendChild(ul)
+            }
+            if(data[1].length > 0) {
+              ul2 = document.createElement("ul")
+              ul2.classList.add("list-unstyled")
+              x = ""
+              data[1].forEach(ele => {
+                x += `
+                <li onclick="openChate(event , ${ele.chatUser.id})" class="chate${ele.chatUser.id}">
+                    <div class="mainContent d-flex justify-content-between align-items-center">
+                      <div class="img">
+                        <a href="/userProfile/${ele.id}" class="online ID${ele.chatUser.id}">
+                          <img src="/admin/asset/images/users_photo/${ele.chatUser.image.split("--")[0]}" alt="">
+                          <span><span></span></span>
+                        </a>
+                      </div>
+                      <div class="text d-flex">
+                          <div class="head ">
+                            <h4>${ele.chatUser.fName} ${ele.chatUser.lName} </h4>`
+    
+                            if(!ele.chatUser.userFromMessage.length || (ele.chatUser.userToMessage.length && (ele.chatUser.userToMessage[0].createdAt > ele.chatUser.userFromMessage[0].createdAt))) {
+                              x += `<span>
+                                      <span> you : </span> 
+                                      <span>${ele.chatUser.userToMessage[0].message}</span>
+                                    </span>
+                                    <span>${moment(ele.chatUser.userToMessage[0].createdAt).fromNow()}</span>`
+                            } else {
+                              x += `<span>
+                                      <span> </span> 
+                                      <span>${ ele.chatUser.userFromMessage[0].message}</span>
+                                    </span>
+                                    <span>${moment(ele.chatUser.userFromMessage[0].createdAt).fromNow()}</span>`
+                            }
+                          x += `</div>
+                          <div class="footer d-flex justify-centent-between">`
+                            if(!ele.chatUser.userFromMessage.length || (ele.chatUser.userToMessage.length && (ele.chatUser.userToMessage[0].createdAt > ele.chatUser.userFromMessage[0].createdAt))) {
+                              if(!ele.chatUser.userToMessage[0].isSeen) {
+                                x += `<i class="fa fa-check-circle" aria-hidden="true"></i>`
+                              } else {
+                                x += `<img src="/admin/asset/images/users_photo/${ele.chatUser.image.split("--")[0]}" />`
+                              }
+                            } else {
+                              if(!ele.chatUser.userFromMessage[0].isSeen) {
+                                x += '<span></span>'
+                              }
+                            }
+                          x += `</div>
+                      </div>
+                    </div>
+                </li>`
+              })
+              ul2.innerHTML = x
+              windowTow.appendChild(ul2)
+            }
+            sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+          },
+          beforeSend() {
+            messagesController.classList.add("active")
+          },
+          error() {
+            messagesController.classList.remove("active")
+            document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+            document.querySelector(".alert2").classList.add("active")
+            setTimeout(() => {
+              document.querySelector(".alert2").classList.remove("active")
+            } , 3000)
+          }
+        })
+        
+    }
+    /*------------------------- end messageControll ----------------------------*/
+    
+    /*------------------------- start part of sokite ----------------------------*/
+    
+
+    function showUserNotification(e) {
+      var notificationType = ["R.Cancel" , "R.Accept" , "R.UnFollow" , "thumbsup" , "heart_eyes" , "angry" , "cry" , "joy" , "hushed" , "heart" , "comment"]
+      var notificationIcon = ["cancel.png" , "accept.jpg" , "unFollow.jpg" , "like.png" , "care.jpg" , "angry.jpg" , "sad.png" , "haha.png" , "wow2.png" , "love.jpg" , "comment.png"]
+      e.target.parentElement.classList.toggle("active")
+      if(e.target.parentElement.classList.contains("active")){
+        var span = e.target.parentElement.querySelector(".notificationNumber")
+        if(span) {
+          span.remove()
+        }
+        $.ajax({
+          type : "post",
+          url : "/getUserNotification",
+          data : {
+            userId : '<%= UserCookie.id %>',
+            offset : 0
+          },
+          beforeSend() {
+            e.target.parentElement.lastElementChild.classList.add("active")
+          },
+          success(data) {
+            e.target.parentElement.querySelector(".pairant > div > ul").innerHTML = ""
+            e.target.parentElement.lastElementChild.classList.remove("active")
+            if(data.length > 0) {
+              if(e.target.parentElement.querySelector(".pairant > div .header > ul").classList.contains("d-none")) {
+                e.target.parentElement.querySelector(".pairant > div .header > ul").classList.remove("d-flex")
+                e.target.parentElement.querySelector(".pairant > div .header > ul").classList.add("d-none")
+              }
+              data.forEach(ele => {
+                var x =  ""
+                x = `
+                <li>
+                  <a href="" class="d-flex align-items-center">
+                      <div class="assets">      
+                        <img src="/admin/asset/images/users_photo/${ele.notificationUser.image.split("--")[0]}" alt="">
+                        <img src="/admin/asset/images/ico/${notificationIcon[notificationType.indexOf(ele.type.split("__")[0])]}" alt="">
+                      </div>
+                      <div class="text">`
+                        switch (ele.type.split("__")[1]) {
+                              case "R.Cancel":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> بالغاء طلب الصداقه التي قمت بارساله اليه </p>`
+                              break;
+    
+                              case "R.Accept":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> بموافقه طلب الصداقه التي قمت بارساله اليه </p>`
+                              break;
+    
+                              case "R.UnFollow":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> بالغاء المتابعه لك </p>`
+                              break;
+    
+                              case "LikeComment":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> بالتفاعل مع كومنت <div class="shourt">${ele.type.split("__")[2]}</div> </p>`
+                              break;
+    
+                              case "Likes":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> بالتفاعل مع منشور <div class="shourt">${ele.type.split("__")[2]}</div> </p>`
+                              break;
+    
+                              case "Comment":
+                                x += `<p>قام <span>${ele.notificationUser.fName} ${ele.notificationUser.lName}</span> ${ele.type.split("__")[3] ? "بالرد علي تعليق " : "يالتعليق علي منشورك "}  <div class="shourt">${ele.type.split("__")[2]}</div></p>`
+                              break;
+                          }
+    
+                        x += `<span>منذ ${moment(ele.createdAt).fromNow()}</span>
+                      </div>
+                    <span></span>
+                  </a> 
+                </li>
+                `
+              e.target.parentElement.querySelector(".pairant > div > ul").innerHTML += x
+              })
+    
+            } else {
+              e.target.parentElement.querySelector(".pairant > div .header > ul").classList.add("d-none")
+              e.target.parentElement.querySelector(".pairant > div .header > ul").classList.remove("d-flex")          
+              e.target.parentElement.querySelector(".pairant > div > ul").innerHTML = `<li>لا يوجد اي اشعارات خاصه بك</li>`
+            }
+         
+          },
+          error() {
+            e.target.parentElement.lastElementChild.classList.remove("active")
+          }
+        })
+      }
+    }
+    
+    function showRequestNotification(e) {
+      e.target.parentElement.classList.toggle("active")
+      if(e.target.parentElement.classList.contains("active")){
+        var span = e.target.parentElement.querySelector("span")
+        if(span) {
+          span.remove()
+        }
+        $.ajax({
+          type : "post",
+          url : "/getAllRequest",
+          data : {
+            userId : '<%= UserCookie.id %>'
+          },
+          beforeSend() {
+            e.target.parentElement.lastElementChild.classList.add("active")
+          },
+          success(data) {
+            e.target.parentElement.lastElementChild.classList.remove("active")
+            if(data[0].length > 0) {
+              e.target.parentElement.querySelector("ul").innerHTML = ""
+              data[0].forEach(ele => {
+                e.target.parentElement.querySelector("ul").innerHTML += 
+              `<li>
+                  <div class="main d-flex">
+                    <a href="/userProfile/${ele.id}" class="photo"> 
+                      <img src="/admin/asset/images/users_photo/${ele.image.split("--")[0]}" alt="">
+                    </a>
+                    <div class="data">
+                      <p>قام <span>${ele.fName} ${ele.lName}</span> باءرسال طلب صداقه لك</p>
+                      <div class="controlls d-flex align-items-end justify-content-between">
+                        <div>
+                          <button onclick="cancelRequest('${ele.id}' , event)">cancel</button>
+                          <button onclick="acceptRequest('${ele.id}' , event)">Accept</button>
+                        </div>
+                        <span>${data[1].date[data[1].from.indexOf(ele.id)]}</span>
+                      </div>
+                    </div>
+                  </div>
+              </li>`
+              })
+    
+            } else {
+              e.target.parentElement.querySelector("ul").innerHTML = `<li>لا يوجد اي طلبات صداقه</li>`
+            }
+         
+          },
+          error() {
+            e.target.parentElement.lastElementChild.classList.remove("active")
+          }
+        })
+      }
+    }
+    
+    var userNotification = document.querySelector("nav .requestNotification")
+    function cancelRequest(userFrindId , e) {
+      $.ajax({
+          type : "post",
+          url : "/CancelRequest",
+          data : {
+            userId : '<%= UserCookie.id %>',
+            userFrindId : userFrindId ,
+          },
+          success(data) {
+            sockit.emit("cancelTowSideRequest" , {userId :  userFrindId}) 
+            sockit.emit("addNotificationUser" , {userId :  userFrindId}) 
+            userNotification.lastElementChild.classList.remove("active")
+            e.target.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
+            if(userNotification.querySelectorAll(".pairant > div ul li").length == 0) {
+              userNotification.classList.remove("active")
+            } 
+            document.querySelector(".alert2 > div").innerHTML = "تم الغاء الطلب بنجاح"
+            document.querySelector(".alert2").classList.add("active")
+            setTimeout(() => {
+              document.querySelector(".alert2").classList.remove("active")
+            } , 3000)
+          },
+          beforeSend() {
+            userNotification.lastElementChild.classList.add("active")
+          },
+          error() {
+            userNotification.lastElementChild.classList.remove("active")
+            document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+            document.querySelector(".alert2").classList.add("active")
+            setTimeout(() => {
+              document.querySelector(".alert2").classList.remove("active")
+            } , 3000)
+          }
+        })
+    }
+    
+    function acceptRequest(userFrindId , e) {
+      $.ajax({
+          type : "post",
+          url : "/acceptFrindRequest",
+          data : {
+            userId : '<%= UserCookie.id %>',
+            userFrindId : userFrindId ,
+          },
+          success(data) {
+            sockit.emit("acceptTowSideRequest" , {userId : userFrindId})
+            sockit.emit("addNotificationUser" , {userId :  userFrindId}) 
+            userNotification.firstElementChild.classList.remove("active")
+            e.target.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
+            if(userNotification.querySelectorAll(".pairant > div ul li").length == 0) {
+              userNotification.classList.remove("active")
+            } 
+            document.querySelector(".alert2 > div").innerHTML = "تم الموافقه علي الطلب بنجاح"
+            document.querySelector(".alert2").classList.add("active")
+            setTimeout(() => {
+              document.querySelector(".alert2").classList.remove("active")
+            } , 3000)
+          },
+          beforeSend() {
+            userNotification.firstElementChild.classList.add("active")
+          },
+          error(error) {
+            userNotification.firstElementChild.classList.remove("active")
+            document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما " + error
+            document.querySelector(".alert2").classList.add("active")
+            setTimeout(() => {
+              document.querySelector(".alert2").classList.remove("active")
+            } , 3000)
+          }
+        })
+    }
+    
+      var post = document.querySelectorAll(".pairant .addPost .modal-body .post textarea");
+      var overFlow = document.querySelectorAll(".pairant .addPost .modal-content .overflow");
+      var alert2 = document.querySelector(".alert2");
+      var offset = 0
+      var asset = ""
+      var assetsFile = "";
+      var publish = document.querySelectorAll(".pairant .addPost .modal-footer button");
+      var textarea = ""
+      var addPostReal = ""
+
+      post.forEach(ele => {
+        ele.oninput = function() {
+          if(this.value.trim()) {
+            this.parentElement.parentElement.nextElementSibling.firstElementChild.classList.add("btn-primary")
+          } else {
+            this.parentElement.parentElement.nextElementSibling.firstElementChild.classList.remove("btn-primary")
+          }
+        }
+      }) 
+        
+      function putAssets(e , where) {
+        if(where == "top") {
+          buttonSher = publish[0]
+          asset =  document.querySelectorAll(".pairant .addPost .assets")[0]
+          assetsFile = document.querySelectorAll(".pairant .addPost .assetsFile")[0].querySelectorAll("input");
+        } else {
+          buttonSher = publish[1]
+          asset =  document.querySelectorAll(".pairant .addPost .assets")[1]
+          assetsFile = document.querySelectorAll(".pairant .addPost .assetsFile")[1].querySelectorAll("input");
+        }
+    
+        assetsFile.forEach(element => { 
+            if(element.getAttribute("data_else") == e.target.getAttribute("name")) {
+            element.parentElement.classList.add("active")
+          }
+        })
+    
+        if(asset.querySelector("div")) {
+          asset.querySelector("div").remove()
+        }
+    
+        e.target.parentElement.classList.remove("active")
+        var reader = new FileReader();
+          reader.readAsDataURL(e.target.files[0])
+          reader.onload = function() {
+            var pairant = document.createElement("div")
+            var i = document.createElement("i")
+            i.setAttribute("onclick" , `removeAsset('${where}')`)
+            i.className = "fa fa-times"
+            var file = document.createElement(e.target.getAttribute("name"))
+            file.setAttribute("src" , this.result)
+            pairant.appendChild(i)
+            pairant.appendChild(file) 
+            asset.appendChild(pairant)
+          }
+          buttonSher.classList.add("btn-primary")
+    }
+      
+      function removeAsset() {
+        if(asset.querySelector("div")) {
+          asset.querySelector("div").remove()
+        }
+        assetsFile.forEach(element => {
+          element.parentElement.classList.remove("active")
+          element.value = ""
+          buttonSher.classList.remove("btn-primary")
+        })
+      }
+    
+      function addPost() {
+          assetsFile = document.querySelectorAll(".pairant .addPost .assetsFile")[0].querySelectorAll("input")
+          asset =  document.querySelectorAll(".pairant .addPost .assets")[0]
+          textarea = post[0]
+          buttonSher = publish[0];
+          addPostReal = document.querySelectorAll(".pairant .addPostReal ")[0];
+        if(textarea.value) {
+          var dataPost = new FormData()
+          dataPost.append("post" , textarea.value.trim())
+          dataPost.append("from" , '<%= UserCookie.id %>')
+          dataPost.append("to" , '<%= UserCookie.id %>')
+          dataPost.append("image" , assetsFile[0].files[0])
+          dataPost.append("video" , assetsFile[1].files[0])
+          overFlow[0].classList.add("active")
+    
+          axios({
+              method : "post",
+              url  : "/addPostAjax",
+              data : dataPost,
+            }).then(res => {
+              res = res.data
+              addPostReal.classList.remove("show")
+              addPostReal.style.display = "none"
+              document.querySelectorAll(".modal-backdrop")[0].remove()
+    
+              alert2.classList.add("active")
+              alert2.querySelector("div").innerHTML = "تم اضافه البوست بنجاح"
+              setTimeout(() => {
+                alert2.classList.remove("active")
+              } , 3000)
+              overFlow[0].classList.remove("active")
+    
+              /*--- start reset addPost Box ---*/
+              var post = document.createElement("div");
+              post.classList.add("post")
+              post.setAttribute("id" , res[0].id)
+              var x = "" 
+              x += 
+              ` <div class="postHeade d-flex">
+                  <div class="pairant d-flex">
+                    <div class="left">
+                      <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="">
+                      <span><span></span></span>
+                    </div>
+                    <div class="right">
+                      <div class="fromNotTo d-flex">`
+                        if (res[0].from == res[0].to) {
+                          x += `<a href="userProfile/${res[1].id}"><h4>${res[1].fName}  ${res[1].lName} </h4></a>`   
+                        } else { 
+                          x += `<a href="userProfile/${res[1].id}"><h4> ${res[1].fName}  ${res[1].lName} </h4></a> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> <a href="userProfile/${res[2].id}"><h5>${ res[2].fName } ${ res[2].lName }</h5></a>`   
+                        }
+                      x += `</div>
+                      <span style="color:green">الان</span>
+                    </div>
+                  </div>
+                  <div class="addAndDelete " style="display: block;">
+                    <span onclick="showMenue(event)" class="mnue">...</span>
+                    <ul class="list-unstyled">
+                      <li>
+                        <button type="button" onclick="getPostData(event , ${res[0].id})" class="editPost" class=" d-block" data-toggle="modal" data-target="#exampleModal1">
+                          تعديل
+                        </button>
+                      </li>
+                      <li onclick="deletePost(event)">
+                          حذف
+                      </li>
+                  </ul>
+                </div>
+                </div>
+                <div class="postBody">
+                  <h5>${textarea.value}</h5>
+                  `
+                  if(res[0].image) {
+                    x += `<img src="/admin/asset/images/posts/${res[0].image.split("--")[0]}">`
+                  } else if(res[0].video) {
+                    x += `<video controls src="/admin/asset/images/posts/${res[0].video.split("--")[0]}">`       
+                  }
+                  
+                x += `</div>
+                <div class="enterActions">
+                  <div class="d-flex likes">
+                      <span><span></span></span>
+                      <span><span>0</span> تعليق</span>
+                  </div>
+                  <div class="mackAction d-flex">
+                      <button>
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i> 
+                        <span class="emojiName" onclick="removeOrAddLike(event , '${ res[0].id}' , '' , '${res[1].id}')">اعجبني</span>
+                        <div class="emoji">
+                          <span onclick="addLikes(event , 'thumbsup'  , '${ res[0].id}' , '' , '${res[1].id}')" title="اعجبني">👍 </span>
+                          <span onclick="addLikes(event , 'heart' , '${ res[0].id}' , '' , '${res[1].id}')" title="احببت">❤️</span>
+                          <span onclick="addLikes(event , 'heart_eyes' , '${ res[0].id}' , '' , '${res[1].id}')" title="ادعمه">😍</span>
+                          <span onclick="addLikes(event , 'angry' , '${ res[0].id}' , '' , '${res[1].id}')" title="اغضبني">😠</span>
+                          <span onclick="addLikes(event , 'hushed' , '${ res[0].id}' , '' , '${res[1].id}')" title="واو">😯</span>
+                          <span onclick="addLikes(event , 'cry' , '${ res[0].id}' , '' , '${res[1].id}')" title="احزنني">😢</span>
+                          <span onclick="addLikes(event , 'joy' , '${ res[0].id}' , '' , '${res[1].id}')" title="هاهاها">😂</span>
+                        </div>   
+                      </button>
+                      <button><i class="fa fa-comment-o" aria-hidden="true"></i> تعليق</button>
+                      <button><i class="fa fa-share" aria-hidden="true"></i> مشاركه</button>
+                  </div>
+                  <div class="myComments"></div>
+                  <div class="writeComment d-flex">
+                    <div class="left">
+                      <a href="/userProfile/<%= UserCookie.id %>">
+                        <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt=""></a>
+                        <span><span></span></span>
+                    </div>
+                    <div>
+                      <input type="text" name="" onkeyup="addCommentPost(event , ${res[0].id} , '')" placeholder="ادخل تعليقا...">
+                      <div>
+                        <i class="fa fa-photo" aria-hidden="true">
+                          <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                        </i>
+                        <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                          <div class="allEmoji">
+                            <div class="head active">
+                              <ul class="list-unstyled">`
+                                  for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){
+                                    x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                  }
+                              x += `</ul>
+                            </div>
+                            <div class="emojis">
+                              <div>
+                                <span></span>
+                                <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                              </div>
+                              <ul class="list-unstyled">
+                              
+                              </ul>
+                            </div>
+                            <div class="over">
+                              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                            </div>
+                          </div>
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="assets"></div>
+                </div>
+                <div class="over">
+                  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                </div>
+              
+              `
+              post.innerHTML = x;
+              var pairant = document.querySelector(".userProfile .allMyPosts")
+              pairant.insertBefore(post , document.querySelector(".userProfile .allMyPosts > div:nth-child(2)"))
+              document.querySelector("body").classList.remove("modal-open")         
+              textarea.value = ""
+              buttonSher.classList.remove("btn-primary")
+              removeAsset()
+              
+            }).catch(error => {
+              alert2.classList.add("active")
+              alert2.querySelector("div").innerHTML = "هناك خطا ما"
+              setTimeout(() => {
+                alert2.classList.remove("active")
+              } , 3000)
+              overFlow[0].classList.remove("active")
+            })
+        }
+      }
+    
+      function getPostData(e , postId) {
+        var addPostReal = document.querySelectorAll(".addPostReal")[1]
+        var over = document.querySelectorAll(".addPostReal .overflow")[1]
+        $.ajax({
+            url : "/getPost_Data",
+            type : "post",
+            data : {
+              postId : postId
+            },
+            beforeSend() {
+              over.classList.add("active")
+            },
+            success(data) {
+              document.querySelectorAll(".addPostReal .modal-footer button")[1].setAttribute("PostId" , `${postId}` )
+              addPostReal.querySelector(".modal-body .assets").innerHTML = ""
+              addPostReal.querySelector(".modal-body textarea").value = data.post
+              if(data.image) {
+                var div = document.createElement("div")
+                var image = document.createElement("img")
+                image.setAttribute("src" , `/admin/asset/images/posts/${data.image.split("--")[0]}`)
+                div.appendChild(image)
+                addPostReal.querySelector(".modal-body .assets").appendChild(div)
+              }
+              if(data.video) {
+                var div = document.createElement("div")
+                var video = document.createElement("video")
+                video.setAttribute("src" , `/admin/asset/images/posts/${data.video.split("--")[0]}`)
+                video.setAttribute("controls" , "")
+                div.appendChild(video)
+                addPostReal.querySelector(".modal-body .assets").appendChild(div)
+              }
+              over.classList.remove("active")
+            },
+            error(error) {
+              over.classList.remove("active")
+              document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+              document.querySelector(".alert2").classList.add("active")
+              setTimeout(() => {
+                document.querySelector(".alert2").classList.remove("active")
+              } , 3000)
+            }
+          })
+      }
+    
+      function deletePost(e) {
+        var post = e.target.parentElement.parentElement.parentElement.parentElement;
+        var over = e.target.parentElement.parentElement.parentElement.parentElement.lastElementChild
+          $.ajax({
+            url : "/deletePost_ajax",
+            type : "post",
+            data : {
+              postId : post.getAttribute("id")
+            },
+            beforeSend() {
+              over.classList.add("active")
+            },
+            success() {
+              post.remove()
+              document.querySelector(".alert2 > div").innerHTML = "تم حذف العنصر بنجاح"
+              document.querySelector(".alert2").classList.add("active")
+              setTimeout(() => {
+                document.querySelector(".alert2").classList.remove("active")
+              } , 3000)
+            },
+            error(error) {
+              over.classList.remove("active")
+              document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+              document.querySelector(".alert2").classList.add("active")
+              setTimeout(() => {
+                document.querySelector(".alert2").classList.remove("active")
+              } , 3000)
+            }
+          })
+    
+      }
+    
+      function editPost(e) {
+          assetsFile = document.querySelectorAll(".pairant .addPost .assetsFile")[1].querySelectorAll("input")
+          asset =  document.querySelectorAll(".pairant .addPost .assets")[1]
+          buttonSher = publish[1];
+          addPostReal = document.querySelectorAll(".pairant .addPostReal")[1];
+          textarea = post[1]
+        if(textarea.value) {
+          var dataPost = new FormData()
+          dataPost.append("post" , textarea.value.trim())
+          dataPost.append("postId" , e.target.getAttribute("PostId"))
+          dataPost.append("image" , assetsFile[0].files[0])
+          dataPost.append("video" , assetsFile[1].files[0])
+          overFlow[1].classList.add("active")
+    
+          axios({
+              method : "post",
+              url  : "/editPostAjax",
+              data : dataPost,
+            }).then(res => {
+              res = res.data
+              addPostReal.classList.remove("show")
+              addPostReal.style.display = "none"
+              document.querySelectorAll(".modal-backdrop")[0].remove()
+              alert2.classList.add("active")
+              alert2.querySelector("div").innerHTML = "تم تعديل البوست بنجاح"
+              addPostReal.removeAttribute("role")
+              addPostReal.removeAttribute("aria-modal")
+              addPostReal.setAttribute("style" , "display:none")
+              addPostReal.setAttribute("aria-hidden" , "true")
+              setTimeout(() => {
+                alert2.classList.remove("active")
+              } , 3000)
+              overFlow[1].classList.remove("active")
+              /* --- start reset addPost Box ---*/
+              document.querySelector("body").classList.remove("modal-open")
+              document.querySelector("body").removeAttribute("style")
+              var post = document.getElementById(res.id)
+              post.querySelector(".postBody").innerHTML = ""
+              var h5 = document.createElement("h5")
+              h5.innerHTML = res.post
+              post.querySelector(".postBody").appendChild(h5)
+              if(res.image) {
+                var image = document.createElement("img") 
+                image.setAttribute("src" , "/admin/asset/images/posts/" + res.image.split("--")[0])
+                post.querySelector(".postBody").appendChild(image)
+              } else if(res.video) {controls
+                var video = document.createElement("video") 
+                video.setAttribute("src" , "/admin/asset/images/posts/" + res.video.split("--")[0])
+                video.setAttribute("controls" , "")
+                post.querySelector(".postBody").appendChild(video)     
+              }
+    
+              textarea.value = ""
+              buttonSher.classList.remove("btn-primary")
+              removeAsset()
+            }).catch(error => {
+              alert2.classList.add("active")
+              alert2.querySelector("div").innerHTML = error
+              setTimeout(() => {
+                alert2.classList.remove("active")
+              } , 3000)
+              overFlow[1].classList.remove("active")
+            })
+        }
+      }
+      
+      document.onclick = function(e) {
+        if(!e.target.classList.contains("mnue")) {
+          document.querySelectorAll(".addAndDelete").forEach(ele => {
+            ele.firstElementChild.classList.remove("active")
+          })
+        }
+    
+        if(e.target.classList.contains("editComment")) {
+          document.querySelector(".editComment").classList.remove("active")
+        }
+      }
+    
+      function showEmoji(e) {
+        if(!e.target.classList.contains("mainIcon")) return
+          e.target.firstElementChild.classList.toggle("active")
+          e.target.querySelector(".head").classList.add("active")
+        if(!e.target.firstElementChild.classList.contains("active")) {
+          e.target.querySelector(".emojis").classList.remove("active")
+        }
+      }
+    
+      function goBack(e) {
+        e.target.parentElement.parentElement.classList.remove("active")
+        e.target.parentElement.parentElement.parentElement.firstElementChild.classList.add("active")
+      }
+    
+      function addEmoji(e , where) {
+        if(where == "top") {
+          var emoji = document.querySelectorAll(".VALUE_OF_POST")[0]
+        } else if(where == "bottom") {
+          var emoji = document.querySelectorAll(".VALUE_OF_POST")[1]
+        } else if(where == "editComment") {
+          document.querySelector(".editComment").firstElementChild.querySelector("textarea").value += e.target.innerHTML
+          return
+        }else {
+          e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("input").value += e.target.innerHTML      
+          return
+        }
+        emoji.value += e.target.innerHTML
+      }
+    
+      function catigoryEmoji(e , where) {
+        e.target.parentElement.parentElement.classList.remove("active")
+        e.target.parentElement.parentElement.nextElementSibling.classList.add("active")
+        $.ajax({
+          url : "/getEmoji",
+          type : "post",
+          data : {
+            catigory : e.target.getAttribute("data_number")
+          },
+          success(data) {
+            e.target.parentElement.parentElement.parentElement.lastElementChild.classList.remove("active")
+            e.target.parentElement.parentElement.nextElementSibling.querySelector("ul").innerHTML = ""
+            e.target.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild.innerHTML = e.target.innerHTML
+            data.forEach(ele => {
+              e.target.parentElement.parentElement.nextElementSibling.querySelector("ul").innerHTML += `<li onclick="addEmoji(event , '${where}')" title="${ele.description}">${ele.emoji}</li>`
+            })
+          },
+          beforeSend() {
+            e.target.parentElement.parentElement.parentElement.lastElementChild.classList.add("active")
+          }
+        })
+      }
+    
+      function getSomeOfUserEmoji(array) {
+        if(array == null) return []
+            var arr = []
+            for(var i = 0 ; i < array.length ; i++) {
+                if(!arr.includes(array[i])) {
+                    arr.push(array[i])
+                }
+                if(arr.length >= 3) break
+            }
+            return arr
+      }
+    
+      function getMoreComments (e , id , postId , typeClick) {
+        $.ajax({
+          type : "post",
+          url : "/getMoreComments",
+          data : {
+            postId : postId,
+            offset : typeClick == "sup" ? e.target.parentElement.childElementCount - 4 : e.target.parentElement.childElementCount - 1,
+            id : id
+          },
+          beforeSend() {
+            e.target.innerHTML = "<i class='fa fa-spinner fa-spin'></i>"
+          },
+          success(data) {
+            if(data.length > 0) {
+              e.target.innerHTML = "عرض المزيد من الكمنتات"
+            } else {
+              e.target.remove()
+            }
+            
+    
+            data.forEach(element => {
+                console.log(data)
+              var x = ""
+              var child = document.createElement("div")
+              child.classList.add("comment")
+              child.setAttribute("id" , element.id)
+              x += 
+                      `<div class="pairant d-flex">
+                          <div class="image">
+                            <a href="/userProfile/${element.postCommentUser.id}" class="online ID${element.postCommentUser.id}">
+                              <img src="/admin/asset/images/users_photo/${element.postCommentUser.image.split("--")[0]}" alt="">
+                                <span><span></span></span>
+                              </a>
+                          </div>
+                          <div class="mainText">
+                            <div class="text">
+                              <a href="/userProfile/${element.postCommentUser.id}">${element.postCommentUser.fName + " " + element.postCommentUser.lName}</a>
+                              <span>${element.comment}</span>
+                              <span class='number'>
+                                <span>${ element.LikesTypes ? element.LikesTypes.length : 0 }</span> ` 
+                                getSomeOfUserEmoji(element.LikesTypes).forEach(element => {
+                                  x += `<span>${element == "heart" ? "❤️" : (element == "thumbsup" ? "👍" : (element == "heart_eyes" ? "😍" : (element == "hushed" ? "😯" : (element == "angry" ? "😠" : (element == "cry" ? "😢" : (element == "joy" ? "😂" : "" )) ) ))) }</span>` 
+                                })
+                                  
+                                x += `</span>
+                            </div>
+                            <div class="commentPhoto">`
+                              if (element.images) { 
+                                  element.images.split("--").forEach(element => { 
+                                    if (element.trim()) { 
+                                  x += `<div>
+                                        <img src="/admin/asset/images/commentsPhoto/${element} " alt="">
+                                    </div>`
+                                    }  
+                                  }) 
+                                } 
+                             x +=   `</div>
+                            <div class="controllers mackAction">
+                              <button class="${ element.usersLikes ? (element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element.LikesTypes[element.usersLikes.indexOf(parseInt('<%=UserCookie.id%>'))] + " emoji" : "" ) : "" }">
+                                  ${element.usersLikes && element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? `<span>${element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart" ? "❤️" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "thumbsup" ? "👍" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart_eyes" ? "😍" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "hushed" ? "😯" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "angry" ? "😠" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "cry" ? "😢" : (element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "joy" ? "😂" : "" )) ) ))) }</span>` : ""}
+                                     
+                                  <i class="fa fa-thumbs-up" ${ element.usersLikes ? (element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? 'style=display:none' : '') : '' } aria-hidden="true"></i> 
+                                  <span class="emojiName" onclick="removeOrAddLike(event , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')">${ element.usersLikes ? (element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element.LikesTypes[element.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] : "اعجبني" ) : "اعجبني" }</span>
+                                  <div class="emoji">
+                                  <span onclick="addLikes(event , 'thumbsup'  , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="اعجبني">👍 </span>
+                                  <span onclick="addLikes(event , 'heart' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="احببت">❤️</span>
+                                  <span onclick="addLikes(event , 'heart_eyes' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="ادعمه">😍</span>
+                                  <span onclick="addLikes(event , 'angry' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="اغضبني">😠</span>
+                                  <span onclick="addLikes(event , 'hushed' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="واو">😯</span>
+                                  <span onclick="addLikes(event , 'cry' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="احزنني">😢</span>
+                                  <span onclick="addLikes(event , 'joy' , '${ element.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="هاهاها">😂</span>
+                                  </div> 
+                              </button>   
+                              <button onclick="showInputReplayComment(event)">رد</button>
+                              <span><span>${element.createdAt.split("T")[0]}</span>  <i class="fa fa-clock-o" aria-hidden="true"></i> </span>
+                              <div class="addAndDelete d-inline">
+                                <span onclick="showMenue(event)" class="mnue">...</span>
+                                  <ul class="list-unstyled">
+                                    <li onclick="editComment(event , '${ element.id }')">
+                                      <button type="button" class=" d-block" data-toggle="modal" data-target="#exampleModal1">
+                                        تعديل
+                                      </button>
+                                    </li>
+                                    <li onclick="deleteCommentPost(event , '${ postId }')">
+                                        حذف
+                                    </li>
+                                  </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="writeComment">
+                          <div class="left">
+                            <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                              <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0]%>" alt="">
+                                <span><span></span></span>
+                              </a>
+                          </div>
+                          <div>
+                            <input type="text" name="" id="" onkeyup="addCommentPost(event , ${postId} , ${element.id})" placeholder="ادخل ردا الي${element.postCommentUser.fName + " " + element.postCommentUser.lName} ...">
+                            <div>
+                              <i class="fa fa-photo" aria-hidden="true">
+                                  <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                                </i>
+                              <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                <div class="allEmoji">
+                                  <div class="head active">
+                                    <ul class="list-unstyled"> `
+                                        for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ 
+                                          x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                        }
+                                    x += `</ul>
+                                  </div>
+                                  <div class="emojis ">
+                                    <div>
+                                      <span></span>
+                                      <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                    </div>
+                                    <ul class="list-unstyled">
+                                    
+                                    </ul>
+                                  </div>
+                                  <div class="over">
+                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                  </div>
+                                </div>
+                              </i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="assets"></div>
+                        `
+    
+                        
+                          element.supComments.forEach(ele => {
+                            x += `<div class="comment" id="${ ele.id }">
+                            <div class="pairant d-flex">
+                              <div class="image">
+                                <a href="/userProfile/<%= UserCookie.id%>" class="online ID<%= UserCookie.id%>">
+                                    <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0]%>" alt="">
+                                      <span><span></span></span>
+                                    </a>                          
+                                </div>
+                              <div class="mainText">
+                                <div class="text">
+                                  <a href="/userProfile/${ele.postCommentUser.id}">${ele.postCommentUser.fName + " " + ele.postCommentUser.lName}</a>
+                                  <span>${ele.comment}</span>
+                                  <span class="number">
+                                    <span>${ ele.LikesTypes ? ele.LikesTypes.length : 0 }</span> ` 
+                                      getSomeOfUserEmoji(ele.LikesTypes).forEach(ele => {
+                                        x += `<span>${ele == "heart" ? "❤️" : (ele == "thumbsup" ? "👍" : (ele == "heart_eyes" ? "😍" : (ele == "hushed" ? "😯" : (ele == "angry" ? "😠" : (ele == "cry" ? "😢" : (ele == "joy" ? "😂" : "" )) ) ))) }</span>` 
+                                      })
+                                  
+                                      x += `</span>
+                                </div>
+                                <div class="commentPhoto">`
+                                  if (ele.images) { 
+                                      ele.images.split("--").forEach(element => { 
+                                        if (element.trim()) { 
+                                      x += `<div>
+                                            <img src="/admin/asset/images/commentsPhoto/${element} " alt="">
+                                        </div>`
+                                        }  
+                                      }) 
+                                    } 
+                             x +=   `</div>
+                                <div class="controllers mackAction">
+                                  <button class="${ ele.usersLikes ? (ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%=UserCookie.id%>'))] + " emoji" : "" ) : "" }">
+                                      ${ele.usersLikes && ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? `<span>${ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart" ? "❤️" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "thumbsup" ? "👍" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart_eyes" ? "😍" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "hushed" ? "😯" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "angry" ? "😠" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "cry" ? "😢" : (ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "joy" ? "😂" : "" )) ) ))) }</span>` : ""}
+                                        
+                                      <i class="fa fa-thumbs-up" ${ ele.usersLikes ? (ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? 'style=display:none' : '') : '' } aria-hidden="true"></i> 
+                                      <span class="emojiName" onclick="removeOrAddLike(event , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')">${ ele.usersLikes ? (ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? ele.LikesTypes[ele.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] : "اعجبني" ) : "اعجبني" }</span>
+                                      <div class="emoji">
+                                      <span onclick="addLikes(event , 'thumbsup'  , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="اعجبني">👍 </span>
+                                      <span onclick="addLikes(event , 'heart' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="احببت">❤️</span>
+                                      <span onclick="addLikes(event , 'heart_eyes' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="ادعمه">😍</span>
+                                      <span onclick="addLikes(event , 'angry' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="اغضبني">😠</span>
+                                      <span onclick="addLikes(event , 'hushed' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="واو">😯</span>
+                                      <span onclick="addLikes(event , 'cry' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="احزنني">😢</span>
+                                      <span onclick="addLikes(event , 'joy' , '${ ele.id}' , 'bottom' , '${ element.postCommentUser.id}')" title="هاهاها">😂</span>
+                                      </div> 
+                                  </button>   
+                                  <button onclick="showInputReplayComment(event)">رد</button>
+                                  <span><span>${ele.createdAt.split("T")[0]} </span> <i class="fa fa-clock-o" aria-hidden="true"></i> </span>
+                                  <div class="addAndDelete d-inline">
+                                    <span onclick="showMenue(event)" class="mnue">...</span>
+                                      <ul class="list-unstyled">
+                                        <li>
+                                          <button type="button" onclick="getPostData(event , '${ ele.id }')" class=" d-block" data-toggle="modal" data-target="#exampleModal1">
+                                            تعديل
+                                          </button>
+                                        </li>
+                                        <li onclick="deleteCommentPost(event , '${ ele.id }')">
+                                            حذف
+                                        </li>
+                                      </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="writeComment">
+                              <div class="left">
+                                <a href="/userProfile/<%= UserCookie.id %>"><img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt=""></a>
+                                <span><span></span></span>
+                              </div>
+                              <div>
+                                <input type="text" name="" id="" onkeyup="addCommentPost(event , ${postId} , ${ele.id})" placeholder="ادخل ردا الي ${ele.postCommentUser.fName + " " + ele.postCommentUser.lName} ...">
+                                <div>
+                                  <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                    <div class="allEmoji">
+                                      <div class="head active">
+                                        <ul class="list-unstyled"> `
+                                            for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){ 
+                                              x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                            }
+                                        x += `</ul>
+                                      </div>
+                                      <div class="emojis ">
+                                        <div>
+                                          <span></span>
+                                          <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                        </div>
+                                        <ul class="list-unstyled">
+                                        
+                                        </ul>
+                                      </div>
+                                      <div class="over">
+                                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                      </div>
+                                    </div>
+                                  </i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="assets"></div>
+                            <span style="cursor: pointer;display: block;" onclick='getMoreComments(event , ${ele.id} , ${postId} , "sup" )' >عرض المزيد من الكمنتات</span>
+                          </div> 
+                          `
+                          }) 
+                          if(element.supComments.length > 0) {
+                            x += `<span style="cursor: pointer;display: block;" onclick='getMoreComments(event , ${element.id} , ${postId} , "sup" )' >عرض المزيد من الكمنتات</span>`
+                          }
+                  child.innerHTML = x
+                  e.target.parentElement.insertBefore(child , e.target.parentElement.lastElementChild)
+                  sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+    
+                })
+                if(data.length < 3) {
+                  e.target.remove()
+                }
+            },
+          error() {
+    
+          }
+        })
+      }
+    var test = true
+    window.onscroll = function(e) {
+      /*------------------------- start AsideScroll ----------------------------*/
+        var AsideScroll = document.querySelector(".AsideScroll");
+        if(window.scrollY >= AsideScroll.offsetTop - 58) {
+          AsideScroll.classList.add("active")
+        } else {
+          AsideScroll.classList.remove("active")
+        }
+      /*------------------------- start AsideScroll ----------------------------*/
+    
+      if(!test) return
+        var post = document.querySelectorAll(".allMyPosts > .post")[document.querySelectorAll(".allMyPosts > .post").length - 1]
+        if(window.scrollY >= post.offsetTop) {
+          test = false
+          $.ajax({
+          data : {
+            place : 'main',
+            offset : document.querySelectorAll(".allMyPosts > .post").length
+          },
+          type : "post",
+          url : "/GetSomeOfPosts",
+          success(data) {
+            if(data.rows.length == 0) {
+              return
+            }
+            var pairant = document.querySelector(".allMyPosts")
+            
+            data.rows.forEach(element => {
+                
+              var x = ""
+              var div = document.createElement("div")
+              div.classList.add("post")
+              div.setAttribute("id" , element.id)
+              x += `
+                      <div class="postHeade d-flex">
+                        <div class="pairant d-flex">
+                          <div class="left">
+                            <a href="/userProfile/${ element.postsUser.id }" class="online ID${element.postsUser.id}">
+                              <img src="/admin/asset/images/users_photo/${ element.postsUser.image.split("--")[0] }" alt="">
+                              <span><span></span></span>
+                              </a>
+                          </div>
+                          <div class="right">
+                            <div class="fromNotTo d-flex">`
+                              if (element.from == element.to ) {
+                                x +=   `<a href="/userProfile/${ element.postsUser.id }"><h4>${ element.postsUser.fName } ${ element.postsUser.lName }</h4></a>`
+                              } else {
+                                x +=  `<a class="to" href="/userProfile/${ element.postsUser.id }"><h4>${ element.postsUser.fName } ${ element.postsUser.lName }</h4></a> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> <a href="/userProfile/${ element.postsUserTo.id }"><h5>${ element.postsUserTo.fName } ${ element.postsUserTo.lName }</h5></a>`
+                              } 
+    
+                              x +=`</div>
+                             <span>${element.createdAt} <i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                          </div>
+                        </div>`
+                        if (element.from == '<%= UserCookie.id %>' || element.to ==  '<%= UserCookie.id %>' ) { 
+                    x += `        <div class="addAndDelete" style="display: block;">
+                                    <span onclick="showMenue(event)" class="mnue">...</span>
+                                    <ul class="list-unstyled">
+                                      <li>
+                                        <button type="button" onclick="getPostData(event , ${element.id})" class="editPost d-block" data-toggle="modal" data-target="#exampleModal1">
+                                          تعديل
+                                        </button>
+                                      </li>
+                                      <li onclick="deletePost(event)">
+                                          حذف
+                                      </li>
+                                  </ul>
+                                </div>`
+                            }
+                      x += `</div>
+                      <div class="postBody">`
+                        if(element.post) x += `<h5>${element.post}</h5>`
+                        if(element.image) x += `<img src="/admin/asset/images/posts/${ element.image.split("--")[0] }" alt="">`
+                        if(element.video) x += `<video controls src="/admin/asset/images/posts/${ element.video.split("--")[0] }" alt=""></video>`
+                        
+                      x += `</div>
+                      <div class="enterActions">
+                        <div class="d-flex likes">
+                          <span class='number'>
+                            <span>${ element.PostsLikes ? element.PostsLikes.types.length : 0 }</span> `
+                                if(element.PostsLikes) {
+                                  getSomeOfUserEmoji(element.PostsLikes.types).forEach(element => {
+                                    x += `<span>${element == "heart" ? "❤️" : (element == "thumbsup" ? "👍" : (element == "heart_eyes" ? "😍" : (element == "hushed" ? "😯" : (element == "angry" ? "😠" : (element == "cry" ? "😢" : (element == "joy" ? "😂" : "" )) ) ))) }</span>` 
+                                  })
+                                }
+                            
+                                x += `</span>
+                            </span>
+                            <span><span>${ element.commentNumber }</span> تعليق</span>
+                        </div>
+                        <div class="mackAction d-flex">
+                          <button class="${ element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%=UserCookie.id%>'))] + " emoji" : "" ) : "" }">
+                                  ${element.PostsLikes && element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? `<span>${element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart" ? "❤️" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "thumbsup" ? "👍" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart_eyes" ? "😍" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "hushed" ? "😯" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "angry" ? "😠" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "cry" ? "😢" : (element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] == "joy" ? "😂" : "" )) ) ))) }</span>` : ""}
+                                     
+                                  <i class="fa fa-thumbs-up" ${ element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? 'style=display:none' : '') : '' } aria-hidden="true"></i> 
+                                  <span class="emojiName" onclick="removeOrAddLike(event , '${ element.id}' , 'top' ,'${ element.postsUser.id}' )">${ element.PostsLikes ? (element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element.PostsLikes.types[element.PostsLikes.usersId.indexOf(parseInt('<%= UserCookie.id %>'))] : "اعجبني" ) : "اعجبني" }</span>
+                                  <div class="emoji">
+                                  <span onclick="addLikes(event , 'thumbsup'  , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="اعجبني">👍 </span>
+                                  <span onclick="addLikes(event , 'heart' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="احببت">❤️</span>
+                                  <span onclick="addLikes(event , 'heart_eyes' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="ادعمه">😍</span>
+                                  <span onclick="addLikes(event , 'angry' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="اغضبني">😠</span>
+                                  <span onclick="addLikes(event , 'hushed' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="واو">😯</span>
+                                  <span onclick="addLikes(event , 'cry' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="احزنني">😢</span>
+                                  <span onclick="addLikes(event , 'joy' , '${ element.id}' , 'top' , '${ element.postsUser.id}')" title="هاهاها">😂</span>
+                                  </div> 
+                              </button>
+                            <button><i class="fa fa-comment-o" aria-hidden="true"></i> تعليق</button>
+                            <button><i class="fa fa-share" aria-hidden="true"></i> مشاركه</button>
+                        </div>
+                                    
+                        <div class="myComments">`
+                          if(element.postComments.length > 0) {
+                          element.postComments.forEach(element2 => {
+                          x += `
+                            <div class="comment" id="${ element2.id }">
+                              <div class="pairant d-flex">
+                                <div class="image">
+                                  <a href="/userProfile/${ element2.postCommentUser.id }" class="online ID${element2.postCommentUser.id }">
+                                    <img src="/admin/asset/images/users_photo/${element2.postCommentUser.image.split("--")[0] }" alt="">
+                                    <span><span></span></span>
+                                    </a>
+                                </div>
+                                <div class="mainText">
+                                  <div class="text">
+                                    <a href="/userProfile/${ element2.postCommentUser.id }">${ element2.postCommentUser.fName + " " + element2.postCommentUser.lName }</a>
+                                    <span>${ element2.comment }</span>
+                                    <span class='number'>
+                                      <span>${ element2.LikesTypes ? element2.LikesTypes.length : 0 }</span> `
+                                      getSomeOfUserEmoji(element2.LikesTypes).forEach(element => {
+                                        x += `<span>${element == "heart" ? "❤️" : (element == "thumbsup" ? "👍" : (element == "heart_eyes" ? "😍" : (element == "hushed" ? "😯" : (element == "angry" ? "😠" : (element == "cry" ? "😢" : (element == "joy" ? "😂" : "" )) ) ))) }</span>` 
+                                      })
+                                  
+                                      x += `</span>
+                                    </span>
+                                  </div>
+                                  <div class="commentPhoto">`
+                                      if(element2.images) {
+                                        element2.images.split("--").forEach(ele => {
+                                          if(ele.trim()) {
+                                              x += `<div><img src="/admin/asset/images/commentsPhoto/${ele}" /></div>`
+                                          }
+                                        })
+                                      }
+                                    x += `</div>
+                                  <div class="controllers mackAction">
+                                    <button class="${ element2.usersLikes ? (element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%=UserCookie.id%>'))] + " emoji" : "" ) : "" }">
+                                          ${element2.usersLikes && element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? `<span>${element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart" ? "❤️" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "thumbsup" ? "👍" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart_eyes" ? "😍" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "hushed" ? "😯" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "angry" ? "😠" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "cry" ? "😢" : (element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "joy" ? "😂" : "" )) ) ))) }</span>` : ""}
+                                            
+                                          <i class="fa fa-thumbs-up" ${ element2.usersLikes ? (element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? 'style=display:none' : '') : '' } aria-hidden="true"></i> 
+                                          <span class="emojiName" onclick="removeOrAddLike(event , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')">${ element2.usersLikes ? (element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element2.LikesTypes[element2.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] : "اعجبني" ) : "اعجبني" }</span>
+                                          <div class="emoji">
+                                          <span onclick="addLikes(event , 'thumbsup'  , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="اعجبني">👍 </span>
+                                          <span onclick="addLikes(event , 'heart' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="احببت">❤️</span>
+                                          <span onclick="addLikes(event , 'heart_eyes' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="ادعمه">😍</span>
+                                          <span onclick="addLikes(event , 'angry' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="اغضبني">😠</span>
+                                          <span onclick="addLikes(event , 'hushed' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="واو">😯</span>
+                                          <span onclick="addLikes(event , 'cry' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="احزنني">😢</span>
+                                          <span onclick="addLikes(event , 'joy' , '${ element2.id}' , 'bottom' , '${element.postsUser.id}')" title="هاهاها">😂</span>
+                                          </div> 
+                                      </button>
+                                    <button onclick="showInputReplayComment(event)">رد</button>
+                                    <span><span></span> ${element2.createdAt.split("T")[0]} <i class="fa fa-clock-o" aria-hidden="true"></i> </span>`
+                                    if (element.from == '<%= UserCookie.id %>' || element.to ==  '<%= UserCookie.id %>' || element2.userId == '<%= UserCookie.id %>') { 
+                                      x += `
+                                      <div class="addAndDelete d-inline">
+                                        <span onclick="showMenue(event)" class="mnue">...</span>
+                                          <ul class="list-unstyled">
+                                            <li onclick="editComment(event , '${element2.id}')">
+                                                تعديل
+                                            </li>
+                                            <li onclick="deleteCommentPost(event , '${ element.id }')">
+                                                حذف
+                                            </li>
+                                          </ul>
+                                      </div>`
+                                    }
+                                  x += `</div>
+                                </div>
+                              </div>
+    
+                              <div class="writeComment">
+                                <div class="left">
+                                  <a href="/userProfile/<%= UserCookie.id%>" class="online ID<%= UserCookie.id%>">
+                                    <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="">
+                                    <span><span></span></span>
+                                    </a>
+                                </div>
+                                <div>
+                                  <input type="text" name="" id="" onkeyup="addCommentPost(event , '${ element.id}' , '${ element2.id}' , '${element.postsUser.id}')" placeholder="ادخل ردا الي ${ element2.postCommentUser.fName + " " +element2.postCommentUser.lName }...">
+                                  <div>
+                                    <i class="fa fa-photo" aria-hidden="true">
+                                        <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                                      </i>
+                                    <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                      <div class="allEmoji">
+                                        <div class="head active">
+                                          <ul class="list-unstyled">`
+                                              for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){
+                                                x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                              }
+                                          x += `</ul>
+                                        </div>
+                                        <div class="emojis">
+                                          <div>
+                                            <span></span>
+                                            <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                          </div>
+                                          <ul class="list-unstyled">
+                                          
+                                          </ul>
+                                        </div>
+                                        <div class="over">
+                                          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                        </div>
+                                      </div>
+                                    </i>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="assets"></div>
+                                              `
+                            element2.supComments.forEach(element3 => { 
+                              x += `
+                              <div class="comment" id="${ element3.id }">
+                                <div class="pairant d-flex">
+                                  <div class="image">
+                                    <a href="/userProfile/${ element3.postCommentUser.id }" class="online ID${element3.postCommentUser.id}">
+                                    <img src="/admin/asset/images/users_photo/${element3.postCommentUser.image.split("--")[0] }" alt="">
+                                    <span><span></span></span>
+                                    </a>                              
+                                  </div>
+                                  <div class="mainText">
+                                    <div class="text">
+                                      <a href="/userProfile/${ element3.postCommentUser.id }">${ element3.postCommentUser.fName + " " + element3.postCommentUser.lName }</a>
+                                      <span>${ element3.comment }</span>
+                                      <span class='number'>
+                                        <span>${ element3.LikesTypes ? element3.LikesTypes.length : 0 }</span> `
+                                        getSomeOfUserEmoji(element3.LikesTypes).forEach(element => {
+                                          x += `<span>${element == "heart" ? "❤️" : (element == "thumbsup" ? "👍" : (element == "heart_eyes" ? "😍" : (element == "hushed" ? "😯" : (element == "angry" ? "😠" : (element == "cry" ? "😢" : (element == "joy" ? "😂" : "" )) ) ))) }</span>` 
+                                        })
+                                      
+                                      x += `</span>
+                                    </div>
+                                    <div class="commentPhoto">`
+                                      if(element3.images) {
+                                        element3.images.split("--").forEach(ele => {
+                                          if(ele.trim()) {
+                                              x += `<div><img src="/admin/asset/images/commentsPhoto/${ele}" /></div>`
+                                          }
+                                        })
+                                      }
+                                    x += `</div>
+                                    <div class="controllers mackAction">
+                                      <button class="${ element3.usersLikes ? (element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != -1 ? element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%=UserCookie.id%>'))] + " emoji" : "" ) : "" }">
+                                          ${element3.usersLikes && element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? `<span>${element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart" ? "❤️" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "thumbsup" ? "👍" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "heart_eyes" ? "😍" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "hushed" ? "😯" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "angry" ? "😠" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "cry" ? "😢" : (element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] == "joy" ? "😂" : "" )) ) ))) }</span>` : ""}
+                                            
+                                          <i class="fa fa-thumbs-up" ${ element3.usersLikes ? (element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? 'style=display:none' : '') : '' } aria-hidden="true"></i> 
+                                          <span class="emojiName" onclick="removeOrAddLike(event , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')">${ element3.usersLikes ? (element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>')) != "-1" ? element3.LikesTypes[element3.usersLikes.indexOf(parseInt('<%= UserCookie.id %>'))] : "اعجبني" ) : "اعجبني" }</span>
+                                          <div class="emoji">
+                                          <span onclick="addLikes(event , 'thumbsup'  , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="اعجبني">👍 </span>
+                                          <span onclick="addLikes(event , 'heart' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="احببت">❤️</span>
+                                          <span onclick="addLikes(event , 'heart_eyes' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="ادعمه">😍</span>
+                                          <span onclick="addLikes(event , 'angry' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="اغضبني">😠</span>
+                                          <span onclick="addLikes(event , 'hushed' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="واو">😯</span>
+                                          <span onclick="addLikes(event , 'cry' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="احزنني">😢</span>
+                                          <span onclick="addLikes(event , 'joy' , '${ element3.id}' , 'bottom' , '${element.postsUser.id}')" title="هاهاها">😂</span>
+                                          </div> 
+                                      </button>                              
+                                      <button onclick="showInputReplayComment(event)">رد</button>
+                                      <span><span>${element3.createdAt.split("T")[0]}</span> <i class="fa fa-clock-o" aria-hidden="true"></i> </span>`
+                                      if (element.from == '<%= UserCookie.id %>' || element.to ==  '<%= UserCookie.id %>' || element2.userId == '<%= UserCookie.id %>') { 
+                                        x += `<div class="addAndDelete d-inline">
+                                          <span onclick="showMenue(event)" class="mnue">...</span>
+                                            <ul class="list-unstyled">
+                                              <li onclick="editComment(event , '${ element3.id }')">
+                                                  تعديل
+                                              </li>
+                                              <li onclick="deleteCommentPost(event , '${ element.id }')">
+                                                  حذف
+                                              </li>
+                                            </ul>
+                                        </div>`
+                                      }
+                                    x += `</div>
+                                  </div>
+                                </div>
+                                
+                                <div class="writeComment">
+                                  <div class="left">
+                                    <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                                    <img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="">
+                                    <span><span></span></span>
+                                    </a>
+                                  </div>
+                                  <div>
+                                    <input type="text" name="" id="" onkeyup="addCommentPost(event , '${ element.id }' , '${ element3.id }' , '${element.postsUser.id}')" placeholder="ادخل ردا الي ${ element3.postCommentUser.fName + " " + element3.postCommentUser.lName }...">
+                                      <div>
+                                        <i class="fa fa-photo" aria-hidden="true">
+                                          <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                                        </i>
+                                        <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                          <div class="allEmoji">
+                                            <div class="head active">
+                                              <ul class="list-unstyled">`
+                                                  for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){
+                                                    x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                                  }
+                                              x += `</ul>
+                                            </div>
+                                            <div class="emojis ">
+                                              <div>
+                                                <span></span>
+                                                <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                              </div>
+                                              <ul class="list-unstyled">
+                                              
+                                              </ul>
+                                            </div>
+                                            <div class="over">
+                                              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                            </div>
+                                          </div>
+                                        </i>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="assets"></div>
+                                <span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '${ element3.id }' , '${ element.id }' , 'sup' )">عرض المزيد من الكمنتات</span>
+                              </div>
+                              `
+                               })
+                             x += `${element2.supComments.length > 0 ? `<span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '${ element2.id }' , '${ element.id }' , 'sup' )">عرض المزيد من الكمنتات</span>` : ""}
+                            </div>
+    
+                            `})
+                            } 
+                            
+                          x += `${element.postComments.length >= 3 ?  `<span style="cursor: pointer;display: block;" onclick="getMoreComments(event , '' , '${ element.id }' , 'main')">عرض المزيد من الكمنتات</span>` : ""}
+                        </div>
+                        
+                        
+    
+                        <div class="writeComment d-flex">
+                          <div class="left">
+                            <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                              <img src="/admin/asset/images/users_photo/<%=UserCookie.image.split("--")[0] %>" alt="">
+                              <span><span></span></span>
+                              </a>
+                          </div>
+                          <div>
+                            <input type="text" name="" id="" onkeyup="addCommentPost(event , '${ element.id}' , '' , '${element.postsUser.id}')" placeholder="ادخل تعليقا...">
+                            <div>
+                              <i class="fa fa-photo" aria-hidden="true">
+                                <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                              </i>
+                              <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                                <div class="allEmoji">
+                                  <div class="head active">
+                                    <ul class="list-unstyled">`
+                                        
+                                        for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){
+                                          var c = prop
+                                          x += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                        }
+                                    x += `</ul>
+                                  </div>
+                                  <div class="emojis ">
+                                    <div>
+                                      <span></span>
+                                      <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                    </div>
+                                    <ul class="list-unstyled">
+                                    
+                                    </ul>
+                                  </div>
+                                  <div class="over">
+                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                  </div>
+                                </div>
+                              </i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="assets"></div>
+                      
+                      </div>
+                    `
+                      div.innerHTML = x
+                    pairant.appendChild(div)
+                    sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+                  })
+                  test = true
+          
+          },
+          error() {
+    
+          }
+        })
+        }
+      }
+    
+    function addCommentPost(e , postId , to = "" , frindId) {
+        if(e.keyCode == 13) {
+          if(e.target.value.trim() != "") {
+            var dataComment = new FormData()
+            dataComment.append("userId" , '<%= UserCookie.id %>')
+            dataComment.append("comment" , e.target.value)
+            dataComment.append("postId" , postId)
+            dataComment.append("to" , to)
+            dataComment.append("frindId" , frindId)
+            var inputs = e.target.nextElementSibling.firstElementChild.firstElementChild
+            for(var x in inputs.files) {
+              dataComment.append("image" , inputs.files[x])
+            }
+            axios({
+              method : "post",
+              url : "/addCommentOnPosts",
+              data : dataComment,
+            }).then(data => {
+              sockit.emit("addNotificationUser" , {userId :  frindId.toString()}) 
+              data = data.data
+              var comment = document.createElement("div")
+                comment.classList.add("comment")
+                comment.setAttribute("id" , data[0].id)
+                var myComment = `
+                    <div class="pairant d-flex">
+                      <div class="image">
+                        <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                          <img src="/admin/asset/images/users_photo/${data[0].postCommentUser.image.split("--")[0]}" alt="">
+                          <span><span></span></span>
+                          </a>
+                      </div>
+                      <div class="mainText">
+                        <div class="text">
+                          <a href="">${data[0].postCommentUser.fName + " " + data[0].postCommentUser.lName}</a>
+                          <span>${data[0].comment}</span>
+                          <span class="number">
+                            <span>0</span>  
+                            <span></span>  
+                          </span>
+                        </div>
+                        <div class="commentPhoto">`
+                          var images = e.target.parentElement.parentElement.nextElementSibling.querySelectorAll("div img")
+                          if(images) {
+                            images.forEach(ele => {
+                            myComment += `<div><img src="${ele.getAttribute("src")}" /></div>`
+                          })
+                          }
+                        myComment += `</div>
+                        <div class="controllers mackAction">
+                          <button class="">
+                              <i class="fa fa-thumbs-up" aria-hidden="true"></i> 
+                              <span class="emojiName" onclick="removeOrAddLike(event , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')">اعجبني</span>
+                              <div class="emoji">
+                                <span onclick="addLikes(event , 'thumbsup'  , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="اعجبني">👍 </span>
+                                <span onclick="addLikes(event , 'heart' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="احببت">❤️</span>
+                                <span onclick="addLikes(event , 'heart_eyes' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="ادعمه">😍</span>
+                                <span onclick="addLikes(event , 'angry' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="اغضبني">😠</span>
+                                <span onclick="addLikes(event , 'hushed' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="واو">😯</span>
+                                <span onclick="addLikes(event , 'cry' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="احزنني">😢</span>
+                                <span onclick="addLikes(event , 'joy' , '${ data[0].id}' , 'bottom' , '${data[0].postCommentUser.id}')" title="هاهاها">😂</span>
+                              </div> 
+                            </button>
+                          <button onclick="showInputReplayComment(event)">رد</button>
+                          <span><span></span> <i class="fa fa-clock-o" aria-hidden="true"></i> ${data[1]}</span>
+                          <div class="addAndDelete d-inline">
+                            <span onclick="showMenue(event)" class="mnue">...</span>
+                              <ul class="list-unstyled">
+                                <li onclick="editComment(event , ${data[0].id})">
+                                  <button type="button" class=" d-block" data-toggle="modal" data-target="#exampleModal1">
+                                    تعديل
+                                  </button>
+                                </li>
+                                <li onclick="deleteCommentPost(event , ${postId})">
+                                    حذف
+                                </li>
+                              </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="writeComment">
+                      <div class="left">
+                        <a href="/userProfile/<%= UserCookie.id %>" class="online ID<%= UserCookie.id %>">
+                          <img src="/admin/asset/images/users_photo/<%=UserCookie.image.split("--")[0] %>" alt="">`
+                          if( '<%= UserCookie.onLine %>' == "true" ) {
+                            myComment += `<span><span></span></span>`
+                          }
+                          myComment += `</a>
+                      </div>
+                        <div>
+                          <input type="text" name="" id="" onkeyup="addCommentPost(event , ${postId} , ${data[0].id} , ${data[0].postCommentUser.id})" placeholder="رد بالتعليق ">
+                          <div>
+                          <i class="fa fa-photo" aria-hidden="true">
+                            <input type="file" onchange="changAsset2(event)" name="img" accept="image/*" multiple>
+                          </i>
+                          <i class="fa fa-smile-o mainIcon" title="Add Emoji" onclick="showEmoji(event)">
+                            <div class="allEmoji">
+                              <div class="head active">
+                                <ul class="list-unstyled">`
+                                    for(var prop in {'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}){
+                                      myComment += `<li onclick="catigoryEmoji(event)" data_number="${prop}"><span>${prop == "Smileys & Emotion" ? "😀" : prop == "People & Body" ? "👋" : prop == "Animals & Nature" ? "🐵" : prop == "Food & Drink" ? "🍇" : prop == "Travel & Places" ? "🌍" : prop == "Activities" ? "🎃" : prop == "Objects" ? "👓" : "" } </span>${{'Smileys & Emotion' : "Smileys & Emotion" ,'People & Body' : "People & Body",'Animals & Nature' : "Animals & Nature",'Food & Drink' : "Food & Drink",'Travel & Places' : "Travel & Places",'Activities' : "Activities",'Objects' : "Objects"}[prop] }</li>`
+                                    }
+                                    myComment += `</ul>
+                              </div>
+                              <div class="emojis">
+                                <div>
+                                  <span></span>
+                                  <i class="fa fa-chevron-left" onclick="goBack(event)" aria-hidden="true"></i>
+                                </div>
+                                <ul class="list-unstyled">
+                                
+                                </ul>
+                              </div>
+                              <div class="over">
+                                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                              </div>
+                            </div>
+                          </i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="assets"></div>
+                `;
+    
+                var numberComment = document.getElementById(postId).querySelector(".enterActions").firstElementChild.lastElementChild.firstElementChild
+                numberComment.innerHTML = (parseInt(numberComment.innerHTML) + 1) 
+                comment.innerHTML = myComment
+                var myComments = to == "" ?  e.target.parentElement.parentElement.parentElement.querySelector(".myComments") : e.target.parentElement.parentElement.parentElement
+                if(to) {
+                  myComments.appendChild(comment)
+                  e.target.parentElement.parentElement.classList.toggle("active")
+                  e.target.parentElement.parentElement.parentElement.firstElementChild.lastElementChild.lastElementChild.querySelector("button:nth-child(2)").innerHTML = "رد"
+                } else {
+                  myComments.insertBefore(comment , myComments.firstElementChild)
+                }
+                sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+    
+                e.target.value = ""
+                e.target.parentElement.parentElement.nextElementSibling.innerHTML = ""
+                alert2.classList.add("active")
+                alert2.querySelector("div").innerHTML = "تم اضافه الكومنت بنجاح"
+                setTimeout(() => {
+                  alert2.classList.remove("active")
+                } , 3000)
+                overFlow[0].classList.remove("active") 
+                
+            }).catch(error => {
+              alert2.classList.add("active")
+                alert2.querySelector("div").innerHTML = error
+                setTimeout(() => {
+                  alert2.classList.remove("active")
+                } , 3000)
+                overFlow[0].classList.remove("active")
+            }) 
+          } else {
+            e.target.classList.add("notific")
+            setTimeout(() => {
+              e.target.classList.remove("notific")
+            }, 1500);
+          }
+        }
+      }
+      
+    function deleteCommentPost(e , postId) {
+    
+      var comment = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+      $.ajax({
+        url : "/deleteCommentAjax",
+        data : {
+          commentId : comment.getAttribute("id"),
+          postId
+        },
+        type : "post",
+        beforeSend() {
+          e.target.parentElement.parentElement.firstElementChild.innerHTML = "<i style='font-size:16px' class='fa fa-spinner fa-spin'></i>"
+        },
+        success() {
+          var numberComment = document.getElementById(postId).querySelector(".enterActions").firstElementChild.lastElementChild.firstElementChild
+          console.log(numberComment)
+          numberComment.innerHTML = (parseInt(numberComment.innerHTML) - (e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll(".comment").length + 1)) 
+    
+          alert2.classList.add("active")
+          alert2.querySelector("div").innerHTML = "تم ازاله الكومنت وكل الكومنتات المرتبطه به بنجاح"
+          setTimeout(() => {
+            alert2.classList.remove("active")
+          } , 3000)
+          overFlow[0].classList.remove("active")
+          comment.remove()
+          e.target.parentElement.parentElement.firstElementChild.innerHTML = "..."
+        },
+        error(error) {
+          alert2.classList.add("active")
+          alert2.querySelector("div").innerHTML = "هناك خطا ما"
+          setTimeout(() => {
+            alert2.classList.remove("active")
+          } , 3000)
+          overFlow[0].classList.remove("active")
+        }
+      })
+    }
+    
+    var popUp = document.querySelector(".editComment")
+    var textArea = document.querySelector(".editComment").firstElementChild.querySelector("textarea")
+    var textAreaValue = ""
+    var input = popUp.firstElementChild.querySelector(".addAssets  > div i:nth-child(1) input")
+    var arrayOfImage = []
+    
+    function showMenue(e) {
+        e.target.classList.toggle("active")
+    }
+    
+    textArea.oninput = function(e) {
+      if(textArea.value.trim() != "" && textAreaValue != e.target.value) {
+        popUp.firstElementChild.querySelector("button").classList.add("btn-primary")
+      } else {
+        popUp.firstElementChild.querySelector("button").classList.remove("btn-primary")
+      }
+    }
+    
+    function editComment(e , commentId) {
+      arrayOfImage = []
+      popUp.classList.toggle("active")
+      popUp.firstElementChild.querySelector("button").setAttribute("commentId" , commentId)
+      $.ajax({
+          url : "/getCommentData",
+          type : "post",
+          data : {commentId},
+          beforeSend() {
+            popUp.firstElementChild.querySelector(".over").classList.add("active")
+          },
+          success(data) {
+            popUp.firstElementChild.querySelector(".assets").innerHTML = ""
+            textArea.value = data.comment
+            textAreaValue = data.comment
+            if(data.images){
+              data.images.split("--").forEach((ele , i) => {
+                if(ele.trim() != "") {
+                  popUp.firstElementChild.querySelector(".assets").innerHTML += `<div data_number="${i}"><i class="fa fa-times" onclick="removeAssetComment(event , 'old')"></i><img src="/admin/asset/images/commentsPhoto/${ele}" /></div>`
+                }
+              })
+            }
+            popUp.firstElementChild.querySelector(".over").classList.remove("active")
+          },
+          error() {
+            popUp.firstElementChild.querySelector(".over").classList.remove("active")
+          },
+        })
+    }
+    
+    function changeAssets(e) {
+      popUp.firstElementChild.querySelector("button").classList.add("btn-primary")
+      popUp.firstElementChild.querySelector(".assets").innerHTML = ""
+      var files = input.files
+      for(var index in files) {
+        var reader = new FileReader(files[index]);
+        reader.readAsDataURL(files[index])
+    
+        reader.onload = function(event) {
+          var pairant = document.createElement("div")
+          var i = document.createElement("i")
+          i.setAttribute("onclick" , 'removeAssetComment(event , "new")')
+          i.className = "fa fa-times"
+          var file = document.createElement(e.target.getAttribute("name"))
+          file.setAttribute("src" , this.result)
+          pairant.appendChild(i)
+          pairant.appendChild(file) 
+          popUp.firstElementChild.querySelector(".assets").appendChild(pairant)
+        }
+    
+      }
+    }
+    
+    function editCommentAjax(e) {
+        var commentId = popUp.firstElementChild.querySelector("button").getAttribute("commentId")
+        var comment = document.getElementById(commentId).firstElementChild.querySelector(".mainText .text span:nth-child(2)")
+        var commentPhoto = document.getElementById(commentId).firstElementChild.querySelector(".mainText .commentPhoto")
+        var editComment = new FormData()
+    
+        for(var x in input.files) {
+          if(input.files[x] != "") editComment.append("image" , input.files[x])
+        }
+        editComment.append("commentId" , commentId)
+        editComment.append("comment" , textArea.value) 
+        editComment.append("numberOFimage" , arrayOfImage) 
+        popUp.firstElementChild.querySelector(".over").classList.add("active")
+        var assetsImages = popUp.firstElementChild.querySelectorAll(".assets div img")
+        commentPhoto.innerHTML = ""
+        assetsImages.forEach(ele => {
+          commentPhoto.innerHTML += `<div><img src="${ele.getAttribute("src")}" /></div>` 
+        })
+        axios({
+          url : "/editCommentAjax",
+          method : "post",
+          data : editComment,
+        }).then(res => {
+          popUp.firstElementChild.querySelector(".over").classList.remove("active")
+          popUp.classList.toggle("active")
+          comment.innerHTML = textArea.value
+          input.value = ""
+          popUp.firstElementChild.querySelector(".assets").innerHTML = ""
+    
+          alert2.classList.add("active")
+              alert2.querySelector("div").innerHTML = "تم تعديل الكومنت بنجاح"
+              setTimeout(() => {
+                alert2.classList.remove("active")
+              } , 3000)
+              overFlow[0].classList.remove("active")
+        }).catch(error => {
+          popUp.firstElementChild.querySelector(".over").classList.remove("active")
+          alert2.classList.add("active")
+          alert2.querySelector("div").innerHTML = "هناك خطا ما"
+          setTimeout(() => {
+            alert2.classList.remove("active")
+          } , 3000)
+          overFlow[0].classList.remove("active")
+        }) 
+    }
+    
+    function removeAssetComment(e , type) {
+      e.target.parentElement.remove()
+      arrayOfImage.push(e.target.parentElement.getAttribute("data_number"))
+      popUp.firstElementChild.querySelector("button").classList.add("btn-primary")
+    }
+    
+    function showInputReplayComment(e) {
+      e.target.parentElement.parentElement.parentElement.nextElementSibling.classList.toggle("active")
+      if(e.target.parentElement.parentElement.parentElement.nextElementSibling.classList.contains("active")) {
+        e.target.innerHTML = "الغاء"
+      } else {
+        e.target.innerHTML = "رد"
+      }
+    }
+    
+    function changAsset2(e) {
+      var asset = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling
+      asset.innerHTML = ""
+      var files = e.target.files
+    
+      for(var index in files) {
+        var reader = new FileReader(files[index]);
+        reader.readAsDataURL(files[index])
+        var i = document.createElement("i")
+        i.className = "fa fa-times"
+        i.setAttribute("onclick","removeAsset2(event)")
+        reader.onload = function(event) {
+          var pairant = document.createElement("div")
+          var file = document.createElement(e.target.getAttribute("name"))
+          file.setAttribute("src" , this.result)
+          pairant.appendChild(file) 
+          asset.appendChild(pairant)
+        }
+        asset.appendChild(i)
+      }
+    }
+    
+    function removeAsset2(e) {
+      var input = e.target.parentElement.parentElement.querySelector(".writeComment div:last-child div:last-child i:nth-child(1) input")
+      input.value = ""
+      e.target.parentElement.innerHTML = ""
+    }
+    
+    function addLikes(e , type , postID , from , frindId) {
+      var postHeader = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+      if(postHeader.querySelector(".postBody h5")) {
+        postHeader = postHeader.querySelector(".postBody h5").innerHTML
+      } else {
+        if(postHeader.querySelector(".postBody img")) {
+          postHeader = "img"
+        } else {
+          postHeader = "video"
+        }
+      }
+      if(e.target.parentElement.parentElement.classList.contains("emoji")) {
+        e.target.parentElement.parentElement.className = "emoji"
+        e.target.parentElement.parentElement.querySelector(".emojiName").innerHTML = e.target.getAttribute("title")
+        e.target.parentElement.parentElement.classList.add(type)
+        e.target.parentElement.parentElement.firstElementChild.innerHTML = e.target.innerHTML
+      } else {
+        e.target.parentElement.parentElement.classList.add("emoji")
+        e.target.parentElement.parentElement.querySelector(".emojiName").innerHTML = e.target.getAttribute("title")
+        e.target.parentElement.parentElement.classList.add(type)
+        e.target.parentElement.parentElement.firstElementChild.style.display = "none"
+        var span = document.createElement("span")
+        span.innerHTML = e.target.innerHTML
+        e.target.parentElement.parentElement.insertBefore(span , e.target.parentElement.parentElement.firstElementChild)
+      }
+      if(from == "bottom") {
+        sendLikesCommentAjax(e.target.parentElement.parentElement.parentElement.parentElement , postID , type , frindId)
+      } else {
+        sendLikesAjax(e.target.parentElement.parentElement.parentElement.parentElement , postID , type , postHeader , frindId)
+      }
+    }
+    
+    function sendLikesAjax(pairant , postID , type , postHead , frindId) {
+      $.ajax({
+        type : "post",
+        url : "/AddLikes",
+        data : {
+          postId : postID,
+          userId : '<%= UserCookie.id %>',
+          type : type,
+          postHead : postHead,
+          frindId : frindId,
+    
+        },
+        success(data) {
+          sockit.emit("addNotificationUser" , {userId :  frindId.toString()})  
+          pairant.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.length
+        },
+        error(error) {
+    
+        }
+      })
+    }
+    
+    function sendLikesCommentAjax(pairant , commentId , type , frindId) {
+      $.ajax({
+        type : "post",
+        url : "/AddLikesOnCommentsAjax",
+        data : {
+          commentId : commentId,
+          userId : '<%= UserCookie.id %>',
+          type : type,
+          frindId : frindId
+        },
+        success(data) {
+          if(type) {
+            sockit.emit("addNotificationUser" , {userId :  frindId.toString()})  
+          }
+          pairant.firstElementChild.lastElementChild.firstElementChild.innerHTML = data.length
+        },
+        error(error) {
+    
+        }
+      })
+    }
+    
+    function removeOrAddLike(e , postID , from , frindId) {
+          var postHead = e.target.parentElement.parentElement.parentElement.parentElement
+          if(postHead.querySelector(".postBody h5")) {
+            postHead = postHead.querySelector(".postBody h5").innerHTML
+          } else {
+            if(postHead.querySelector(".postBody img")) {
+              postHead = "img"
+            } else {
+              postHead = "video"
+            }
+          }
+          if(e.target.parentElement.classList.contains("emoji")) {
+            e.target.parentElement.className = ""
+            e.target.parentElement.firstElementChild.remove()
+            e.target.parentElement.firstElementChild.style.display = "inline-block"
+            e.target.innerHTML = e.target.parentElement.querySelector(".emoji").firstElementChild.getAttribute("title")
+          } else {
+            e.target.parentElement.firstElementChild.style.display = "none"
+            var span = document.createElement("span")
+            span.innerHTML = e.target.parentElement.querySelector(".emoji").firstElementChild.innerHTML
+            e.target.parentElement.insertBefore(span , e.target.parentElement.firstElementChild)
+            e.target.parentElement.className = "emoji"
+            e.target.parentElement.classList.add("thumbsup")
+            e.target.innerHTML = e.target.parentElement.querySelector(".emoji").firstElementChild.getAttribute("title")
+          }
+          if(from == "bottom") {
+            sendLikesCommentAjax(e.target.parentElement.parentElement.parentElement , postID , e.target.parentElement.classList.contains("thumbsup") ? "thumbsup" : "" , frindId)
+          } else {
+            sendLikesAjax(e.target.parentElement.parentElement.parentElement , postID , e.target.parentElement.classList.contains("thumbsup") ? "thumbsup" : "" , postHead , frindId)
+          }
+      }
+    
+    
+    
+      var searchForUsers = document.querySelector(".searchForUsers");
+      var ul = document.querySelector(".dataSearch ul")
+      searchForUsers.oninput = function() {
+        var search = this.value;
+        $.ajax({
+            type : "post",
+            url  : "/getSearchUserData",
+            data : {
+                search : search,
+                id : '<%= UserCookie.id%>'
+            },
+            success(data) {
+                clearDataSearch()
+                if(search != ""){
+                    data.forEach(ele => {
+                        ul.innerHTML += `<li>
+                        <a href="/userProfile/${ele.id}" class="d-flex"> 
+                          <div class="online ID${ ele.id }">
+                            <img src="/admin/asset/images/users_photo/${ele.image ? ele.image.split("--")[0] : "avatar.png"}" /> 
+                            <span><span></span></span>
+                          </div> 
+                          <p>${ele.fName} ${ele.lName}</p>
+                        </a>
+                      </li>`
+                    })
+                    sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+                }
+            },
+            error() {
+            console.log("error")
+            }
+        })
+      }
+      function clearDataSearch() {
+        ul.querySelectorAll("li").forEach(ele => {
+            ele.remove()
+        })
+    }
+    /*---------------------------- satrt part of filter user in chate -------------------------------------*/
+    var windowOne = messagesController.querySelector(".messages .windowOne")
+    var windowTow = messagesController.querySelector(".messages .windowTow")
+    
+    chateSearch.oninput = function(e) {
+      if(document.querySelector(".messagesController .messages").classList.contains("userMessage")) {
+        windowTow.querySelectorAll("ul > li").forEach(ele => {
+          if(!ele.querySelector(".head h4").innerHTML.startsWith(e.target.value)) {
+            ele.classList.add("d-none")
+          } else {
+            if(ele.classList.contains("d-none")) ele.classList.remove("d-none")
+          }
+        })
+      } else {
+        windowOne.querySelectorAll("ul > li").forEach(ele => {
+          if(!ele.querySelector(".head h4").innerHTML.startsWith(e.target.value)) {
+            ele.classList.add("d-none")
+          } else {
+            if(ele.classList.contains("d-none")) ele.classList.remove("d-none")
+          }
+        })
+      }
+    }
+    function clearSearchChate () {
+      if(windowTow.querySelectorAll("ul > li").length > 0) {
+        windowTow.querySelectorAll("ul > li").forEach(ele => {
+          ele.classList.remove("d-none")
+        })
+      }
+      if(windowOne.querySelectorAll("ul > li").length > 0) {
+        windowOne.querySelectorAll("ul > li").forEach(ele => {
+          ele.classList.remove("d-none")
+        })
+      }
+    }
+    /*---------------------------- end part of filter user in chate -------------------------------------*/
+    
+/*---------------------------- mack Icon shourtcut aside -------------------------------------*/
+function mackShourtCut(e) {
+  var element = e.target.parentElement
+  if(element.classList.contains("online")) {
+    element.classList.add("d-none")
+  }
+}
+/*---------------------------- mack Icon shourtcut aside -------------------------------------*/
+
+/*---------------------------- mack Icon shourtcut aside -------------------------------------*/
+function addShourtCut(e, frindId , image) {
+  e.target.parentElement.parentElement.parentElement.remove()
+  var shourtCut = document.querySelector(`.asideBox .ID${frindId}`)
+    if(!shourtCut) {
+      var asideBox = document.querySelector(".asideBox")
+      var element = `
+        <a onclick="openChate(event , ${frindId} , 'ID${frindId}')" class="online ID${frindId}">
+          <img src="/admin/asset/images/users_photo/${image.split("--")[0]}" alt="">
+          <span style="width:12px !important;height:12px !important">
+            <span></span>
+          </span>
+        </a>
+      `
+      asideBox.innerHTML += element
+      sockit.emit("activeUser" , {userId : '<%=  UserCookie.id %>'})
+      $.ajax({
+      url : "/addIsSeenFromChate",
+      type : "post",
+      data : {
+        frindId,
+        userId : '<%= UserCookie.id%>'
+      },
+      success(data) {
+
+        messagesController.classList.remove("active")
+        document.querySelector(".alert2 > div").innerHTML = "تم اضافه ايكون الاختصار للشات"
+        document.querySelector(".alert2").classList.add("active")
+        setTimeout(() => {
+          document.querySelector(".alert2").classList.remove("active")
+        } , 3000)
+      },
+      error() {
+        messagesController.classList.remove("active")
+        document.querySelector(".alert2 > div").innerHTML = "هناك خطا ما"
+        document.querySelector(".alert2").classList.add("active")
+        setTimeout(() => {
+          document.querySelector(".alert2").classList.remove("active")
+        } , 3000)
+      }
+    })
+    } else {
+      shourtCut.classList.remove("d-none")
+    }
+    
+}
+/*---------------------------- mack Icon shourtcut aside -------------------------------------*/
+    </script>

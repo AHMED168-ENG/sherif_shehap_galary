@@ -1,0 +1,472 @@
+<style>
+    header {
+        width:100%;
+        border-bottom:1px solid #ccc;
+        padding:10px 20px;
+        box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    }
+    header .pairant {
+        align-items: center;
+        justify-content: space-between;
+    }
+    .supCatigory {
+        border-bottom:1px solid #ccc;
+        box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    }
+    .supCatigory ul {
+        margin:0;
+        padding:12px 0px
+    }
+    .slick-slide  {
+        height:auto !important
+    }
+    .supCatigory ul li {
+        margin:0 9px;
+        font-weight:550;
+        font-size:14px;
+    }
+    .supCatigory ul li:nth-child(1) {
+        color:#000;
+        font-weight:600;
+        font-size:15px;
+    }
+    .supCatigory ul li a {
+        color:#222;
+    }
+    .supCatigory ul li a:hover {
+        color:orangered;
+        border-bottom:2px solid orangered
+    }
+    .pairant span{
+        font-size:15px
+    }
+    .pairant span > span {
+        color:#000;
+        font-weight:600
+    }
+    .pairant select {
+        font-size:15px;
+        background:rgb(216, 237, 253);
+        border:1px solid #ddd;
+        border-radius: 2px;
+        color:#222;
+        box-shadow: 3px 3px 7px rgba(0,0,0,0.1);
+        outline:none;
+        padding:1px
+        
+    }
+    .pairant select option {
+        background:#fff;
+        font-size:14px
+    }
+    .pairant select:focus {
+        box-shadow: -2px -2px 8px rgb(6, 44, 76 , 0.4) , 2px 2px 8px rgb(6, 44, 76 , 0.4);
+    }
+</style>
+<%- include("../inclueds/head")  %>
+<head>
+<body>
+<%- include("../inclueds/uper_headerUser")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/search")  %> 
+        <% if (mainCatigoryName) { %>
+            <div class="supCatigory">
+                <div class="container">
+                    <ul class="list-unstyled d-flex">
+                        <li><%=  mainCatigoryName["name_" + defaultLang] %></li>
+                        <% allSupCatigory.forEach(element => { %>
+                            <li><a href="/AllProduct?catigory=<%= element.id %>&search="><%= element["name_" + defaultLang] %></a></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        <% } %>
+
+        <header>
+            <div class="container">
+                <div class="pairant d-flex">
+                    <span>
+                        <span><%= allProduct.count %></span> من اكثر من <span><%= allProductLength %></span> النتايج
+                    </span>
+                    <select name="asideFilter" class="filtaringProduct">
+                        <option value="createdAt,asc">الخيارات المميزه</option>
+                        <option value="price,asc" <%= query.asideFilter == "price,asc" ? "selected" : "" %>>السعر : من الصغير للكبير</option>
+                        <option value="price,desc" <%= query.asideFilter == "price,desc" ? "selected" : "" %>>السعر : من الكبير للصغير</option>
+                        <option value="sumRate,desc" <%= query.asideFilter == "sumRate,desc" ? "selected" : "" %>>معدل التقيم</option>
+                        <option value="createdAt,desc" <%= query.asideFilter == "createdAt,desc" ? "selected" : "" %>>احدث ماوصل</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- Start Section Products -->
+        <div class="category-products">
+            <div class="container" style="max-width:98% !important;">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <aside>
+                            <ul class="list-unstyled filter">
+                                <li><span>مؤهل للشحن المجاني</span>
+                                    <ul class="list-unstyled">
+                                        <li><input class="filterCheck" name="shipping" value="1" <%= query.shipping == "1" ? "checked" : "" %> type="checkbox" id="shipping" /> <label for="shipping">مؤهل للشحن</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>نوع المنتج</span>
+                                    <ul class="list-unstyled">
+                                        <li><input class="productState" name="productState" value="new" <%= query.productState == "new" ? "checked" : "" %> type="checkbox" id="new" /> <label for="new">جديد</label></li>
+                                        <li><input class="productState" name="productState" value="old" <%= query.productState == "old" ? "checked" : "" %> type="checkbox" id="old" /> <label for="old">قديم</label></li>
+                                    </ul>
+                                </li>
+
+                                <% if (query.productState == "old") { %>
+                                    <li><span>عدد ايام استخدام المنتج</span>
+                                        <ul class="list-unstyled price">
+                                            <li><input style="width:80%" name="dayOfUsed" type="number" min="0" placeholder="ادخل عدد ايام الاستخدام فاقل"><button onclick="searchStateButton(event)">بحث</button></li>
+                                        </ul>
+                                    </li>
+                                <% } %>
+                                <li><span>انواع الخشب المستخدمه</span>
+                                    <ul class="list-unstyled">
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("zan") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="zan" type="checkbox" id="zan" /> <label for="zan">زان</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("mahongy") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="mahongy" type="checkbox" id="mahongy" /> <label for="mahongy">ماهونجي</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("arow") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="arow" type="checkbox" id="arow" /> <label for="arow">ارو</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("sendian") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="sendian" type="checkbox" id="sendian" /> <label for="sendian">سنديان</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("ash") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="ash" type="checkbox" id="ash" /> <label for="ash">الاش</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("goz") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="goz" type="checkbox" id="goz" /> <label for="goz">جوز</label></li>
+                                        <li><input <%= query.typeWood ? (query.typeWood.includes("sweady") ? "checked" : "") : "" %> class="filterCheckTypeWood" name="typeWood" value="sweady" type="checkbox" id="sweady" /> <label for="sweady">سويدي</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>التقيم</span>
+                                    <ul class="list-unstyled evaluation">
+                                        <li><input <%= query.rateCheck == "5" ? "checked" : "" %> class="rateCheck" name="rateCheck" value="5" type="checkbox" id="5" /> <label for="5"><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star"></i> واقل</label></li>
+                                        <li><input <%= query.rateCheck == "4" ? "checked" : "" %> class="rateCheck" name="rateCheck" value="4" type="checkbox" id="4" /> <label for="4"><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i>واقل</label></li>
+                                        <li><input <%= query.rateCheck == "3" ? "checked" : "" %> class="rateCheck" name="rateCheck" value="3" type="checkbox" id="3" /> <label for="3"><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>واقل</label></li>
+                                        <li><input <%= query.rateCheck == "2" ? "checked" : "" %> class="rateCheck" name="rateCheck" value="2" type="checkbox" id="2" /> <label for="2"><i class="fa fa-star active"></i><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> واقل</label></li>
+                                        <li><input <%= query.rateCheck == "1" ? "checked" : "" %> class="rateCheck" name="rateCheck" value="1" type="checkbox" id="1" /> <label for="1"><i class="fa fa-star active"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> واقل</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>السعر</span>
+                                    <ul class="list-unstyled price">
+                                        <li><input <%= query.priceCheck == "1500 , 800" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="1500 , 800" type="checkbox" id="1500" /><label for="1500">800 الي 1500 جنيه</label></li>
+                                        <li><input <%= query.priceCheck == "3000 , 1500" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="3000 , 1500" type="checkbox" id="3000" /><label for="3000">1500 الي 3000 جنيه</label></li>
+                                        <li><input <%= query.priceCheck == "4500 , 3000" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="4500 , 3000" type="checkbox" id="4500" /><label for="4500">3000 الي 4500 جنيه</label></li>
+                                        <li><input <%= query.priceCheck == "6000 , 4500" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="6000 , 4500" type="checkbox" id="6000" /><label for="6000">4500 الي 6000 جنيه</label></li>
+                                        <li><input <%= query.priceCheck == "8000 , 6000" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="8000 , 6000" type="checkbox" id="8000" /><label for="8000">6000 الي 8000 جنيه</label></li>
+                                        <li><input <%= query.priceCheck == "more" ? "checked" : "" %> class="priceCheck" name="priceCheck" value="more" type="checkbox" id="more" /><label for="more">اكثر من 8000</label></li>
+                                        <li><input type="number" min="0" placeholder="من" name="from"><input min="0" type="number" placeholder="الي" name="to"><button class="searchPriceButton">بحث</button></li>
+                                    </ul>
+                                </li>
+                                <li><span>الخصم</span>
+                                    <ul class="list-unstyled ">
+                                        <li><input <%= query.descount == "descount" ? "checked" : "" %> class="descountCheck" name="descount" value="descount" type="checkbox" id="descount" /><label for="descount">منتجات ذو خصم</label></li>
+                                        <li><input <%= query.descount == "noDescount" ? "checked" : "" %> class="descountCheck" name="descount" value="noDescount" type="checkbox" id="noDescount" /><label for="noDescount">منتجات بدون خصم</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>طرق الدفع</span>
+                                    <ul class="list-unstyled ">
+                                        <li><input <%= query.pay == "webSit" ? "checked" : "" %> class="payCheck" name="pay" value="webSit" type="checkbox" id="webSit" /><label for="webSit">من خلال الموقع</label></li>
+                                        <li><input <%= query.pay == "resive" ? "checked" : "" %> class="payCheck" name="pay" value="resive" type="checkbox" id="resive" /><label for="resive">عند الاستلام</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>الضمان</span>
+                                    <ul class="list-unstyled ">
+                                        <li><input <%= query.security == "yes" ? "checked" : "" %> class="securityCheck" name="security" value="yes" type="checkbox" id="yes" /><label for="yes">منتجات ذات ضمان</label></li>
+                                        <li><input <%= query.security == "no" ? "checked" : "" %> class="securityCheck" name="security" value="no" type="checkbox" id="no" /><label for="no">منتجات بدون ضمان</label></li>
+                                    </ul>
+                                </li>
+                                <li><span>توفر المنتج</span>
+                                    <ul class="list-unstyled">
+                                        <li><input class="velabelityCheck" <%= query.vilabelity == "true" ? "checked" : "" %> name="vilabelity" value="true" type="checkbox" id="available" /> <label for="available">متاح ويمكنك الشراء الان</label></li>                                        
+                                        <li><input class="velabelityCheck" <%= query.vilabelity == "false" ? "checked" : "" %> name="vilabelity" value="false" type="checkbox" id="notAvailable" /> <label for="notAvailable">غير متوفر ولاكن يمكنك الانتظار حتي انتهاء العمل منه</label></li>                                        
+                                    </ul>
+                                </li>
+                                <% if (query.vilabelity == "false") { %>
+                                    <li><span>عدد ايام الانتهاء من صناعه المنتج</span>
+                                        <ul class="list-unstyled finsh_product">
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "1" ? "checked" : "" %> value="1" name="dayOfWork" type="checkbox" id="one" /> <label for="one">شهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "2" ? "checked" : "" %> value="2" name="dayOfWork" type="checkbox" id="tow" /> <label for="tow">شهران فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "3" ? "checked" : "" %> value="3" name="dayOfWork" type="checkbox" id="three" /> <label for="three">ثلاث اشهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "4" ? "checked" : "" %> value="4" name="dayOfWork" type="checkbox" id="four" /> <label for="four">اربع اشهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "5" ? "checked" : "" %> value="5" name="dayOfWork" type="checkbox" id="fife" /> <label for="fife">خمس اشهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "6" ? "checked" : "" %> value="6" name="dayOfWork" type="checkbox" id="sex" /> <label for="sex">ست اشهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "7" ? "checked" : "" %> value="7" name="dayOfWork" type="checkbox" id="seven" /> <label for="seven">سبع اشهر فاقل </label></li>                                        
+                                            <li><input class="timeCheck" <%= query.dayOfWork == "more" ? "checked" : "" %> value="more" name="dayOfWork" type="checkbox" id="moreing" /> <label for="moreing">اكثر من 7 شهور </label></li>                                        
+                                       
+                                        </ul>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </aside>
+
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <% allProduct.rows.forEach(element => { %>
+                                <div class="col-md-3 col-sm-4 col-6">
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="/productDetails/<%= element.id%>">
+                                                <img style="width:100%;height:300px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                            </a>
+                                            <ul class="social">
+                                                <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                            <% if (element.descount) { %>
+                                                <span class="product-new-label"><%= element.descount%>%</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3 class="title"><a href="#"><%= element["productName_" + defaultLang] %></a></h3>
+                                            <ul class="rating" style="margin:0">
+                                                <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                                <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                            </ul>
+                                            <div class="price d-block" >
+                                                <% if (element.descount) { %>
+                                                    <%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg
+                                                    <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                <% } else {%>
+                                                    <%= element.price %> Eg
+                                                <% } %>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            <% }) %>
+                        </div><!-- End row -->
+
+
+                    </div><!-- End col 9 -->
+                </div><!-- End Row -->
+
+                <!-- Start Section Top Sellers -->
+                <% if (productRelated.length > 4) { %>
+                    <div class="top-sellers">
+                        <h4 class="text-center">
+                            <span class="title" style="font-size:22px">منتجات لها علاقه بالمنتج</span>
+                        </h4>
+                        <br />
+
+                        <section class="center slider">
+                            <% productRelated.forEach(element => { %>
+                                <% element.catigorysProduct.forEach(element => { %>
+                                    <div>
+                                        <div class="product-grid3">
+                                            <div class="product-image3">
+                                                <a href="/productDetails/<%= element.id %>">
+                                                    <img style="height:250px" class="pic-1" src="/admin/asset/images/products_image/<%= element.productImage.split("--")[0] %>">
+                                                </a>
+                                                <ul class="social">
+                                                    <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                </ul>
+                                                
+                                                <h4 style="color:#222;padding:12px 0 0;font-size:19px"><%= element["productName_" + defaultLang] %></h4>
+                                                
+                                                </div>
+                                            <div class="product-content">
+                                                <h3 class="title" style="width:120px;overflow: hidden;white-space: nowrap;"><%= element["ProductOverview_" + defaultLang] %></h3>
+                                                <ul class="rating d-inline">
+                                                    <li class="fa fa-star <%= element.sumRate < 1 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 2 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 3 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 4 ? "disable" : "" %>"></li>
+                                                    <li class="fa fa-star <%= element.sumRate < 5 ? "disable" : "" %>"></li>
+                                                </ul>
+                                                <div>
+                                                    <% if (element.descount) { %>
+                                                        <span class="price main-color font-weight-bold"><%= (element.price - ((element.descount / 100) * element.price)).toFixed(3) %> Eg</span>
+                                                        <span style="text-decoration: line-through" class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                    <% } else {%>
+                                                        <span class="price main-color font-weight-bold"><%= element.price %> Eg</span>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            <% }) %>
+
+                        </section>
+                    </div>
+                <% } %>
+                <!-- End Section Top Sellers -->
+                <!-- Start Section Top Sellers -->
+                <% if (productRelated.length > 4) { %>
+                    <div class="top-sellers">
+                        <h4 class="text-center">
+                            <span class="title" style="font-size:22px">اقسام لها علاقه بالمنتج</span>
+                        </h4>
+                        <br />
+                        <section class="center slider">
+                        <% productRelated.forEach(element => { %>
+                            <div>
+                                <div class="product-grid3">
+                                    <div class="cta-box">
+                                        <a href="/AllProduct?catigory=<%= element.id %>&search=">
+                                            <img style="width:100%;height:150px" src="/admin/asset/images/<%= element.catigoryId == 0 ? "categoris_photo" : "subCatigory_photo" %>/<%= element.image.split("--")[0] %>" class="img-fluid" alt="0" />
+                                            <p style="margin:11px 0 0" class="text-center pb-2"><%= element["name_" + defaultLang] %></p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </section>
+                </div>
+                <% } %>
+                <!-- End Section Top Sellers -->
+        
+            <div class="paginate">
+                <ul class="list-unstyled">
+                    <% pages.forEach(element => { %>
+                        <li><a class="<%= page == element.number ? "active" : "" %>" href="<%= element.url %>"><%= element.number %></a></li>
+                    <% }) %>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+        <!-- End Section Products -->
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+<script>
+    function cleanQuery(query , ele) {
+        query.forEach((ele1 , i) => {
+            if(ele1.includes(ele.getAttribute("name"))) {
+                query.splice(i , 1)
+            }
+        })
+        return query.join("&")
+    }
+    var filterCheck = document.querySelectorAll(".filterCheck")
+    var filterCheckTypeWood = document.querySelectorAll(".filterCheckTypeWood")
+    var productState = document.querySelectorAll(".productState")
+    var velabelityCheck = document.querySelectorAll(".velabelityCheck")
+    var timeCheck = document.querySelectorAll(".timeCheck")
+    var rateCheck = document.querySelectorAll(".rateCheck")
+    var priceCheck = document.querySelectorAll(".priceCheck")
+    var searchPriceButton = document.querySelector(".searchPriceButton")
+    var filtaringProduct = document.querySelector(".filtaringProduct")
+    var descountCheck = document.querySelectorAll(".descountCheck")
+    var payCheck = document.querySelectorAll(".payCheck")
+    var securityCheck = document.querySelectorAll(".securityCheck")
+
+    filtaringProduct.onchange = function (){
+        window.location = window.location.pathname + cleanQuery(window.location.search.split("&") , this) + (this.value != "" ? "&" + this.getAttribute("name") + "=" + this.value  : "" )
+    }
+
+    searchPriceButton.onclick = function(e) {
+        var inputs = e.target.parentElement.querySelectorAll("input") 
+        if(inputs[0].value == "" || inputs[1].value == "") {
+            return
+        }
+        var ele = e.target.parentElement.parentElement.firstElementChild.firstElementChild;
+        window.location = window.location.pathname + cleanQuery(window.location.search.split("&") , ele) + "&" + ele.getAttribute("name") + "=" + inputs[1].value + "," + inputs[0].value 
+    }
+
+    function searchStateButton(e) {
+        var input = e.target.parentElement.querySelector("input") 
+        if(input.value == "") {
+            return
+        }
+        window.location = window.location.pathname + cleanQuery(window.location.search.split("&") , input) +"&" + input.getAttribute("name") + "=" + input.value
+    }
+
+    filterCheck.forEach(ele => {
+        ele.onchange = function() {
+            if(ele.checked) {
+                window.location = window.location.href + "&" + ele.getAttribute("name") + "=" +  ele.value
+            } else {
+                window.location = window.location.pathname + cleanQuery(window.location.search.split("&") , ele)
+            }
+        }
+    })
+
+    productState.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = window.location.search
+            productState.forEach(ele => {
+                query = cleanQuery(query.split("&") , ele)
+            })
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+
+    descountCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+
+    payCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+    securityCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+
+    velabelityCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = window.location.search
+            velabelityCheck.forEach(ele => {
+                query = cleanQuery(query.split("&") , ele)
+            })
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+    
+    rateCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            console.log(query)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+    
+    timeCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+
+    priceCheck.forEach((ele , i) => {
+        ele.onchange = function() {
+            var query = cleanQuery(window.location.search.split("&") , ele)
+            window.location = window.location.pathname + query + (ele.checked ? "&" + ele.getAttribute("name") + "=" + ele.value : "")
+        }
+    })
+
+
+    filterCheckTypeWood.forEach(ele => {
+        ele.onchange = function() {
+            var query = window.location.search
+            var arr = []
+            filterCheckTypeWood.forEach(ele => {
+                if(ele.checked) {
+                    arr.push(ele.value)
+                }
+            })
+            query = cleanQuery(query.split("&") , ele)
+            window.location = window.location.pathname + query + (arr.length > 0 ? "&" + ele.getAttribute("name") + "=" + arr : "")
+        }
+    })
+</script>
+</body>
+    

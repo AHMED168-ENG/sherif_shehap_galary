@@ -1,0 +1,63 @@
+       <!-- Start Section -->
+       <div class="section-search">
+        <div class="container">
+            <div class="row align-items-center">
+                
+                <div class="col-md-6">
+                    <div class="left mb-3 mt-3">
+                        <ul class="list-inline">
+
+                            <% if (vendoer) { %>
+                                <li class="list-inline-item" style="position: relative;">
+                                    <div class="dropdown">
+                                          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-fw fa-user primary-i"></i>
+                                            حسابى
+                                          </button>
+                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            
+                                            <p class="dropdown-item user-aria">
+                                                <% if (vendoer.vendorimage) { %>
+                                                    <img class="float-left" src="/admin/asset/images/users_photo/<%= vendoer.vendorimage.split("--")[0] %>" width="49" height="49" />
+                                                <% } else { %>
+                                                    <img class="float-left" src="/admin/asset/images/users_photo/avatar.png" width="49" height="49" />
+                                                <% } %>
+                                                <span class="float-left ml-2">
+                                                    <%= vendoer.vendorFname %> <%= vendoer.vendorLname %>
+                                                    <br />
+                                                    <%= vendoer.vendoerEmail %>
+                                                </span>
+                                            </p>
+
+                                            <a class="dropdown-item" href="/vendor/editVendoerData_get"><i class="fa fa-fw fa-user"></i> اعدادات</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-shopping-bag"></i> طلباتي</a>
+                                            <a class="dropdown-item" href="#"><i class="far fa-fw fa-heart"></i> قائمة الرغبات</a>
+                                            <a class="dropdown-item" href="#"><i class="far fa-fw fa-envelope"></i> اتصل بنا</a>
+                                            <a class="dropdown-item noti" href="#"><i class="far fa-fw fa-bell"></i> إشعارات <span>80</span></a>
+                                            
+                                            <form action="/vendor/signOut" method="post">
+                                                <button class="dropdown-item"><i class="fas fa-fw fa-sign-out-alt"></i> تسجيل خروج</button>
+                                            </form>                                            
+                                          </div>
+                                    </div>
+                                </li>
+                            <% }%>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="right mb-3 mt-3 text-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span class="white tr-i"><i class="fa fa-fw fa-user primary-i"></i> <a href="" style="color:white">استكمال الملف الشخصي</a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Section -->

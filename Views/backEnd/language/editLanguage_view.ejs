@@ -1,0 +1,247 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/language/"> أللغات </a>
+                                </li>
+                                <li class="breadcrumb-item active">تعديل الغة
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل الغة </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" class="form" method="post">
+                                            <div class="form-body">
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات اللغه </h4>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> اسم اللغة </label>
+                                                            <select onChange="selectLanguage(event)" name="language" class="language form-control">
+                                                                <optgroup label="من فضلك أختر اسم اللغة ">
+                                                                    <option></option>
+                                                                    <option <%= language_data.language == "Arabic" ? "selected" : "" %> data_lang="ar">Arabic</option>
+                                                                    <option <%= language_data.language == "English" ? "selected" : "" %> data_lang="en">English</option>
+                                                                    <option <%= language_data.language == "Chinese" ? "selected" : "" %> data_lang="zh">Chinese</option>
+                                                                    <option <%= language_data.language == "German" ? "selected" : "" %> data_lang="de">German</option>
+                                                                    <option <%= language_data.language == "Spanish" ? "selected" : "" %> data_lang="es">Spanish</option>
+                                                                    <option <%= language_data.language == "Italian" ? "selected" : "" %> data_lang="it">Italian</option>
+                                                                    <option <%= language_data.language == "Turkish" ? "selected" : "" %> data_lang="tr">Turkish</option>
+                                                                </optgroup>
+                                                            </select>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.language) { %>
+                                                                    <span class="text-danger"><%=validationError.language[0].msg %></span>
+                                                                 <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> الاختصار </label>
+                                                            <select onChange="selectShourtcut(event)" name="shourtcut" class="shourtcut form-control">
+                                                                <optgroup label="من فضلك أختر اختصار اللغة ">
+                                                                    <option></option>
+                                                                    <option <%= language_data.shourtcut == "ar" ? "selected" : "" %> >ar</option>
+                                                                    <option <%= language_data.shourtcut == "en" ? "selected" : "" %> >en</option>
+                                                                    <option <%= language_data.shourtcut == "zh" ? "selected" : "" %> >zh</option>
+                                                                    <option <%= language_data.shourtcut == "de" ? "selected" : "" %> >de</option>
+                                                                    <option <%= language_data.shourtcut == "es" ? "selected" : "" %> >es</option>
+                                                                    <option <%= language_data.shourtcut == "it" ? "selected" : "" %> >it</option>
+                                                                    <option <%= language_data.shourtcut == "tr" ? "selected" : "" %> >tr</option>
+                                                                </optgroup>
+                                                            </select>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.shourtcut) { %>
+                                                                    <span class="text-danger"><%=validationError.shourtcut[0].msg %></span>
+                                                                 <% } %>
+                                                            <% } %>              
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput2"> الاتجاة </label>
+                                                        <select name="direction" class="direction form-control">
+                                                            <optgroup label="من فضلك أختر اتجاه اللغة ">
+                                                                <option <%= language_data.direction == "ltr" ? "selected" : "" %> value="ltr" >من اليسار الي اليمين</option>
+                                                                <option <%= language_data.direction == "rtl" ? "selected" : "" %> value="rtl" >من اليمين الي اليسار</option>
+                                                            </optgroup>
+                                                        </select>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError.direction) { %>
+                                                                <span class="text-danger"><%=validationError.direction[0].msg %></span>
+                                                                <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput2"> صوره الدوله </label>
+                                                        <div class="custom-file">
+                                                            <input type="file" name="country_photo" class="custom-file-input" id="inputGroupFile01">
+                                                            <input type="hidden" name="oldImage" value="<%= language_data.country_img %>">
+                                                            <label class="custom-file-label" for="inputGroupFile01">Choose file if you wont </label>
+                                                        </div>
+                                                        <% if (validationError) { %>
+                                                            <% if (validationError.country_photo) { %>
+                                                                <span class="text-danger"><%=validationError.country_photo[0].msg %></span>
+                                                            <% } %>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="img">
+                                                        <img src="/admin/asset/images/languages/<%= language_data.country_img.split("--")[0] %>" alt="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group mt-1">
+                                                        <input type="checkbox" name="active"
+                                                            id="switcheryColor4"
+                                                            value="1"
+                                                            class="switch"
+                                                            <%= language_data.active == true ? "checked" : "" %>
+                                                            />
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError.active) { %>
+                                                                    <span class="text-danger"><%=validationError.active[0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <label for="switcheryColor4"
+                                                            class="card-title ml-1">الحالة </label>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                    onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+
+    <script>
+        function selectShourtcut(e) {
+            var shourtcut = e.target.value;
+            var language = document.querySelectorAll("select.language option");
+            removeAttribute(language)
+            language.forEach(ele => {
+                if(ele.getAttribute("data_lang") == shourtcut) {
+                    ele.setAttribute("selected" , "")
+                }
+            })
+            direction(shourtcut)
+        }
+        function selectLanguage(e) {
+            var language = e.target.value;
+            var languages = document.querySelectorAll("select.language option");
+            var shourtcut = document.querySelectorAll("select.shourtcut option ");
+            var data_lang = null
+            languages.forEach(ele => {
+                if(ele.innerHTML == language) {
+                    data_lang = ele.getAttribute("data_lang")
+                }
+            })
+            removeAttribute(shourtcut)
+            shourtcut.forEach(option => {
+                if(option.innerHTML == data_lang) {
+                    option.setAttribute("selected" , "")
+                }
+            })
+            direction(language)
+        }
+
+        function direction(lang) {
+            var direction = document.querySelectorAll("select.direction option");
+            removeAttribute(direction);
+
+            if(lang == "ar" || lang.toLowerCase() == "arabic") {
+                var dir = "rtl"
+            } else {
+                var dir = "ltr"
+            }
+            direction.forEach(ele => {
+                if(ele.value == dir) {
+                    ele.setAttribute("selected" , "")
+                }
+            })
+        }
+
+        function removeAttribute(elemnts) {
+            elemnts.forEach(ele => {
+                if(ele.hasAttribute("selected")) {
+                    ele.removeAttribute("selected")
+                }
+            })
+        }
+    </script>
+</body>
+</html>

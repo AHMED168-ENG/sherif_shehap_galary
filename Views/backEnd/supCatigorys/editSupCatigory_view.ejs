@@ -1,0 +1,318 @@
+<%- include("../layouts/head") %> 
+
+
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/admin/supCatigory/"> الاقسام الفرعيه </a>
+                                </li>
+                                <li class="breadcrumb-item active">تعديل القسم
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Basic form layout section start -->
+                <section id="basic-form-layouts">
+                    <div class="row match-height">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل الغة </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" class="form" method="post">
+                                                <div class="form-body">
+                                                    <h4 class="form-section"><i class="ft-home"></i> بيانات القسم <%= supCatigory_defaultLanguage.language %></h4>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> اسم القسم </label>
+                                                                <input type="text" value="<%= supCatigory["name_" + supCatigory_defaultLanguage.shourtcut] %>" class="form-control" placeholder="ادخل اسم القسم" name="catigors[0][name]">
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["catigors[0].name"]) { %>
+                                                                        <span class="text-danger"><%=validationError["catigors[0].name"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="projectinput1"> وصف القسم </label>
+                                                                <textarea type="text" class="form-control" placeholder="ادخل وصف القسم" name="catigors[0][description]"><%= supCatigory["description_" + supCatigory_defaultLanguage.shourtcut] %></textarea>
+                                                                <% if (validationError) { %>
+                                                                    <% if (validationError["catigors[0].description"]) { %>
+                                                                        <span class="text-danger"><%=validationError["catigors[0].description"][0].msg %></span>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="catigors[0][shourtcut]" value="<%= supCatigory_defaultLanguage.shourtcut %>">
+                                                    </div>
+                                                </div>
+
+                                                <ul class="nav nav-tabs nav-topline">
+                                                    <% supCatigory_fullLangugaes.forEach((element , i) => { %>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link <%= i == 0 ? "active" : "" %>" data-toggle="tab"
+                                                            href="#<%= i %>"><%= element.language %></a>
+                                                        </li>
+                                                    <% }) %>  
+                                                </ul>
+
+                                                <div class="tab-content pt-1">
+                                                    <% supCatigory_fullLangugaes.forEach((element , i) => { %>
+                                                        <div class="tab-pane <%= i == 0 ? "active" : ""%>" id="<%= i %>">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> اسم القسم </label>
+                                                                        <input type="text" value='<%= supCatigory["name_" + element.shourtcut] %>' class="form-control" placeholder="ادخل اسم القسم" name="catigors[<%=(i + 1)%>][name]">
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError["catigors[" + (i + 1) + "].name"]) { %>
+                                                                                <span class="text-danger"><%=validationError["catigors[" + (i + 1) + "].name"][0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput1"> وصف القسم </label>
+                                                                        <textarea type="text" class="form-control" placeholder="ادخل وصف القسم" name="catigors[<%=(i + 1)%>][description]"><%= supCatigory["description_" + element.shourtcut] %></textarea>
+                                                                        <% if (validationError) { %>
+                                                                            <% if (validationError["catigors[" + (i + 1) + "].description"]) { %>
+                                                                                <span class="text-danger"><%=validationError["catigors[" + (i + 1) + "].description"][0].msg %></span>
+                                                                            <% } %>
+                                                                        <% } %>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="hidden" name="catigors[<%=(i + 1)%>][shourtcut]" value="<%= element.shourtcut %>">
+                                                            </div>
+                                                        </div>
+                                                    <% }) %> 
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mt-1">
+                                                            <input type="checkbox" name="active"
+                                                                id="switcheryColor4"
+                                                                value="1"
+                                                                class="switch"
+                                                                checked
+                                                                />
+                                                            <label for="switcheryColor4"
+                                                                class="card-title ml-1">الحالة </label>
+                                                        </div>
+                                                    </div>
+    
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mt-1">
+                                                            <input type="checkbox" name="interAction"
+                                                                id="switcheryColor4"
+                                                                value="1"
+                                                                class="switch"
+                                                                checked
+                                                                />
+                                                            <label for="switcheryColor4"
+                                                                class="card-title ml-1">تفعيل الليكات </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="allCatigorySelect" >
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label for="projectinput1">القسم الرءيسي</label>
+                                                            <select onChange="getCatigory(event , '<%=supCatigory.id%>')" data_count="0" name="mainCatigory[]" class="language form-control">
+                                                                <option></option>
+                                                                <% catigorys.forEach(element => { %>
+                                                                    <option value="<%= element.id %>"><%= element["name_" + supCatigory_defaultLanguage.shourtcut] %></option>
+                                                                <% }) %>
+                                                            </select>
+                                                            <% if (validationError) { %>
+                                                                <% if (validationError["mainCatigory"]) { %>
+                                                                    <span class="text-danger"><%=validationError["mainCatigory"][0].msg %></span>
+                                                                <% } %>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صور القسم </label>
+                                                <div class="custom-file">
+                                                    <input type="file" multiple name="image" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.image) { %>
+                                                        <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectinput2"> صوره الشعار </label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="slug" class="custom-file-input" id="inputGroupFile01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose slug</label>
+                                                </div>
+                                                <% if (validationError) { %>
+                                                    <% if (validationError.slug) { %>
+                                                        <span class="text-danger"><%=validationError.slug[0].msg %></span>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="showImage">
+                                                <h3>catigory images</h3>
+                                                <div class="row">
+                                                    <% supCatigory.image.split("--").forEach((element , i) => { %>
+                                                        <% if (i < supCatigory.image.split("--").length - 1) { %>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <img src="/admin/asset/images/subCatigory_photo/<%= element %>" alt="">
+                                                            </div>
+                                                        <% } %>
+                                                    <% }) %>
+                                                </div>
+                                            </div>
+
+                                            <div class="showImage">
+                                                <h3>slug image</h3>
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-6">
+                                                    <% if (supCatigory.slug) { %>
+                                                        <img src='/admin/asset/images/subCatigory_photo/<%= supCatigory.slug.split("--")[0] %>' alt="">
+                                                    <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+               
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                    onclick="history.back();">
+                                                <i class="ft-x"></i> تراجع
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> حفظ
+                                            </button>
+                                            <input type="hidden" name="image" value="<%= supCatigory.image %>">
+                                            <input type="hidden" name="slug" value="<%=supCatigory.slug%>">
+                                            <input type="hidden" name="oldMainCatigory" value="<%=supCatigory.catigoryId%>">
+                             
+                                        </form>
+
+                                        <div class="d-none copySelect">
+                                            <div class="form-group">
+                                                <label for="projectinput1">القسم الرءيسي</label>
+                                                <select onChange="getCatigory(event , '<%= supCatigory.id %>')" name="mainCatigory[]" class="language form-control">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic form layout section end -->
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+
+<script>
+var counter = 0;
+var allCatigorySelect = document.querySelector(".allCatigorySelect")
+var copySelect = document.querySelector(".copySelect")
+    function copyElement(data) {
+        var child = copySelect.cloneNode(true);
+        child.classList.remove("d-none")
+        counter++
+        child.querySelector("select").setAttribute("data_count" , counter)
+        child.querySelector("select").setAttribute("name" , `mainCatigory[]`)
+        data.catigorys.forEach(ele => {
+            child.querySelector("select").innerHTML += `<option value="${ele.id}">${ele["name_" + "<%=defaultLang%>"]}</option>`
+        })
+        allCatigorySelect.appendChild(child)
+    }
+
+    function removeElement(dataCount) {
+        var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+        elements.forEach(ele => {
+            if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                ele.remove()
+            }
+        })   
+        counter = dataCount  
+    }
+
+    function getCatigory(e , eleId) {
+        var id = e.target.value ? e.target.value : 0;
+        var dataCount = e.target.getAttribute("data_count")
+        if(id) {
+            $.ajax({
+            type : "post",
+            url  : "/admin/supCatigory/getMainCatigoryAjax/" + id + "/" + eleId ,
+            success(data) {
+                if(data.catigorys.length > 0) {
+                    if(counter == dataCount) {
+                        copyElement(data)
+                    } else if(counter > dataCount) {
+                        var elements = document.querySelectorAll(".allCatigorySelect .copySelect")
+                        elements.forEach(ele => {
+                            if(ele.querySelector("select").getAttribute("data_count") > dataCount) {
+                                ele.remove()
+                            }
+                        })
+                        counter = dataCount
+                        copyElement(data , allCatigorySelect , copySelect)
+                    }
+                } else {
+                    removeElement(dataCount)
+                }
+            },
+            error() {
+                console.log("error")
+            }
+            })
+        } else {
+            removeElement(dataCount)
+        }
+    }
+
+</script>
+</body>
+</html>
+               

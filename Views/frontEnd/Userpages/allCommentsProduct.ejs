@@ -1,0 +1,229 @@
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+<%- include("../inclueds/uper_headerUser")  %> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<%- include("../inclueds/search")  %> 
+<header class="d-flex comments_header justify-content-between">
+    <h2 style="font-size:19px">جميع الكومنتات علي منتج <a href="/productDetails/<%= product.id %>">(<%= product["productName_" + defaultLang] %>)</a></h2>
+    <div>
+        <select class="filter">
+            <option value="createdAt" <%= query.filter == "createdAt" ? "selected" : "" %> >date</option>
+            <option value="likes" <%= query.filter == "likes" ? "selected" : "" %> >likes</option>
+            <option value="desLikes" <%= query.filter == "desLikes" ? "selected" : "" %> >desLikes</option>
+        </select>
+        <select class="type">
+            <option value="asc" <%= query.type == "asc" ? "selected" : "" %> >Asc</option>
+            <option value="desc" <%= query.type == "desc" ? "selected" : "" %> >desc</option>
+        </select>
+        <input type="text" placeholder="search for user">
+        <button>بحث</button>
+    </div>
+</header>
+<div class="container">
+    <% if (user) { %>
+        <div class="enterComment col-9 offset-2">
+            <textarea placeholder="enter your comment" class="commentValue"></textarea>
+            <div class="commentNotification">يجب ادخال قيمه !</div>
+            <button type="button" onclick="addCommentFunction(event)" class="addComment">Add Comment</button>
+            <a href="/ProductAllComments/<%= product.id %>">See All Comments</a>
+        </div>
+    <% } else { %>
+        <div class="enterComment col-9 offset-2">
+            <a href="/ProductAllComments/<%= product.id %>">See All Comments</a>
+            <a class="btn btn-primary text-center" href="/signIn">قم بالتسجيل لكي تستطيع التفاعل</a>
+        </div>
+        
+    <% } %>
+    <div class=" productComments" style="padding:50px 0">
+
+        <% if (productComments.length > 0) { %>
+            <% productComments.forEach(element => { %>
+                <div style="margin-bottom:20px">
+                    <div class="main row align-items-center">
+                        <div class="image col-md-2">
+                            <% if (element.CommentUser.image) { %>
+                                <a href="/userProfile/<%= element.CommentUser.id %>"><img src="/admin/asset/images/users_photo/<%= element.CommentUser.image.split("--")[0] %>" alt=""></a>
+                            <% } else { %>
+                                <img src="/admin/asset/images/users_photo/avatar.png">
+                            <% } %>
+                        </div>
+                        <div class="comment col-md-9">
+                            <div class="d-flex justify-content-between">
+                                <a href=""><h4><%= element.CommentUser.fName %> <%= element.CommentUser.lName %></h4></a>
+                                <span><%= formateDate(element.createdAt) %></span>
+                            </div>
+                            <div class="text">
+                                <div>
+                                    <p><%= element.comment %></p>
+                                </div>
+                            </div>
+                            <% if ( user ) { %>
+                                <div class="enterAction" id="<%= element.id%>">
+                                    <span class="deslike <%= element.desLikesUser.includes(user.id) ? "active" : "" %>"><span><%= element.desLikes %> </span><i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>  </span>
+                                    <span class="like <%= element.likesUser.includes(user.id) ? "active" : "" %>"><span><%= element.likes %> </span> <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i></span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                
+            <% }) %>
+        <% } else { %>
+            <div class="col-12">
+                <p class="text-center" style="font-style:italic;color:#444;font-size:19px;background:#eee;padding:5px">لايوجد كومنتات علي المنتج</p>
+            </div>
+        <% } %>
+    </div>
+    <div class="paginate">
+        <ul class="list-unstyled">
+            <% pages.forEach(element => { %>
+                <li><a class="<%= page == element.number ? "active" : "" %>" href="<%= element.url %>"><%= element.number %></a></li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<!-- |||||||||||||||||||||| start comment test ||||||||||||||||||||| -->
+<div class="col-12 d-none commentTest" style="margin-bottom:20px">
+    <div class="main row align-items-center">
+        <div class="image col-md-2">
+            <img src="" alt="">
+        </div>
+        <div class="comment col-md-9">
+            <div class="d-flex justify-content-between">
+                <a href=""><h4></h4></a>
+                <span>الان</span>
+            </div>
+            <div class="text">
+                <div>
+                    <p></p>
+                </div>
+            </div>
+            <div class="enterAction" id="">
+                <span class="deslike "><span>0</span><i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i></span>
+                <span class="like"><span>0</span><i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- |||||||||||||||||||||| end comment test ||||||||||||||||||||| -->
+
+<%- include("../inclueds/footer")  %>
+<%- include("../inclueds/footer_script")  %>
+<script>
+    var comments_header = document.querySelector(".comments_header div")
+    var select = comments_header.querySelectorAll("select")
+    var input = comments_header.querySelector("input")
+    comments_header.querySelector("button").onclick = function(e) {
+        var link = window.location.pathname + "?filter=" + select[0].value + "&type=" + select[1].value + "&search=" + input.value
+        window.location.href = link
+    }
+
+
+
+
+
+
+
+
+    function enterActionFunc() {
+        var enterAction = document.querySelectorAll(".enterAction > span")
+        enterAction.forEach(ele => {
+        ele.onclick = function() {
+            var child = this.querySelector("span").innerHTML
+            if(this.classList.contains("active")) {
+                this.classList.remove("active")
+                this.querySelector("span").innerHTML = parseInt(child) - 1
+            } else {
+                this.classList.add("active")
+                this.querySelector("span").innerHTML = parseInt(child) + 1 
+                if(this.classList.contains("deslike")) {
+                    if(this.nextElementSibling.firstElementChild.innerHTML > 0 && this.nextElementSibling.classList.contains("active")) this.nextElementSibling.firstElementChild.innerHTML = parseInt(this.nextElementSibling.firstElementChild.innerHTML) - 1
+                    this.nextElementSibling.classList.remove("active")
+                }  else {
+                    if(this.parentElement.firstElementChild.firstElementChild.innerHTML > 0 && this.parentElement.firstElementChild.classList.contains("active")) this.parentElement.firstElementChild.firstElementChild.innerHTML = parseInt(this.parentElement.firstElementChild.firstElementChild.innerHTML) - 1
+                    this.parentElement.firstElementChild.classList.remove("active")                     
+                }
+            }  
+            var likes = this.parentElement.lastElementChild.firstElementChild.innerHTML
+            var desLike = this.parentElement.firstElementChild.firstElementChild.innerHTML
+            var commentId = this.parentElement.getAttribute("id")
+            $.ajax({
+                data : {
+                    commentId : parseInt(commentId),
+                    userId : parseInt("<%= user ? user.id : 0 %>"),
+                    likes : parseInt(likes),
+                    desLikes : parseInt(desLike)
+                },
+                type : "post",
+                url : "/admin/productComments/addProductInterActionAjax",
+                success(data) {
+                    console.log(data)
+                },
+                error() {
+                    console.log("error")
+                }
+            })
+        }
+    })
+    }
+    enterActionFunc()
+    var addComment = document.querySelector(".addComment");
+    var commentNotification = document.querySelector(".commentNotification");
+    function addCommentFunction (e) {
+        var comment = document.querySelector(".commentValue").value
+        if(comment == ""  || comment.includes("  ")) {
+            commentNotification.style = "background:rgb(189, 44, 44)"
+            commentNotification.innerHTML = "ادخل قيمه مسبقه وافصل بمسافه واحده"
+            commentNotification.classList.add("active")
+            setTimeout(() => {
+                commentNotification.classList.remove("active")
+            }, 3000);
+        } else {         
+            $.ajax({
+                data : {
+                id : "<%= user ? user.id : 0 %>",
+                comment : comment,
+                productId : "<%= product.id %>"
+                },
+                type : "post",
+                url : "/admin/productComments/addProductCommentAjax",
+                success(data) {
+                    commentNotification.style = "background:green"
+                    commentNotification.innerHTML = "تم اضافه كومنت جديد"
+                    commentNotification.classList.add("active")
+                    setTimeout(() => {
+                        commentNotification.classList.remove("active")
+                    }, 3000);   
+
+
+                    var productComments = document.querySelector(".productComments");
+                    var child = document.querySelector(".commentTest").cloneNode(true)
+                    child.classList.remove("d-none")
+                    child.querySelector(".main .comment .text div p").innerHTML = comment
+                    child.querySelector(".main .comment a h4").innerHTML = "<%= user ? user.fName + ' ' + user.lName : '' %>"
+                    var img = child.querySelector(".main .image img")
+                    child.querySelector(".enterAction").setAttribute("id" , data.id)
+                    img.src = "/admin/asset/images/users_photo/<%= user ? (user.image ? user.image.split('--')[0] : 'avatar.png') : '' %>"
+                    productComments.insertBefore(child , document.querySelector(".productComments").firstElementChild)
+                    enterActionFunc()
+                },
+                error() {
+                    commentNotification.style = "background:red"
+                    commentNotification.innerHTML = "يوجد خطا ما"
+                    commentNotification.classList.add("active")
+                    setTimeout(() => {
+                        commentNotification.classList.remove("active")
+                    }, 3000);  
+                }
+            })
+        }
+        document.querySelector(".commentValue").value = "" 
+    }
+</script>
+</body>
+    

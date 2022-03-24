@@ -1,0 +1,199 @@
+<%- include("../layouts/head") %> 
+<style>
+    .carosalShow {
+        position: fixed;
+        top:0;
+        lefT:0;
+        z-index: 2000;
+        background-color: rgba(0,0,0,0.4);
+        width:100%;
+        height:100Vh;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.4s;
+    }
+    .carosalShow.active {
+        padding:50px 120px  ;
+        visibility: visible;
+        opacity: 1;
+    }
+    .carosalShow .pairant {
+        width:70%;
+        height:90%;
+        display: flex;
+        background-color: white;
+        padding:60px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-between; 
+        transform:translateY(-50%);
+        transition:0.8s
+    }
+    .carosalShow .pairant i { 
+        font-size:25px;
+        color:#222;
+        position:absolute;
+        top:20px;
+        left:20px;
+        cursor: pointer;
+    }
+    .carosalShow.active .pairant {
+        transform:translateY(0);
+    }
+    .carosalShow .pairant > div.child {
+        width:31%;
+        height:100%
+    }
+    .carosalShow .pairant > div.child img {
+        width:100%;
+        height:100%
+    }
+    .carosalShow .pairant .carousel , .carosalShow .pairant .carousel-inner  , .carosalShow .pairant .carousel-inner > div , .carosalShow .pairant .carousel-inner > div img  {
+        width:100%;
+        height:100%
+    }
+
+
+</style>
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+    <div class="carosalShow">
+        <div class="pairant">
+            <i class="fa fa-window-close-o" onclick="removeImages()" aria-hidden="true"></i>
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="..." alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="..." alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="..." alt="Third slide">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+        </div>
+    </div>
+<div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title"> الكاروسالات </h3>
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية</a>
+                                </li>
+                                <li class="breadcrumb-item active"> الكاروسالات
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- DOM - jQuery events table -->
+                <section id="dom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">جميع كاروسالات لموقع </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard">
+                                        <table
+                                            class="table display nowrap table-striped table-bordered scroll-horizontal " style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th> المكان</th>
+                                                <th>العنوان</th>
+                                                <th>الوصف</th>
+                                                <th>القسم</th>
+                                                <th>الصور</th>
+                                                <th>الحالة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% allCarosals.forEach(element => { %>
+                                                 <tr>
+                                                        <td><%= element.locationInProject %></td>
+                                                        <td class="chang"><p><%= element["header_" + defaultLanguage] %></p></td>
+                                                        <td class="chang"><p><%= element["description_" + defaultLanguage] %></p></td>
+                                                        <td><%= element.mainCatigory["name_" + defaultLanguage] %></td>
+                                                        <td onclick="showImages(event , '<%= element.images %>')"><img style="cursor:pointer;width:70px ; height:70px" src="/admin/asset/images/carosals_photo/<%= element.images.split('--')[0] %>" alt="">
+                                                            
+                                                        </td>
+                                                        <td><%= element.active ? "active" : "not active" %></td>
+                                                     
+                                                        <td style="position:relative">
+                                                            <a href="editCarosal/<%= element.id %>" class="btn btn-success">تعديل</a>
+                                                            <a href="activeCarosals/<%= element.id %>" class="btn btn-primary"><%= !element.active ? "تفعيل" : "الغاء التفعيل" %></a>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <div class="justify-content-center d-flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+    <script>
+        var carosalShow = document.querySelector(".carosalShow")
+        function showImages(e , src) {
+            console.log(carosalShow)
+            carosalShow.classList.add("active")
+            var images = carosalShow.querySelectorAll(".pairant .carousel-inner > div img")
+            console.log(images)
+            src.split("--").forEach((ele, i) => {
+                if(ele) {
+                    images[i].setAttribute("src" , "/admin/asset/images/carosals_photo/" + ele)
+                }
+            })
+        }
+        function removeImages () {
+            carosalShow.classList.remove("active")
+        }
+    </script>
+</body>
+</html>
+
+

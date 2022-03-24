@@ -1,0 +1,110 @@
+<%- include("../layouts/head") %> 
+
+    <%- include("../layouts/main-header") %> 
+    <%- include("../layouts/main-sidebar") %> 
+
+<div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title"> التجار </h3>
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/admin/dashpored">الرئيسية</a>
+                                </li>
+                                <li class="breadcrumb-item active"> التجار
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- DOM - jQuery events table -->
+                <section id="dom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">جميع تجار الموقع </h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <%- include("../layouts/notification") %> 
+
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard">
+                                        <table
+                                            class="table display nowrap table-striped table-bordered scroll-horizontal " style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th> الاسم</th>
+                                                <th>الايميل</th>
+                                                <th>الصوره</th>
+                                                <th>السجل التجاري</th>
+                                                <th>الحالة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% vendoers.forEach(element => { %>
+                                                 <tr>
+                                                        <% if (element.vendorFname) { %>
+                                                            <td><%= element.vendorFname %> <%= element.vendorLname %></td>
+                                                        <% } else {%>
+                                                            <td><%= element.vendorDataUser.fName %> <%= element.vendorDataUser.lName %></td>
+                                                        <%}%>
+
+                                                        <% if (element.vendoerEmail) { %>
+                                                            <td class="chang"><p><%= element.vendoerEmail %></p></td></td>
+                                                        <% } else { %>
+                                                            <td class="chang"><p><%= element.vendorDataUser.email %></p></td></td>
+                                                        <% } %>
+
+                                                        <% if (element.vendorImage) { %>
+                                                            <td><img style="width:70px ; height:70px" src="/admin/asset/images/users_photo/<%= element.vendorImage.split("--")[0] %>" alt=""></td>
+                                                        <% } else { %>
+                                                            <td><img style="width:70px ; height:70px" src="/admin/asset/images/users_photo/avatar.png" alt=""></td>
+                                                        <%}%>
+                                                        <td><a href="/admin/asset/images/users_photo/<%= element.commercFile.split("--")[0] %>"><%= element.commercFile.split("--")[0] %></a></td>
+                                                        <td><%= element.active ? "active" : "noActive" %></td>
+                                                     
+                                                        <td>
+                                                            <div role="group"
+                                                                 aria-label="Basic example">
+                                                                <a href="/admin/users/editUser/<%= element.userId %>" class="btn btn-outline-dark box-shadow-3 btn-min-width mb-1">Edit</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <div class="justify-content-center d-flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../layouts/footer") %> 
+    <%- include("../layouts/footer-scripts") %> 
+</body>
+</html>
+
+

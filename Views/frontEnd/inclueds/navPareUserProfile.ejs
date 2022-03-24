@@ -1,0 +1,110 @@
+<style>
+  body {
+    padding-top:105px
+  }
+
+</style>
+
+<nav class="navbar main_navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:40px;box-shadow:5px 5px 10px rgba(0,0,0,0.1)"> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav child1 mr-auto mt-2 mt-lg-0 d-flex align-items-center">
+        <li><a href="/userProfile/<%= UserCookie.id %>"><img src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt=""><span><%= UserCookie.fName + " " + UserCookie.lName %></span></a></li>
+        <li class="requestNotification"><i onclick="showRequestNotification(event)" class="fa fa-users"></i>
+          <% if (notificationRequestNumber) { %>
+            <span class="notification"><%= notificationRequestNumber %></span>
+          <% } %>  
+            <div class="pairant">
+              <div>
+                <ul class="list-unstyled">
+                  
+                </ul>
+                <div class="over">
+                  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+        </li>
+        <li class="messagesController">
+          <i class="fa fa-comments" onclick="showMessage(event)"></i>
+          <div class="messages userMessage">
+            <div class="over">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+            <div class="header">
+              <div class="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" placeholder="search for user">
+              </div>
+              <ul class="list-unstyled controller d-flex ">
+                <li data_atr="userActive" onclick="messageControll(event)" >Active</li>
+                <li data_atr="userMessage" onclick="messageControll(event)" class="active">messages</li>
+              </ul>
+            </div>
+            <div class="main">
+              <div class="pairant d-flex">
+                <div class="windowOne">
+     
+                </div>
+                <div class="windowTow">
+     
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if (userMessagesNotSeen.length > 0) { %>
+            <span class="messagesNumber notification"><%= userMessagesNotSeen.length %></span>
+          <% } %>  
+        </li>
+        <li class="userNotification"><i onclick="showUserNotification(event)" class="fa fa-bell-o"></i>
+          <% if (userNotificationNotSeen.length > 0) { %>
+            <span class="notificationNumber notification"><%= userNotificationNotSeen.length %></span>
+          <% } %>  
+            <div class="pairant">
+              <div>
+                <div class="header">
+                  <div class="head d-flex align-items-center justify-content-between">
+                    <h4>الاشعارات</h4>
+                    <div class="notificSetings">
+                      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                  <ul class="list-unstyled d-flex align-items-center">
+                    <li><a href="" class="active">الكل</a></li>
+                    <li><a href="">غير المقروء</a></li>
+                  </ul>
+                </div>
+                <ul class="list-unstyled">
+                  
+                </ul>
+                <div class="over">
+                  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+        </li>
+        <li><i class="fa fa-bars" aria-hidden="true"></i></li>
+      </ul>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 child2">
+        <li><a href="/membersPosts" class="mainPageLink <%= url == "/membersPosts" ? "active" : "" %>" >الصفحه الريسيه</a></li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0 dataSearch">
+        <input class="form-control mr-sm-2 searchForUsers" type="search" placeholder="ابحث عن الاعضاء" aria-label="Search">
+        <ul class="list-unstyled">
+
+        </ul>
+      </form>
+      <a href="/home"><img src="/admin/asset/images/logo/logo-dark.png" alt=""></a>
+    </div>
+  </nav>
+
+  <div class="chate">
+    
+  </div>
+
+
+
+

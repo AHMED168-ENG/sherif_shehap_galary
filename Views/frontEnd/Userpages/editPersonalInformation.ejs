@@ -1,0 +1,149 @@
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700" rel="stylesheet">
+<link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
+      rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900">
+
+<!-- BEGIN MODERN CSS-->
+<link rel="stylesheet" type="text/css" href="/admin/asset/css-rtl/app.css">
+<style>
+    body input {
+        font-size: 17px !important;
+    }
+</style>
+<%- include("../inclueds/head")  %>
+
+<head>
+<body>
+    <%- include("../inclueds/lower_header_auth")  %>
+
+    <div class="account-edit">
+        <div class="container">
+            <div class="row">
+                <%- include("../inclueds/notification") %> 
+                <div class="col-md-12">
+                    <div class="account-content">
+                        <form enctype="multipart/form-data" method="post" action="/editPersonalInformation">
+
+                            <div class="img-con">
+                                <div class="preview">
+                                    <input type="file" onchange="previewFile('.img1', '.in1')" class="in1" name="image" title="صورة الخبر">
+                                    <input type="hidden" onchange="previewFile('.img1', '.in2')" class="in2" value="<%= UserCookie.image %>" name="oldImage" title="صورة الخبر">
+                                    <% if (validationError) { %>
+                                        <% if (validationError.image) { %>
+                                            <span class="text-danger"><%=validationError.image[0].msg %></span>
+                                            <% } %>
+                                    <% } %>
+                                    <img class="preview-img img1" src="/admin/asset/images/users_photo/<%= UserCookie.image.split("--")[0] %>" alt="Image preview">
+                                </div>
+                                <i class="fa fa-camera"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in3">الاسم الاول</label>
+                                <input type="text" name="fName" class="form-control" id="in3" value="<%= UserCookie.fName %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.fName) { %>
+                                        <span class="text-danger"><%=validationError.fName[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in4">الاسم الثاني</label>
+                                <input type="text" name="lName" class="form-control" id="in4" value="<%= UserCookie.lName %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.lName) { %>
+                                        <span class="text-danger"><%=validationError.lName[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="in2">البريد الالكترونى</label>
+                                <input type="text" name="email" class="form-control" id="in2" value="<%= UserCookie.email %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.email) { %>
+                                        <span class="text-danger"><%=validationError.email[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in5">رقم الجوال</label>
+                                <input type="number" min="0" name="mobile" class="form-control" id="in5" value="0<%= UserCookie.number %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.mobile) { %>
+                                        <span class="text-danger"><%=validationError.mobile[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in6">العنوان</label>
+                                <input type="text" min="0" name="addres" readonly class="form-control" id="in6" value="<%= UserCookie.addres %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.addres) { %>
+                                        <span class="text-danger"><%=validationError.addres[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in7">العمر</label>
+                                <input type="number" min="0" name="age" class="form-control" id="in7" value="<%= UserCookie.age %>" />
+                                <% if (validationError) { %>
+                                    <% if (validationError.age) { %>
+                                        <span class="text-danger"><%=validationError.age[0].msg %></span>
+                                        <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in8">كلمة المرور</label>
+                                <input type="password" name="newPassword" class="form-control" id="in8" value="" />
+                                <input type="hidden" name="oldPassword" class="form-control" id="in9" value="<%= UserCookie.password %>" />
+                            </div>
+
+
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary">حفظ البيانات</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<%- include("../inclueds/footer_script")  %>
+<!-- 
+
+<script>
+var sockit = io()
+sockit.on("connect" , () => {    
+    console.log("connected")   
+})
+
+sockit.emit("testing" , {age : 22}) // معناها يا سرفر عرف الكلينت ان في اكشن اسمها testing حصل
+
+function joinMemberToRoom() {
+    sockit.emit("joinMemberToRoom")
+}   
+
+sockit.on('message' , (data) => {
+    console.log("your age is " + data.age)
+})
+
+function sendMessage() {
+    sockit.emit("sendMessage")
+}
+function leveRome() {
+    sockit.emit("leveRome")
+}
+
+</script>
+
+-->
+</body>
+    
